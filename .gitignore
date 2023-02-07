@@ -1,0 +1,48 @@
+# Logs
+*.log
+
+# Node
+node_modules/
+
+# Project specific
+dist/
+
+# Unit test / coverage reports
+coverage/
+.nyc_output
+
+# OS auto-generated files
+.DS_Store
+._*
+
+
+# Vim
+*~
+*.swp
+*.swo
+
+# IDE files
+.idea/
+.editorconfig
+.vscode
+
+
+.env
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+
+# Elastic APM Files
+esdata/
+
+# Load Test
+__pycache__/
+
+
+node-api.zip
+*.zip
+*.db
+
+swagger.json
