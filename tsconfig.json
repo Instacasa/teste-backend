@@ -17,8 +17,9 @@
     "baseUrl": ".",
     "types": ["node", "jest"],
     "paths": {
-      "@controllers": ["src/infra/http/controllers"],
-      "@routes": ["src/infra/http/routes"],
+      "@useCases/*": ["src/useCases/*"],
+      "@controllers": ["src/interfaces/http/controllers"],
+      "@routes": ["src/interfaces/http/routes"],
       "@serializers/*": ["src/interfaces/http/serializers/*"],
       "@middleware/*": ["lib/interfaces/http/middleware/*"],
       "@models/*": ["src/infra/database/models/*"],

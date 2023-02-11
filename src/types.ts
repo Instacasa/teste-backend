@@ -1,3 +1,8 @@
+export interface CategoryInterface {
+  id?: number;
+  label: string;
+}
+
 export interface UserInterface {
   id?: number;
   name: string;
