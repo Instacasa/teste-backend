@@ -14,6 +14,10 @@ class PostRoute {
     const postController = new PostController();
     this.router = Router();
     this.router.get("/", postController.listPost.bind(postController));
+    this.router.get(
+      "/user/:userId",
+      postController.listPostByUser.bind(postController)
+    );
     this.router.get("/:id", postController.getPost.bind(postController));
     this.router.post(
       "/user/:userId",

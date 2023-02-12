@@ -13,15 +13,15 @@ import {
 class BaseRepository<Interface, Model extends ObjectLiteral>
   implements RepositoryInterface<Interface>
 {
-  private model: any;
-  private domain: any;
+  protected readonly model: any;
+  protected readonly domain: any;
 
   constructor(model: EntityTarget<Model>, domain: any) {
     this.model = model;
     this.domain = domain;
   }
 
-  private repository = async (): Promise<Repository<Model>> => {
+  protected repository = async (): Promise<Repository<Model>> => {
     return (await connection).getRepository<Model>(this.model);
   };
 
