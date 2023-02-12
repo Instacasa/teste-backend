@@ -34,9 +34,9 @@ class DeleteCategoryUseCase {
           "Apenas administradores ativos podem realizar essa ação"
         );
 
-      const posts = await this.postRepository.get(userId);
+      //const posts = await this.postRepository.get(userId);
 
-      // verificar a existencia de posts relacionados caso sim não será realizada a ação.
+      //TODO: verificar a existencia de posts relacionados caso sim não será realizada a ação.
       await this.categoryRepository.delete(id);
     } catch (error) {
       console.log(error);

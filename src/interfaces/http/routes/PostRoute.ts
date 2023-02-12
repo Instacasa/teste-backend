@@ -27,6 +27,14 @@ class PostRoute {
       "/:id/user/:userId",
       postController.deletePost.bind(postController)
     );
+    this.router.post(
+      "/:id/user/:userId/category/:categoryId",
+      postController.addCategory.bind(postController)
+    );
+    this.router.delete(
+      "/:id/user/:userId/category/:categoryId",
+      postController.removeCategory.bind(postController)
+    );
     return this.router;
   };
 

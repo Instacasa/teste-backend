@@ -1,8 +1,3 @@
-export interface CategoryInterface {
-  id?: number;
-  label: string;
-}
-
 export interface UserInterface {
   id?: number;
   name: string;
@@ -16,6 +11,12 @@ export interface PostInterface {
   text: string;
   user?: UserInterface;
   comments?: CommentInterface[];
+  categories?: CategoryInterface[];
+}
+
+export interface CategoryInterface {
+  id?: number;
+  label: string;
 }
 
 export interface CommentInterface {

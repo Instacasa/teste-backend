@@ -3,6 +3,8 @@ import DeletePost from "@/useCases/post/deletePost";
 import GetPost from "@/useCases/post/getPost";
 import ListPost from "@/useCases/post/listPost";
 import UpdatePost from "@/useCases/post/updatePost";
+import AddCategoryUseCase from "@/useCases/post/AddCategoryUseCase";
+import RemoveCategoryUseCase from "@/useCases/post/RemoveCategoryUseCase";
 import { ValidationError } from "@libs/errors/validationError";
 import { PostInterface } from "@types";
 import { NextFunction, Request, Response } from "express";
@@ -20,6 +22,7 @@ class PostController {
         active: post.user.active,
         isAdmin: post.user.isAdmin,
       },
+      categories: post.categories,
     };
   };
 
@@ -83,6 +86,40 @@ class PostController {
     try {
       const useCase = new DeletePost();
       await useCase.execute(Number(req.params.userId), Number(req.params.id));
+      res.status(httpStatus.ACCEPTED).send();
+    } catch (error) {
+      res.status((error as ValidationError).status).json({
+        error: error as ValidationError,
+        message: (error as ValidationError).message,
+      });
+    }
+  };
+
+  addCategory = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const useCase = new AddCategoryUseCase();
+      const data = await useCase.execute(
+        Number(req.params.userId),
+        Number(req.params.id),
+        Number(req.params.categoryId)
+      );
+      res.status(httpStatus.OK).json(this.serialize(data));
+    } catch (error) {
+      res.status((error as ValidationError).status).json({
+        error: error as ValidationError,
+        message: (error as ValidationError).message,
+      });
+    }
+  };
+
+  removeCategory = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const useCase = new RemoveCategoryUseCase();
+      await useCase.execute(
+        Number(req.params.userId),
+        Number(req.params.id),
+        Number(req.params.categoryId)
+      );
       res.status(httpStatus.ACCEPTED).send();
     } catch (error) {
       res.status((error as ValidationError).status).json({
