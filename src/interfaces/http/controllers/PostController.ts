@@ -13,7 +13,7 @@ import ListPostByUserUseCase from "@useCases/post/ListPostByUserUseCase";
 
 class PostController {
   serialize = (post: PostInterface): PostInterface => {
-    return {
+    const baseResponse = {
       id: post.id,
       title: post.title,
       text: post.text,
@@ -23,8 +23,12 @@ class PostController {
         active: post.user.active,
         isAdmin: post.user.isAdmin,
       },
-      categories: post.categories,
     };
+
+    if (post.categories?.length > 0)
+      baseResponse["categories"] = post.categories;
+
+    return baseResponse;
   };
 
   getPost = async (req: Request, res: Response, next: NextFunction) => {
