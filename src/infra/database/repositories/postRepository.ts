@@ -1,8 +1,8 @@
-import PostModel from "@models/postModel";
-import Post from "@/domains/post";
-import BaseRepository from "./baseRepository";
-import { FindOptionsWhere } from "typeorm";
-import { PostInterface, PostRepositoryInterface } from "@types";
+import PostModel from '@models/postModel';
+import Post from '@/domains/post';
+import BaseRepository from './baseRepository';
+import { FindOptionsWhere } from 'typeorm';
+import { PostInterface, PostRepositoryInterface } from '@types';
 
 class PostRepository
   extends BaseRepository<PostInterface, PostModel>
