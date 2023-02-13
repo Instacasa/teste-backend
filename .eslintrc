@@ -30,7 +30,7 @@
     // 	{ "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }
     // ],
     "@typescript-eslint/no-explicit-any": "off",
-    "import/no-unresolved": [2, { "caseSensitive": true }],
+    "import/no-unresolved": [0, { "caseSensitive": true }],
     "import/no-named-as-default-member": "off",
     "import/no-named-as-default": "off",
     // "@typescript-eslint/explicit-module-boundary-types": "off" //Habilitar para verificar erros do lint com maior facilidade

@@ -5,7 +5,6 @@ import { UserInterface } from '@types';
 import { NotFoundError } from '@libs/errors/notFoundError';
 
 describe('User Repository', () => {
-
   beforeEach(async () => {
     const repository = new UserRepository<UserInterface, UserModel>();
     await repository.deleteAll();
@@ -14,7 +13,7 @@ describe('User Repository', () => {
   test('Should create new element on database', async () => {
     const user = new User({
       name: 'Test',
-      isAdmin: true
+      isAdmin: true,
     });
 
     const repository = new UserRepository<UserInterface, UserModel>();
@@ -28,7 +27,7 @@ describe('User Repository', () => {
   test('Should update elemente on database', async () => {
     let user: UserInterface = new User({
       name: 'Test',
-      isAdmin: true
+      isAdmin: true,
     });
 
     const repository = new UserRepository<UserInterface, UserModel>();
@@ -44,7 +43,7 @@ describe('User Repository', () => {
   test('Should get user by id', async () => {
     let user: UserInterface = new User({
       name: 'Test',
-      isAdmin: true
+      isAdmin: true,
     });
 
     const repository = new UserRepository<UserInterface, UserModel>();
@@ -53,7 +52,6 @@ describe('User Repository', () => {
     expect(persistedUser.id).toEqual(user.id);
     expect(persistedUser.name).toEqual(user.name);
   });
-  
 
   test('Should get list of user', async () => {
     let user1: UserInterface = new User({ name: 'Test 1', isAdmin: true });
@@ -68,7 +66,6 @@ describe('User Repository', () => {
     expect(persistedUser).toHaveLength(3);
     expect(persistedUser[0].name).toEqual(user3.name);
   });
-  
 
   test('Should delete a user', async () => {
     let user1: UserInterface = new User({ name: 'Test 1', isAdmin: true });
@@ -82,9 +79,8 @@ describe('User Repository', () => {
     await repository.delete(user2.id);
     try {
       await repository.get(user2.id);
-    } catch(error) {
+    } catch (error) {
       expect(error as Error).toBeInstanceOf(NotFoundError);
     }
   });
-  
 });

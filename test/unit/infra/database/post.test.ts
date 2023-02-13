@@ -1,23 +1,22 @@
-import PostModel from "@models/postModel";
-import PostRepository from "@database/repositories/postRepository";
-import Post from "@/domains/post";
-import { PostInterface, UserInterface } from "@types";
-import { NotFoundError } from "@libs/errors/notFoundError";
-import UserRepository from "@database/repositories/userRepository";
-import UserModel from "@models/userModel";
-import User from "@domains/user";
+import PostRepository from '@database/repositories/postRepository';
+import Post from '@/domains/post';
+import { PostInterface, UserInterface } from '@types';
+import { NotFoundError } from '@libs/errors/notFoundError';
+import UserRepository from '@database/repositories/userRepository';
+import UserModel from '@models/userModel';
+import User from '@domains/user';
 
-describe("Post Repository", () => {
+describe('Post Repository', () => {
   beforeEach(async () => {
     const repository = new PostRepository();
     await repository.deleteAll();
   });
 
-  test("Should create new element on database", async () => {
-    let user: UserInterface = new User({ name: "Test", isAdmin: true });
+  test('Should create new element on database', async () => {
+    let user: UserInterface = new User({ name: 'Test', isAdmin: true });
     const userRepository = new UserRepository<UserInterface, UserModel>();
     user = await userRepository.create(user);
-    const post = new Post({ title: "Test", text: "text test", user });
+    const post = new Post({ title: 'Test', text: 'text test', user });
 
     const repository = new PostRepository();
     const newPost = await repository.create(post);
@@ -27,33 +26,33 @@ describe("Post Repository", () => {
     expect(newPost.user.id).toEqual(user.id);
   });
 
-  test("Should update elemente on database", async () => {
-    let user: UserInterface = new User({ name: "Test", isAdmin: true });
+  test('Should update elemente on database', async () => {
+    let user: UserInterface = new User({ name: 'Test', isAdmin: true });
     const userRepository = new UserRepository<UserInterface, UserModel>();
     user = await userRepository.create(user);
     let post: PostInterface = new Post({
-      title: "Test",
-      text: "text test",
+      title: 'Test',
+      text: 'text test',
       user,
     });
 
     const repository = new PostRepository();
     post = await repository.create(post);
-    post.title = "Updated title";
+    post.title = 'Updated title';
     const udpatedPost = await repository.update(post);
 
     expect(udpatedPost.id).toBeDefined();
     expect(udpatedPost.id).toBeGreaterThan(0);
-    expect(udpatedPost.title).toEqual("Updated title");
+    expect(udpatedPost.title).toEqual('Updated title');
   });
 
-  test("Should get post by id", async () => {
-    let user: UserInterface = new User({ name: "Test", isAdmin: true });
+  test('Should get post by id', async () => {
+    let user: UserInterface = new User({ name: 'Test', isAdmin: true });
     const userRepository = new UserRepository<UserInterface, UserModel>();
     user = await userRepository.create(user);
     let post: PostInterface = new Post({
-      title: "Test",
-      text: "text test",
+      title: 'Test',
+      text: 'text test',
       user,
     });
 
@@ -64,23 +63,23 @@ describe("Post Repository", () => {
     expect(persistedPost.title).toEqual(post.title);
   });
 
-  test("Should get list of post", async () => {
-    let user: UserInterface = new User({ name: "Test", isAdmin: true });
+  test('Should get list of post', async () => {
+    let user: UserInterface = new User({ name: 'Test', isAdmin: true });
     const userRepository = new UserRepository<UserInterface, UserModel>();
     user = await userRepository.create(user);
     let post1: PostInterface = new Post({
-      title: "Test 1",
-      text: "text test",
+      title: 'Test 1',
+      text: 'text test',
       user,
     });
     let post2: PostInterface = new Post({
-      title: "Test 2",
-      text: "text test",
+      title: 'Test 2',
+      text: 'text test',
       user,
     });
     let post3: PostInterface = new Post({
-      title: "Test 3",
-      text: "text test",
+      title: 'Test 3',
+      text: 'text test',
       user,
     });
 
@@ -93,23 +92,23 @@ describe("Post Repository", () => {
     expect(persistedPost[0].title).toEqual(post3.title);
   });
 
-  test("Should delete a post", async () => {
-    let user: UserInterface = new User({ name: "Test", isAdmin: true });
+  test('Should delete a post', async () => {
+    let user: UserInterface = new User({ name: 'Test', isAdmin: true });
     const userRepository = new UserRepository<UserInterface, UserModel>();
     user = await userRepository.create(user);
     let post1: PostInterface = new Post({
-      title: "Test 1",
-      text: "text test",
+      title: 'Test 1',
+      text: 'text test',
       user,
     });
     let post2: PostInterface = new Post({
-      title: "Test 2",
-      text: "text test",
+      title: 'Test 2',
+      text: 'text test',
       user,
     });
     let post3: PostInterface = new Post({
-      title: "Test 3",
-      text: "text test",
+      title: 'Test 3',
+      text: 'text test',
       user,
     });
 

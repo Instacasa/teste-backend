@@ -1,19 +1,17 @@
-import CreatePost from "@/useCases/post/createPost";
-import GetPost from "@/useCases/post/getPost";
-import PostRepository from "@database/repositories/postRepository";
-import UserRepository from "@database/repositories/userRepository";
-import User from "@domains/user";
+import CreatePost from '@/useCases/post/createPost';
+import GetPost from '@/useCases/post/getPost';
+import PostRepository from '@database/repositories/postRepository';
+import UserRepository from '@database/repositories/userRepository';
+import User from '@domains/user';
+import { NotFoundError } from '@libs/errors/notFoundError';
+import UserModel from '@models/userModel';
+import { PostInterface, UserInterface } from '@types';
 
-import { NotFoundError } from "@libs/errors/notFoundError";
-import PostModel from "@models/postModel";
-import UserModel from "@models/userModel";
-import { PostInterface, UserInterface } from "@types";
-
-describe("Get Post", () => {
+describe('Get Post', () => {
   let user: UserInterface;
   beforeAll(async () => {
     const userRepository = new UserRepository<UserInterface, UserModel>();
-    user = new User({ name: "Admin", isAdmin: true });
+    user = new User({ name: 'Admin', isAdmin: true });
     user.active = true;
     user = await userRepository.create(user);
   });
@@ -23,17 +21,17 @@ describe("Get Post", () => {
     await repository.deleteAll();
   });
 
-  test("Should get post", async () => {
+  test('Should get post', async () => {
     const createPost = new CreatePost();
     const getPost = new GetPost();
     const partialPost: Partial<PostInterface> = {
-      title: "Teste",
-      text: "Text text text",
+      title: 'Teste',
+      text: 'Text text text',
       user,
     };
     const post = await createPost.execute(user.id, partialPost);
     const getedPost = await getPost.execute(post.id);
-    expect(getedPost.title).toEqual("Teste");
+    expect(getedPost.title).toEqual('Teste');
   });
 
   test("Shouldn't get inexistent post", async () => {
@@ -42,9 +40,7 @@ describe("Get Post", () => {
       await getPost.execute(0);
     } catch (error) {
       expect(error as Error).toBeInstanceOf(NotFoundError);
-      expect((error as Error).message).toEqual(
-        "post with id 0 can't be found."
-      );
+      expect((error as Error).message).toEqual("post with id 0 can't be found.");
     }
   });
 });
