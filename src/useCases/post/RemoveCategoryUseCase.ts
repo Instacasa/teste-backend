@@ -1,13 +1,8 @@
-import CategoryRepository from "@database/repositories/categoryRepository";
-import PostRepository from "@database/repositories/postRepository";
-import UserRepository from "@database/repositories/userRepository";
-import { ValidationError } from "@libs/errors/validationError";
-import {
-  CategoryInterface,
-  PostInterface,
-  RepositoryInterface,
-  UserInterface,
-} from "@types";
+import CategoryRepository from '@database/repositories/categoryRepository';
+import PostRepository from '@database/repositories/postRepository';
+import UserRepository from '@database/repositories/userRepository';
+import { ValidationError } from '@libs/errors/validationError';
+import { CategoryInterface, PostInterface, RepositoryInterface, UserInterface } from '@types';
 
 class RemoveCategoryUseCase {
   postRepository: RepositoryInterface<PostInterface>;
@@ -20,11 +15,7 @@ class RemoveCategoryUseCase {
     this.categoryRepository = new CategoryRepository();
   }
 
-  public execute = async (
-    userId: number,
-    id: number,
-    categoryId: number
-  ): Promise<void> => {
+  public execute = async (userId: number, id: number, categoryId: number): Promise<void> => {
     try {
       const user = await this.userRepository.get(userId);
 
@@ -32,14 +23,12 @@ class RemoveCategoryUseCase {
 
       if (!user.isAdmin && user.id !== post.user.id) {
         throw new ValidationError(
-          "Apenas o autor ou administradores podem excluir categorias de um post"
+          'Apenas o autor ou administradores podem excluir categorias de um post',
         );
       }
 
       if (!user.active) {
-        throw new ValidationError(
-          "Apenas usuários ativos podem realizar essa ação"
-        );
+        throw new ValidationError('Apenas usuários ativos podem realizar essa ação');
       }
 
       const foundCategory = await this.categoryRepository.get(categoryId);

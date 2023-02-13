@@ -1,17 +1,15 @@
-import CreateComment from "@/useCases/comment/createComment";
-import DeleteComment from "@/useCases/comment/deleteComment";
-import GetComment from "@/useCases/comment/getComment";
-import ListComment from "@/useCases/comment/listComment";
-import UpdateComment from "@/useCases/comment/updateComment";
-import { ValidationError } from "@libs/errors/validationError";
-import { CommentInterface } from "@types";
-import { NextFunction, Request, Response } from "express";
-import httpStatus from "http-status";
+import CreateComment from '@/useCases/comment/createComment';
+import DeleteComment from '@/useCases/comment/deleteComment';
+import GetComment from '@/useCases/comment/getComment';
+import ListComment from '@/useCases/comment/listComment';
+import UpdateComment from '@/useCases/comment/updateComment';
+import { ValidationError } from '@libs/errors/validationError';
+import { CommentInterface } from '@types';
+import { NextFunction, Request, Response } from 'express';
+import httpStatus from 'http-status';
 
 class CommentController {
-  serialize = (
-    comment: Partial<CommentInterface>
-  ): Partial<CommentInterface> => {
+  serialize = (comment: Partial<CommentInterface>): Partial<CommentInterface> => {
     return {
       id: comment.id,
       text: comment.text,
@@ -21,10 +19,7 @@ class CommentController {
   getComment = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const useCase = new GetComment();
-      const data = await useCase.execute(
-        Number(req.params.postId),
-        Number(req.params.id)
-      );
+      const data = await useCase.execute(Number(req.params.postId), Number(req.params.id));
       res.status(httpStatus.OK).json(this.serialize(data));
     } catch (error) {
       res.status((error as ValidationError).status).json({
@@ -53,7 +48,7 @@ class CommentController {
       const data = await useCase.execute(
         Number(req.params.postId),
         Number(req.params.userId),
-        req.body
+        req.body,
       );
       res.status(httpStatus.CREATED).json(this.serialize(data));
     } catch (error) {
@@ -71,7 +66,7 @@ class CommentController {
         Number(req.params.postId),
         Number(req.params.userId),
         Number(req.params.id),
-        req.body
+        req.body,
       );
       res.status(httpStatus.OK).json(this.serialize(data));
     } catch (error) {
@@ -88,7 +83,7 @@ class CommentController {
       const data = await useCase.execute(
         Number(req.params.postId),
         Number(req.params.userId),
-        Number(req.params.id)
+        Number(req.params.id),
       );
       res.status(httpStatus.ACCEPTED).send();
     } catch (error) {

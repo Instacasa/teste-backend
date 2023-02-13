@@ -1,13 +1,8 @@
-import CategoryRepository from "@database/repositories/categoryRepository";
-import UserRepository from "@database/repositories/userRepository";
-import PostRepository from "@database/repositories/postRepository";
-import { ValidationError } from "@libs/errors/validationError";
-import {
-  RepositoryInterface,
-  CategoryInterface,
-  UserInterface,
-  PostInterface,
-} from "@types";
+import CategoryRepository from '@database/repositories/categoryRepository';
+import UserRepository from '@database/repositories/userRepository';
+import PostRepository from '@database/repositories/postRepository';
+import { ValidationError } from '@libs/errors/validationError';
+import { RepositoryInterface, CategoryInterface, UserInterface, PostInterface } from '@types';
 
 class DeleteCategoryUseCase {
   categoryRepository: RepositoryInterface<CategoryInterface>;
@@ -25,14 +20,10 @@ class DeleteCategoryUseCase {
       const user = await this.userRepository.get(userId);
 
       if (!user.isAdmin)
-        throw new ValidationError(
-          "Apenas administradores podem excluir categorias"
-        );
+        throw new ValidationError('Apenas administradores podem excluir categorias');
 
       if (!user.active)
-        throw new ValidationError(
-          "Apenas administradores ativos podem realizar essa ação"
-        );
+        throw new ValidationError('Apenas administradores ativos podem realizar essa ação');
 
       //const posts = await this.postRepository.get(userId);
 

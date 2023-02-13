@@ -1,5 +1,5 @@
-import { Router } from "express";
-import { CategoryController } from "@controllers";
+import { Router } from 'express';
+import { CategoryController } from '@controllers';
 
 class CategoryRoute {
   router: Router;
@@ -13,25 +13,16 @@ class CategoryRoute {
   createRouter = () => {
     const categoryController = new CategoryController();
     this.router = Router();
-    this.router.get(
-      "/",
-      categoryController.listCategory.bind(categoryController)
-    );
-    this.router.get(
-      "/:id",
-      categoryController.getCategory.bind(categoryController)
-    );
-    this.router.post(
-      "/:userId",
-      categoryController.createCategory.bind(categoryController)
-    );
+    this.router.get('/', categoryController.listCategory.bind(categoryController));
+    this.router.get('/:id', categoryController.getCategory.bind(categoryController));
+    this.router.post('/:userId', categoryController.createCategory.bind(categoryController));
     this.router.patch(
-      "/:userId/edit/:id",
-      categoryController.updateCategory.bind(categoryController)
+      '/:userId/edit/:id',
+      categoryController.updateCategory.bind(categoryController),
     );
     this.router.delete(
-      "/:userId/remove/:id",
-      categoryController.deleteCategory.bind(categoryController)
+      '/:userId/remove/:id',
+      categoryController.deleteCategory.bind(categoryController),
     );
     return this.router;
   };

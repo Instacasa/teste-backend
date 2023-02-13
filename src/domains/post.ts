@@ -1,13 +1,8 @@
-import { ValidationError } from "@libs/errors/validationError";
-import {
-  CategoryInterface,
-  CommentInterface,
-  PostInterface,
-  UserInterface,
-} from "@types";
-import Category from "./category";
-import Comment from "./comment";
-import User from "./user";
+import { ValidationError } from '@libs/errors/validationError';
+import { CategoryInterface, CommentInterface, PostInterface, UserInterface } from '@types';
+import Category from './category';
+import Comment from './comment';
+import User from './user';
 
 class Post implements PostInterface {
   private _id?: number;
@@ -24,7 +19,7 @@ class Post implements PostInterface {
   }
   public set title(newValue: string) {
     if (!newValue || !newValue.trim()) {
-      throw new ValidationError("O título da publicação é obrigatório");
+      throw new ValidationError('O título da publicação é obrigatório');
     }
     this._title = newValue;
   }
@@ -35,7 +30,7 @@ class Post implements PostInterface {
   }
   public set text(newValue: string) {
     if (!newValue || !newValue.trim()) {
-      throw new ValidationError("O texto da publicação é obrigatório");
+      throw new ValidationError('O texto da publicação é obrigatório');
     }
     this._text = newValue;
   }
@@ -46,7 +41,7 @@ class Post implements PostInterface {
   }
   public set user(newValue: UserInterface) {
     if (!newValue) {
-      throw new ValidationError("O autor da publicação é obrigatório");
+      throw new ValidationError('O autor da publicação é obrigatório');
     }
     this._user = new User(newValue);
   }
@@ -58,9 +53,7 @@ class Post implements PostInterface {
     this.title = data.title;
     this.text = data.text;
     this.user = data.user;
-    this.comments = data.comments
-      ? data.comments.map((comment) => new Comment(comment))
-      : [];
+    this.comments = data.comments ? data.comments.map((comment) => new Comment(comment)) : [];
     this.categories = data.categories
       ? data.categories.map((category) => new Category(category))
       : [];

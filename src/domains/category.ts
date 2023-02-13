@@ -1,5 +1,5 @@
-import { ValidationError } from "@libs/errors/validationError";
-import { CategoryInterface } from "@types";
+import { ValidationError } from '@libs/errors/validationError';
+import { CategoryInterface } from '@types';
 
 class Category implements CategoryInterface {
   private _id?: number;
@@ -16,7 +16,7 @@ class Category implements CategoryInterface {
   }
   public set label(newValue: string) {
     if (!newValue || !newValue.trim()) {
-      throw new ValidationError("O nome da categoria é obrigatório");
+      throw new ValidationError('O nome da categoria é obrigatório');
     }
     this._label = newValue;
   }

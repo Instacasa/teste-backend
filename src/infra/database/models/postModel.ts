@@ -1,9 +1,4 @@
-import {
-  CategoryInterface,
-  CommentInterface,
-  PostInterface,
-  UserInterface,
-} from "@types";
+import { CategoryInterface, CommentInterface, PostInterface, UserInterface } from '@types';
 import {
   Column,
   Entity,
@@ -13,12 +8,12 @@ import {
   ObjectLiteral,
   OneToMany,
   PrimaryGeneratedColumn,
-} from "typeorm";
-import CategoryModel from "./categoryModel";
-import CommentModel from "./commentModel";
-import UserModel from "./userModel";
+} from 'typeorm';
+import CategoryModel from './categoryModel';
+import CommentModel from './commentModel';
+import UserModel from './userModel';
 
-@Entity({ name: "post" })
+@Entity({ name: 'post' })
 class PostModel implements ObjectLiteral, PostInterface {
   @PrimaryGeneratedColumn()
   id: number;

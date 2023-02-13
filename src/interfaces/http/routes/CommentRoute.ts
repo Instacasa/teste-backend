@@ -1,5 +1,5 @@
-import { Router } from "express";
-import { CommentController } from "@controllers";
+import { Router } from 'express';
+import { CommentController } from '@controllers';
 
 class CommentRoute {
   router: Router;
@@ -13,25 +13,19 @@ class CommentRoute {
   createRouter = () => {
     const commentController = new CommentController();
     this.router = Router();
-    this.router.get(
-      "/:postId/comments",
-      commentController.listComment.bind(commentController)
-    );
-    this.router.get(
-      "/:postId/comments/:id",
-      commentController.getComment.bind(commentController)
-    );
+    this.router.get('/:postId/comments', commentController.listComment.bind(commentController));
+    this.router.get('/:postId/comments/:id', commentController.getComment.bind(commentController));
     this.router.post(
-      "/:postId/comments/user/:userId",
-      commentController.createComment.bind(commentController)
+      '/:postId/comments/user/:userId',
+      commentController.createComment.bind(commentController),
     );
     this.router.patch(
-      "/:postId/comments/:id/user/:userId",
-      commentController.updateComment.bind(commentController)
+      '/:postId/comments/:id/user/:userId',
+      commentController.updateComment.bind(commentController),
     );
     this.router.delete(
-      "/:postId/comments/:id/user/:userId",
-      commentController.deleteComment.bind(commentController)
+      '/:postId/comments/:id/user/:userId',
+      commentController.deleteComment.bind(commentController),
     );
     return this.router;
   };

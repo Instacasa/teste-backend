@@ -1,5 +1,5 @@
-import PostRepository from "@database/repositories/postRepository";
-import { PostInterface, PostRepositoryInterface } from "@types";
+import PostRepository from '@database/repositories/postRepository';
+import { PostInterface, PostRepositoryInterface } from '@types';
 
 class ListPostByUserUseCase {
   postRepository: PostRepositoryInterface;

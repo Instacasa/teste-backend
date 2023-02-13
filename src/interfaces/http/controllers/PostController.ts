@@ -1,15 +1,15 @@
-import CreatePost from "@/useCases/post/createPost";
-import DeletePost from "@/useCases/post/deletePost";
-import GetPost from "@/useCases/post/getPost";
-import ListPost from "@/useCases/post/listPost";
-import UpdatePost from "@/useCases/post/updatePost";
-import AddCategoryUseCase from "@/useCases/post/AddCategoryUseCase";
-import RemoveCategoryUseCase from "@/useCases/post/RemoveCategoryUseCase";
-import { ValidationError } from "@libs/errors/validationError";
-import { PostInterface } from "@types";
-import { NextFunction, Request, Response } from "express";
-import httpStatus from "http-status";
-import ListPostByUserUseCase from "@useCases/post/ListPostByUserUseCase";
+import CreatePost from '@/useCases/post/createPost';
+import DeletePost from '@/useCases/post/deletePost';
+import GetPost from '@/useCases/post/getPost';
+import ListPost from '@/useCases/post/listPost';
+import UpdatePost from '@/useCases/post/updatePost';
+import AddCategoryUseCase from '@/useCases/post/AddCategoryUseCase';
+import RemoveCategoryUseCase from '@/useCases/post/RemoveCategoryUseCase';
+import { ValidationError } from '@libs/errors/validationError';
+import { PostInterface } from '@types';
+import { NextFunction, Request, Response } from 'express';
+import httpStatus from 'http-status';
+import ListPostByUserUseCase from '@useCases/post/ListPostByUserUseCase';
 
 class PostController {
   serialize = (post: PostInterface): PostInterface => {
@@ -25,8 +25,7 @@ class PostController {
       },
     };
 
-    if (post.categories?.length > 0)
-      baseResponse["categories"] = post.categories;
+    if (post.categories?.length > 0) baseResponse['categories'] = post.categories;
 
     return baseResponse;
   };
@@ -89,7 +88,7 @@ class PostController {
       const data = await useCase.execute(
         Number(req.params.userId),
         Number(req.params.id),
-        req.body
+        req.body,
       );
       res.status(httpStatus.OK).json(this.serialize(data));
     } catch (error) {
@@ -119,7 +118,7 @@ class PostController {
       const data = await useCase.execute(
         Number(req.params.userId),
         Number(req.params.id),
-        Number(req.params.categoryId)
+        Number(req.params.categoryId),
       );
       res.status(httpStatus.OK).json(this.serialize(data));
     } catch (error) {
@@ -136,7 +135,7 @@ class PostController {
       await useCase.execute(
         Number(req.params.userId),
         Number(req.params.id),
-        Number(req.params.categoryId)
+        Number(req.params.categoryId),
       );
       res.status(httpStatus.ACCEPTED).send();
     } catch (error) {

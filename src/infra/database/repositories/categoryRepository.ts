@@ -1,11 +1,11 @@
-import CategoryModel from "@models/categoryModel";
-import Category from "@/domains/category";
-import BaseRepository from "./baseRepository";
+import CategoryModel from '@models/categoryModel';
+import Category from '@/domains/category';
+import BaseRepository from './baseRepository';
 
-class CategoryRepository<
+class CategoryRepository<CategoryInterface, CategoryModel> extends BaseRepository<
   CategoryInterface,
   CategoryModel
-> extends BaseRepository<CategoryInterface, CategoryModel> {
+> {
   constructor() {
     super(CategoryModel, Category);
   }

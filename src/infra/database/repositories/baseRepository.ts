@@ -1,6 +1,6 @@
-import connection from "@libs/database";
-import { NotFoundError } from "@libs/errors/notFoundError";
-import { RepositoryInterface } from "@types";
+import connection from '@libs/database';
+import { NotFoundError } from '@libs/errors/notFoundError';
+import { RepositoryInterface } from '@types';
 import {
   EntityNotFoundError,
   EntityTarget,
@@ -8,7 +8,7 @@ import {
   FindOptionsWhere,
   ObjectLiteral,
   Repository,
-} from "typeorm";
+} from 'typeorm';
 
 class BaseRepository<Interface, Model extends ObjectLiteral>
   implements RepositoryInterface<Interface>
@@ -28,7 +28,7 @@ class BaseRepository<Interface, Model extends ObjectLiteral>
   public list = async (): Promise<Interface[]> => {
     const repository = await this.repository();
     const list = await repository.find({
-      order: { id: "DESC" } as unknown as FindOptionsOrder<Model>,
+      order: { id: 'DESC' } as unknown as FindOptionsOrder<Model>,
     });
     return list.map((element) => new this.domain(element));
   };
@@ -37,15 +37,11 @@ class BaseRepository<Interface, Model extends ObjectLiteral>
     const repository = await this.repository();
     const find = { where: { id } };
     try {
-      const element = await repository.findOneOrFail(
-        find as unknown as FindOptionsWhere<Model>
-      );
+      const element = await repository.findOneOrFail(find as unknown as FindOptionsWhere<Model>);
       return new this.domain(element);
     } catch (error) {
       if (error instanceof EntityNotFoundError) {
-        throw new NotFoundError(
-          `${repository.metadata.tableName} with id ${id} can't be found.`
-        );
+        throw new NotFoundError(`${repository.metadata.tableName} with id ${id} can't be found.`);
       }
       throw error;
     }

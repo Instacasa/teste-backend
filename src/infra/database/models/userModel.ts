@@ -4,16 +4,16 @@ import { Column, Entity, ObjectLiteral, PrimaryGeneratedColumn } from 'typeorm';
 @Entity({ name: 'user' })
 class UserModel implements ObjectLiteral, UserInterface {
   @PrimaryGeneratedColumn()
-    id: number;
-  
+  id: number;
+
   @Column()
-    name: string;
+  name: string;
 
-  @Column({default: false})
-    active: boolean;
+  @Column({ default: false })
+  active: boolean;
 
-  @Column({default: false})
-    isAdmin: boolean;
+  @Column({ default: false })
+  isAdmin: boolean;
 
   constructor(data: UserInterface) {
     this.id = data?.id;

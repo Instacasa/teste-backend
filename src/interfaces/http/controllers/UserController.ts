@@ -1,19 +1,19 @@
-import CreateUser from "@/useCases/user/createUser";
-import DeleteUser from "@/useCases/user/deleteUser";
-import GetUser from "@/useCases/user/getUser";
-import ListUser from "@/useCases/user/listUser";
-import UpdateUser from "@/useCases/user/updateUser";
-import UserRepository from "@database/repositories/userRepository";
-import User from "@domains/user";
-import { ValidationError } from "@libs/errors/validationError";
-import UserModel from "@models/userModel";
-import { UserInterface } from "@types";
-import { NextFunction, Request, Response } from "express";
-import httpStatus from "http-status";
+import CreateUser from '@/useCases/user/createUser';
+import DeleteUser from '@/useCases/user/deleteUser';
+import GetUser from '@/useCases/user/getUser';
+import ListUser from '@/useCases/user/listUser';
+import UpdateUser from '@/useCases/user/updateUser';
+import UserRepository from '@database/repositories/userRepository';
+import User from '@domains/user';
+import { ValidationError } from '@libs/errors/validationError';
+import UserModel from '@models/userModel';
+import { UserInterface } from '@types';
+import { NextFunction, Request, Response } from 'express';
+import httpStatus from 'http-status';
 
 class UserController {
   constructor() {
-    const user: UserInterface = new User({ name: "Test", isAdmin: true });
+    const user: UserInterface = new User({ name: 'Test', isAdmin: true });
     const userRepository = new UserRepository<UserInterface, UserModel>();
     userRepository.create(user);
   }
@@ -72,7 +72,7 @@ class UserController {
       const data = await useCase.execute(
         Number(req.params.userId),
         Number(req.params.id),
-        req.body
+        req.body,
       );
       res.status(httpStatus.OK).json(this.serialize(data));
     } catch (error) {
@@ -86,10 +86,7 @@ class UserController {
   deleteUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const useCase = new DeleteUser();
-      const data = await useCase.execute(
-        Number(req.params.userId),
-        Number(req.params.id)
-      );
+      const data = await useCase.execute(Number(req.params.userId), Number(req.params.id));
       res.status(httpStatus.ACCEPTED).send();
     } catch (error) {
       res.status((error as ValidationError).status).json({

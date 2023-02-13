@@ -1,5 +1,5 @@
-import CategoryRepository from "@database/repositories/categoryRepository";
-import { RepositoryInterface, CategoryInterface } from "@types";
+import CategoryRepository from '@database/repositories/categoryRepository';
+import { RepositoryInterface, CategoryInterface } from '@types';
 
 class ListCategoryUseCase {
   repository: RepositoryInterface<CategoryInterface>;

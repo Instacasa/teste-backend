@@ -4,11 +4,11 @@ import {
   CreateCategoryUseCase,
   UpdateCategoryUseCase,
   DeleteCategoryUseCase,
-} from "@useCases/category";
-import { ValidationError } from "@libs/errors/validationError";
-import { CategoryInterface } from "@types";
-import { NextFunction, Request, Response } from "express";
-import httpStatus from "http-status";
+} from '@useCases/category';
+import { ValidationError } from '@libs/errors/validationError';
+import { CategoryInterface } from '@types';
+import { NextFunction, Request, Response } from 'express';
+import httpStatus from 'http-status';
 
 class CategoryController {
   serialize = (category: CategoryInterface): CategoryInterface => {
@@ -31,11 +31,7 @@ class CategoryController {
     }
   };
 
-  public listCategory = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
+  public listCategory = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const useCase = new ListCategoryUseCase();
       const data = await useCase.execute();
@@ -67,7 +63,7 @@ class CategoryController {
       const data = await useCase.execute(
         Number(req.params.userId),
         Number(req.params.id),
-        req.body
+        req.body,
       );
       res.status(httpStatus.OK).json(this.serialize(data));
     } catch (error) {
@@ -81,10 +77,7 @@ class CategoryController {
   deleteCategory = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const useCase = new DeleteCategoryUseCase();
-      const data = await useCase.execute(
-        Number(req.params.userId),
-        Number(req.params.id)
-      );
+      const data = await useCase.execute(Number(req.params.userId), Number(req.params.id));
       res.status(httpStatus.ACCEPTED).send();
     } catch (error) {
       res.status((error as ValidationError).status).json({

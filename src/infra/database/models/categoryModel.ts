@@ -1,7 +1,7 @@
-import { CategoryInterface } from "@types";
-import { Column, Entity, ObjectLiteral, PrimaryGeneratedColumn } from "typeorm";
+import { CategoryInterface } from '@types';
+import { Column, Entity, ObjectLiteral, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity({ name: "category" })
+@Entity({ name: 'category' })
 class CategoryModel implements ObjectLiteral, CategoryInterface {
   @PrimaryGeneratedColumn()
   id: number;

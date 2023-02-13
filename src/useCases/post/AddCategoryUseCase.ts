@@ -1,13 +1,8 @@
-import CategoryRepository from "@database/repositories/categoryRepository";
-import PostRepository from "@database/repositories/postRepository";
-import UserRepository from "@database/repositories/userRepository";
-import { ValidationError } from "@libs/errors/validationError";
-import {
-  CategoryInterface,
-  PostInterface,
-  RepositoryInterface,
-  UserInterface,
-} from "@types";
+import CategoryRepository from '@database/repositories/categoryRepository';
+import PostRepository from '@database/repositories/postRepository';
+import UserRepository from '@database/repositories/userRepository';
+import { ValidationError } from '@libs/errors/validationError';
+import { CategoryInterface, PostInterface, RepositoryInterface, UserInterface } from '@types';
 
 class AddCategoryUseCase {
   postRepository: RepositoryInterface<PostInterface>;
@@ -23,7 +18,7 @@ class AddCategoryUseCase {
   public execute = async (
     userId: number,
     id: number,
-    categoryId: number
+    categoryId: number,
   ): Promise<PostInterface> => {
     try {
       const user = await this.userRepository.get(userId);
@@ -32,14 +27,12 @@ class AddCategoryUseCase {
 
       if (!user.isAdmin && user.id !== post.user.id) {
         throw new ValidationError(
-          "Apenas o autor ou administradores podem adicionar categorias ao post"
+          'Apenas o autor ou administradores podem adicionar categorias ao post',
         );
       }
 
       if (!user.active) {
-        throw new ValidationError(
-          "Apenas usuários ativos podem realizar essa ação"
-        );
+        throw new ValidationError('Apenas usuários ativos podem realizar essa ação');
       }
 
       const category = await this.categoryRepository.get(categoryId);

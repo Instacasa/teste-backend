@@ -6,16 +6,16 @@ import UserModel from './userModel';
 @Entity({ name: 'comment' })
 class CommentModel implements ObjectLiteral, CommentInterface {
   @PrimaryGeneratedColumn()
-    id: number;
+  id: number;
 
   @Column()
-    text: string;
+  text: string;
 
-  @ManyToOne(() => PostModel, post => post.comments)
-    post: PostInterface;
+  @ManyToOne(() => PostModel, (post) => post.comments)
+  post: PostInterface;
 
   @ManyToOne(() => UserModel, { eager: true })
-    user: UserInterface;
+  user: UserInterface;
 
   constructor(data: CommentInterface) {
     this.id = data?.id;
