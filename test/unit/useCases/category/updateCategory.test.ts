@@ -62,7 +62,7 @@ describe('Update Category', () => {
     };
     const category = await createCategoryUseCase.execute(user.id, partialCategory);
     try {
-      await updateCategoryUseCase.execute(user.id, category.id, { ...category, label: '' });
+      await updateCategoryUseCase.execute(newUser.id, category.id, { ...category, label: '' });
     } catch (error) {
       expect(error as Error).toBeInstanceOf(ValidationError);
       expect((error as Error).message).toEqual('Apenas administradores podem atualizar categorias');
