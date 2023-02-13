@@ -1,14 +1,9 @@
-import CreatePost from '@/useCases/post/createPost';
-import UpdatePost from '@/useCases/post/updatePost';
-import CommentRepository from '@database/repositories/commentRepository';
 import PostRepository from '@database/repositories/postRepository';
 import UserRepository from '@database/repositories/userRepository';
 import User from '@domains/user';
-import Comment from '@/domains/comment';
 import { ValidationError } from '@libs/errors/validationError';
-import CommentModel from '@models/commentModel';
 import UserModel from '@models/userModel';
-import { CategoryInterface, CommentInterface, PostInterface, UserInterface } from '@types';
+import { CategoryInterface, UserInterface } from '@types';
 import { CreateCategoryUseCase, UpdateCategoryUseCase } from '@useCases/category';
 
 describe('Update Category', () => {
