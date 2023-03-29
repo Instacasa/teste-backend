@@ -16,20 +16,15 @@ class UpdateComment {
   }
 
   public execute = async (postId: number, userId: number, id: number, data: Partial<CommentInterface>): Promise<CommentInterface> => {
-    try {
-      const user = await this.userRepository.get(userId);
-      await this.postRepository.get(postId);
-      const comment = await this.repository.get(id);
-      if (user.id !== comment.user.id) {
-        throw new ValidationError('Apenas o autor pode editar a publicação');
-      }
-      comment.text = data.text ?? comment.text;
-      const n = await this.repository.update(comment);
-      return n;
-    } catch(error) {
-      console.log(error);
-      throw error;
+    const user = await this.userRepository.get(userId);
+    await this.postRepository.get(postId);
+    const comment = await this.repository.get(id);
+    if (user.id !== comment.user.id) {
+      throw new ValidationError('Apenas o autor pode editar a publicação');
     }
+    comment.text = data.text ?? comment.text;
+    const n = await this.repository.update(comment);
+    return n;
   };
 
 }

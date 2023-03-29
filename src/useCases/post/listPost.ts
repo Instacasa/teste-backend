@@ -10,12 +10,7 @@ class ListPost {
 
 
   public execute = async (): Promise<PostInterface[]> => {
-    try {
-      return await this.repository.list();
-    } catch(error) {
-      console.log(error);
-      throw error;
-    }
+    return await this.repository.list();
   };
 
 }

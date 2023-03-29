@@ -10,13 +10,8 @@ class ListComment {
 
 
   public execute = async (postId: number): Promise<CommentInterface[]> => {
-    try {
-      const post: PostInterface = await this.repository.get(postId);
-      return post.comments;
-    } catch(error) {
-      console.log(error);
-      throw error;
-    }
+    const post: PostInterface = await this.repository.get(postId);
+    return post.comments;
   };
 
 }

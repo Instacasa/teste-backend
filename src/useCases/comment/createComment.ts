@@ -17,18 +17,13 @@ class CreateComment {
   }
 
   public execute = async (postId: number, userId: number, data: Partial<CommentInterface>): Promise<CommentInterface> => {
-    try {
-      const user = await this.userRepository.get(userId);
-      const post = await this.postRepository.get(postId);
-      if (!user.active) {
-        throw new ValidationError('Apenas usuários ativos podem comentar');
-      }
-      const comment = new Comment({...data, user, post});
-      return await this.repository.create(comment);
-    } catch(error) {
-      console.log(error);
-      throw error;
+    const user = await this.userRepository.get(userId);
+    const post = await this.postRepository.get(postId);
+    if (!user.active) {
+      throw new ValidationError('Apenas usuários ativos podem comentar');
     }
+    const comment = new Comment({...data, user, post});
+    return await this.repository.create(comment);
   };
 
 }

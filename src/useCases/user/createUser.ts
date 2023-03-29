@@ -11,13 +11,8 @@ class CreateUser {
 
 
   public execute = async (data: Partial<UserInterface>): Promise<UserInterface> => {
-    try {
-      const user = new User(data);
-      return await this.repository.create(user);
-    } catch(error) {
-      console.log(error);
-      throw error;
-    }
+    const user = new User(data);
+    return await this.repository.create(user);
   };
 
 }

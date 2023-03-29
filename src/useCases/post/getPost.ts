@@ -10,12 +10,7 @@ class GetPost {
 
 
   public execute = async (id: number): Promise<PostInterface> => {
-    try {
-      return await this.repository.get(id);
-    } catch(error) {
-      console.log(error);
-      throw error;
-    }
+    return await this.repository.get(id);
   };
 
 }

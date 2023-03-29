@@ -11,20 +11,15 @@ class DeleteUser {
 
 
   public execute = async (userId: number, id: number): Promise<void> => {
-    try {
-      const admin = await this.repository.get(userId);
-      if (!admin.isAdmin) {
-        throw new ValidationError('Apenas administradores podem excluir usuários');
-      }
-      const user = await this.repository.get(id);
-      if (user.isAdmin) {
-        throw new ValidationError('Administradores não podem set excluídos');
-      }
-      await this.repository.delete(user.id);      
-    } catch(error) {
-      console.log(error);
-      throw error;
+    const admin = await this.repository.get(userId);
+    if (!admin.isAdmin) {
+      throw new ValidationError('Apenas administradores podem excluir usuários');
     }
+    const user = await this.repository.get(id);
+    if (user.isAdmin) {
+      throw new ValidationError('Administradores não podem set excluídos');
+    }
+    await this.repository.delete(user.id);      
   };
 
 }

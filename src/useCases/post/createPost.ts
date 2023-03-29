@@ -14,17 +14,12 @@ class CreatePost {
   }
 
   public execute = async (userId:number, data: Partial<PostInterface>): Promise<PostInterface> => {
-    try {
-      const user = await this.userRepository.get(userId);
-      if (!user.active) {
-        throw new ValidationError('Apenas usuários ativos podem publicar');
-      }
-      const post = new Post({...data, user});
-      return await this.repository.create(post);
-    } catch(error) {
-      console.log(error);
-      throw error;
+    const user = await this.userRepository.get(userId);
+    if (!user.active) {
+      throw new ValidationError('Apenas usuários ativos podem publicar');
     }
+    const post = new Post({...data, user});
+    return await this.repository.create(post);
   };
 
 }

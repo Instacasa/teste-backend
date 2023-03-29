@@ -10,12 +10,7 @@ class ListUser {
 
 
   public execute = async (): Promise<UserInterface[]> => {
-    try {
-      return await this.repository.list();
-    } catch(error) {
-      console.log(error);
-      throw error;
-    }
+    return await this.repository.list();
   };
 
 }

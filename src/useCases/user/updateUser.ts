@@ -11,19 +11,14 @@ class UpdateUser {
 
 
   public execute = async (userId: number, id: number, data: Partial<UserInterface>): Promise<UserInterface> => {
-    try {
-      const admin = await this.repository.get(userId);
-      if (!admin.isAdmin) {
-        throw new ValidationError('Apenas administradores podem editar usuários');
-      }
-      const user = await this.repository.get(id);
-      user.name = data.name ?? user.name;
-      user.active = data.active ?? user.active;
-      return await this.repository.update(user);
-    } catch(error) {
-      console.log(error);
-      throw error;
+    const admin = await this.repository.get(userId);
+    if (!admin.isAdmin) {
+      throw new ValidationError('Apenas administradores podem editar usuários');
     }
+    const user = await this.repository.get(id);
+    user.name = data.name ?? user.name;
+    user.active = data.active ?? user.active;
+    return await this.repository.update(user);
   };
 
 }

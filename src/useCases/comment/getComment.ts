@@ -13,13 +13,8 @@ class GetComment {
 
 
   public execute = async (postId: number, id: number): Promise<CommentInterface> => {
-    try {
-      await this.postRepository.get(postId);
-      return await this.repository.get(id);
-    } catch(error) {
-      console.log(error);
-      throw error;
-    }
+    await this.postRepository.get(postId);
+    return await this.repository.get(id);
   };
 
 }
