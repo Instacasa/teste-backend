@@ -66,7 +66,6 @@ describe('Comment Repository', () => {
     let post: PostInterface = new Post({title: 'Test', text: 'text test', user});
     const postRepository = new PostRepository<PostInterface, PostModel>();
     post = await postRepository.create(post);
-    console.log('post', post);
 
     let comment: CommentInterface = new Comment({text: 'text test', user, post});
 
