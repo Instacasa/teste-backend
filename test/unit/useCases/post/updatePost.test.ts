@@ -72,7 +72,7 @@ describe('Update Post', () => {
     const partialPost: Partial<PostInterface> = { title: 'Teste', text: 'Text text text', user };
     const post = await createPost.execute(user.id, partialPost);
     const commentRepository = new CommentRepository<CommentInterface, CommentModel>();
-    const newComment = await commentRepository.create(new Comment({text: 'new comment', user: newUser, post}));
+    await commentRepository.create(new Comment({text: 'new comment', user: newUser, post}));
     try {
       await updatePost.execute(user.id, post.id, {...post, title: 'Teste 2'});
     } catch(error) {
