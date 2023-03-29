@@ -23,8 +23,7 @@ describe('User', () => {
       .get('/users/')
       .expect(httpStatus.OK);
     
-    // 1 user is autocreatead 
-    expect(body).toHaveLength(4);
+    expect(body).toHaveLength(3);
   });
 
   test('Shouldn\'t get inexistent user', async () => {
