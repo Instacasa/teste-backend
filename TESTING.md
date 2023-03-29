@@ -55,38 +55,31 @@ Done in 40.92s.
 Estranhamente, ao realizar os testes eles passam, mas são lançadas exceções em alguns testes.
 
 ```log
- PASS  test/unit/useCases/comment/createComment.test.ts
+  PASS  test/unit/useCases/user/getUser.test.ts
   ● Console
 
     console.log
-      ValidationError: Apenas usuários ativos podem comentar
-          at CreateComment.<anonymous> (/home/waldney/Documentos/OPTI/PROJETOS/instacasa/teste-backend/src/useCases/comment/createComment.ts:24:15)
-          at Generator.next (<anonymous>)
-          at fulfilled (/home/waldney/Documentos/OPTI/PROJETOS/instacasa/teste-backend/src/useCases/comment/createComment.ts:5:58) {
-        status: 400
+      NotFoundError: user with id 0 can't be found.
+          at UserRepository.<anonymous> (/home/waldney/Documentos/OPTI/PROJETOS/instacasa/teste-backend/src/infra/database/repositories/baseRepository.ts:33:15)
+          at Generator.throw (<anonymous>)
+          at rejected (/home/waldney/Documentos/OPTI/PROJETOS/instacasa/teste-backend/src/infra/database/repositories/baseRepository.ts:6:65) {
+        status: 404
       }
 
-      at CreateComment.<anonymous> (src/useCases/comment/createComment.ts:29:15)
+      at GetUser.<anonymous> (src/useCases/user/getUser.ts:16:15)
+          at Generator.throw (<anonymous>)
 
-    console.log
-      ValidationError: O texto do comentário é obrigatório
-          at Comment.set text [as text] (/home/waldney/Documentos/OPTI/PROJETOS/instacasa/teste-backend/src/domains/comment.ts:22:13)
-          at new Comment (/home/waldney/Documentos/OPTI/PROJETOS/instacasa/teste-backend/src/domains/comment.ts:52:14)
-          at CreateComment.<anonymous> (/home/waldney/Documentos/OPTI/PROJETOS/instacasa/teste-backend/src/useCases/comment/createComment.ts:26:23)
-          at Generator.next (<anonymous>)
-          at fulfilled (/home/waldney/Documentos/OPTI/PROJETOS/instacasa/teste-backend/src/useCases/comment/createComment.ts:5:58) {
-        status: 400
-      }
+  PASS  test/unit/domain/user.test.ts
+  PASS  test/unit/domain/comment.test.ts
+  PASS  test/unit/domain/post.test.ts
+  PASS  test/unit/useCases/user/listUser.test.ts
 
-      at CreateComment.<anonymous> (src/useCases/comment/createComment.ts:29:15)
-
-
-Test Suites: 36 passed, 36 total
-Tests:       107 passed, 107 total
-Snapshots:   0 total
-Time:        35.674 s, estimated 40 s
-Ran all test suites matching /test/i.
-Done in 37.11s.
+  Test Suites: 36 passed, 36 total
+  Tests:       107 passed, 107 total
+  Snapshots:   0 total
+  Time:        31.83 s, estimated 35 s
+  Ran all test suites matching /test/i.
+  Done in 33.33s.
 ```
 
 ### 2. ts-node upgrade
