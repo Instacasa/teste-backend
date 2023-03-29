@@ -35,13 +35,13 @@ class Comment implements CommentInterface {
     this._user = new User(newValue);
   }
 
-  private _post: PostInterface;
-  public get post(): PostInterface {
+  private _post?: PostInterface;
+  public get post(): PostInterface | undefined {
     return this._post;
   }
   public set post(newValue: PostInterface) {
     if (!newValue) {
-      throw new ValidationError('A publicação do comentário é obrigatório');
+      return;
     }
     this._post = new Post(newValue);
   }
