@@ -30,7 +30,7 @@ describe('Comment', () => {
     let post: PostInterface = new Post({title: 'Post', text: 'Text text text', user: postOwner});
     post = await postRepository.create(post);
     const commentRepository = new CommentRepository<CommentInterface, CommentModel>();
-    let comment: CommentInterface = new Comment({text: 'Text text text', user});
+    let comment: CommentInterface = new Comment({text: 'Text text text', user, post});
     comment = await commentRepository.create(comment);
 
     const { body } = await request()
@@ -50,7 +50,7 @@ describe('Comment', () => {
     let post: PostInterface = new Post({title: 'Post', text: 'Text text text', user: postOwner});
     post = await postRepository.create(post);
     const commentRepository = new CommentRepository<CommentInterface, CommentModel>();
-    let comment: CommentInterface = new Comment({text: 'Text text text', user});
+    let comment: CommentInterface = new Comment({text: 'Text text text', user, post});
     comment = await commentRepository.create(comment);
 
     const { body } = await request()
@@ -70,7 +70,7 @@ describe('Comment', () => {
     let post: PostInterface = new Post({title: 'Post', text: 'Text text text', user: postOwner});
     post = await postRepository.create(post);
     const commentRepository = new CommentRepository<CommentInterface, CommentModel>();
-    let comment: CommentInterface = new Comment({text: 'Text text text', user});
+    let comment: CommentInterface = new Comment({text: 'Text text text', user, post});
     comment = await commentRepository.create(comment);
 
     const { body } = await request()
