@@ -127,3 +127,11 @@ Ran all test suites matching /test/i
 ```
 
 Diante do feedback, ambas as soluções se mostram promissoras, no entanto, como o cultural no projeto é o uso do Yarn devemos optar por seguir com yarn para trabalhar nos testes. Devemos propor ao líder a atualização e revisão da lib, já que não temos nesse momento como garantir o quanto isso afetará o projeto.
+
+## Verificando as mensagens no teste
+
+Foi possível observar que as mensagens se tratavam códigos de depuração *console.log* no código, estes estavam em um try/catch desnecessário que apenas repassa o erro, sem nenhum tipo de tratamento.
+
+### Removendo a depuração
+
+Como resultado da remoção, foi possível executar todos os testes sem mensagens de erro.
