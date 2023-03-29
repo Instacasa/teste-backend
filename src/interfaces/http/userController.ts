@@ -3,10 +3,7 @@ import DeleteUser from '@/useCases/user/deleteUser';
 import GetUser from '@/useCases/user/getUser';
 import ListUser from '@/useCases/user/listUser';
 import UpdateUser from '@/useCases/user/updateUser';
-import UserRepository from '@database/repositories/userRepository';
-import User from '@domains/user';
 import { ValidationError } from '@libs/errors/validationError';
-import UserModel from '@models/userModel';
 import { UserInterface } from '@types';
 import { NextFunction, Router, Request, Response} from 'express';
 import httpStatus from 'http-status';
@@ -17,9 +14,6 @@ class UserController {
   static instance: UserController;
 
   constructor() {
-    const user: UserInterface = new User({ name: 'Test', isAdmin: true });
-    const userRepository = new UserRepository<UserInterface, UserModel>();
-    userRepository.create(user);
     this.createRouter();
   }
 
