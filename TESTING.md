@@ -135,3 +135,26 @@ Foi possível observar que as mensagens se tratavam códigos de depuração *con
 ### Removendo a depuração
 
 Como resultado da remoção, foi possível executar todos os testes sem mensagens de erro.
+
+## Varrendo o código
+
+### post em Comments é obrigatório mas está passando.
+
+```ts
+  public set post(newValue: PostInterface) {
+    if (!newValue) {
+      throw new ValidationError('A publicação do comentário é obrigatório');
+    }
+    this._post = new Post(newValue);
+  }
+```
+
+É possível observar que o post precisa ter valor. No entanto, o comportamento do método permitia que comentários sem post passagem. Ao remover o comentário e o return e rodar novamente os testes alguns testes não passaram.
+
+```log
+Test Suites: 11 failed, 25 passed, 36 total
+Tests:       21 failed, 86 passed, 107 total
+Snapshots:   0 total
+Time:        41.958 s
+Ran all test suites matching /test/i.
+```

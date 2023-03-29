@@ -41,8 +41,7 @@ class Comment implements CommentInterface {
   }
   public set post(newValue: PostInterface) {
     if (!newValue) {
-      // throw new ValidationError('A publicação do comentário é obrigatório');
-      return;
+      throw new ValidationError('A publicação do comentário é obrigatório');
     }
     this._post = new Post(newValue);
   }
