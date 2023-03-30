@@ -2,7 +2,7 @@ import { UserInterface } from '@types';
 import { Column, Entity, ObjectLiteral, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'user' })
-class UserModel implements ObjectLiteral, UserInterface {
+export class UserModel implements ObjectLiteral, UserInterface {
   @PrimaryGeneratedColumn()
     id: number;
   
@@ -22,5 +22,3 @@ class UserModel implements ObjectLiteral, UserInterface {
     this.isAdmin = data?.isAdmin;
   }
 }
-
-export default UserModel;

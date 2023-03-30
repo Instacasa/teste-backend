@@ -4,9 +4,7 @@ import CommentRepository from '@database/repositories/commentRepository';
 import PostRepository from '@database/repositories/postRepository';
 import UserRepository from '@database/repositories/userRepository';
 import { ValidationError } from '@libs/errors/validationError';
-import CommentModel from '@models/commentModel';
-import PostModel from '@models/postModel';
-import UserModel from '@models/userModel';
+import { CommentModel, PostModel, UserModel } from '@models';
 import { CommentInterface, PostInterface, UserInterface } from '@types';
 import { User, Comment } from '@domains';
 

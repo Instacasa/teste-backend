@@ -3,12 +3,9 @@ import GetComment from '@/useCases/comment/getComment';
 import CommentRepository from '@database/repositories/commentRepository';
 import PostRepository from '@database/repositories/postRepository';
 import UserRepository from '@database/repositories/userRepository';
-import { Post, User } from '@domains';
-
 import { NotFoundError } from '@libs/errors/notFoundError';
-import CommentModel from '@models/commentModel';
-import PostModel from '@models/postModel';
-import UserModel from '@models/userModel';
+import { Post, User } from '@domains';
+import { CommentModel, PostModel, UserModel } from '@models';
 import { CommentInterface, PostInterface, UserInterface } from '@types';
 
 describe('Get Comment', () => {

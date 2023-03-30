@@ -1,4 +1,4 @@
-import CommentModel from '@models/commentModel';
+import { CommentModel } from '@models';
 import { Comment } from '@domains';
 import BaseRepository from './baseRepository';
 

@@ -3,9 +3,8 @@ import DeleteUser from '@/useCases/user/deleteUser';
 import GetUser from '@/useCases/user/getUser';
 import UserRepository from '@database/repositories/userRepository';
 import { User } from '@domains';
-
 import { NotFoundError } from '@libs/errors/notFoundError';
-import UserModel from '@models/userModel';
+import { UserModel } from '@models';
 import { UserInterface } from '@types';
 
 describe('Delete User', () => {

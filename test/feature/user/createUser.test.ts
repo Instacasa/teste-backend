@@ -1,5 +1,5 @@
 import UserRepository from '@database/repositories/userRepository';
-import UserModel from '@models/userModel';
+import { UserModel } from '@models';
 import { UserInterface } from '@types';
 import httpStatus from 'http-status';
 import request from '../request';

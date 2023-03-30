@@ -1,12 +1,10 @@
-import CommentModel from '@models/commentModel';
 import CommentRepository from '@database/repositories/commentRepository';
 import { CommentInterface, PostInterface, UserInterface } from '@types';
 import { NotFoundError } from '@libs/errors/notFoundError';
 import UserRepository from '@database/repositories/userRepository';
-import UserModel from '@models/userModel';
 import PostRepository from '@database/repositories/postRepository';
-import PostModel from '@models/postModel';
 import { User, Post, Comment } from '@domains';
+import { CommentModel, UserModel, PostModel } from '@models';
 
 describe('Comment Repository', () => {
 

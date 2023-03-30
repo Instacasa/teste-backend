@@ -1,9 +1,8 @@
 import CreateUser from '@/useCases/user/createUser';
 import GetUser from '@/useCases/user/getUser';
 import UserRepository from '@database/repositories/userRepository';
-
 import { NotFoundError } from '@libs/errors/notFoundError';
-import UserModel from '@models/userModel';
+import { UserModel } from '@models';
 import { UserInterface } from '@types';
 
 describe('Get User', () => {

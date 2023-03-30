@@ -1,4 +1,4 @@
-import UserModel from '@models/userModel';
+import { UserModel } from '@models';
 import { User } from '@domains';
 import BaseRepository from './baseRepository';
 

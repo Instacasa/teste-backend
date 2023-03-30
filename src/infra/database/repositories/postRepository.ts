@@ -1,4 +1,4 @@
-import PostModel from '@models/postModel';
+import { PostModel } from '@models';
 import { Post } from '@domains';
 import BaseRepository from './baseRepository';
 

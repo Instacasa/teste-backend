@@ -21,7 +21,7 @@
       "@serializers/*": ["src/interfaces/http/serializers/*"],
       "@interfacesHttp/*": ["src/interfaces/http/*"],
       "@middleware/*": ["lib/interfaces/http/middleware/*"],
-      "@models/*": ["src/infra/database/models/*"],
+      "@models": ["src/infra/database/models"],
       "@database": ["src/infra/database"],
       "@database/*": ["src/infra/database/*"],
       "@infraHelpers/*": ["src/infra/helpers/*"],

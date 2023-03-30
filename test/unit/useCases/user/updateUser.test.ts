@@ -3,7 +3,7 @@ import UpdateUser from '@/useCases/user/updateUser';
 import UserRepository from '@database/repositories/userRepository';
 import { User } from '@domains';
 import { ValidationError } from '@libs/errors/validationError';
-import UserModel from '@models/userModel';
+import { UserModel } from '@models';
 import { UserInterface } from '@types';
 
 describe('Update User', () => {
