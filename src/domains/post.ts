@@ -41,6 +41,11 @@ export class Post implements PostInterface {
     if (!newValue) {
       throw new ValidationError('O autor da publicação é obrigatório');
     }
+
+    if (!newValue.active) {
+      throw new ValidationError('O autor está inativo');
+    }
+
     this._user = new User(newValue);
   }
 

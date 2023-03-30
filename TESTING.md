@@ -209,7 +209,8 @@ Com a criaçãod dos mocks esse processo é mais rápido. Para saber se a implem
 ```
 
 
-
-
+### should new user without id be always inactive
+Senti a necessidade de criar um teste para garantir o comportamento de inativar usuários sem id. Que existe no domínio.
+Levando em conta que o domínio deve ser pra mim um tipo de modelo também.
 
 ### include a test to ensure that comments can not be saved withou post

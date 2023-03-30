@@ -1,17 +1,25 @@
 import { ValidationError } from '@errors';
 import { Post, User } from '@domains';
 import { mockPosts, mockUsers } from '@mocks';
+import { faker } from '@faker-js/faker';
 
 describe('Post', () => {
   test('should create a valid post', () => {
-    const [ user ] = mockUsers([{ active: true }]);
+    const [ user ] = mockUsers([{ id: +faker.random.numeric(6), active: true }]);
     const [ post ] = mockPosts([{ user }]);
     expect(post).toBeInstanceOf(Post);
     expect(post.user).toBeInstanceOf(User);
   });
 
+  test('should\'t create post by inactive users', () => {
+    const [ user ] = mockUsers([{ id: 123456, active: false }]);
+    expect(mockPosts([{ user }]))
+      .rejects
+      .toThrow(ValidationError);
+  });
+
   test('shouldn\'t create post without title', () => {
-    const [ user ] = mockUsers([{ active: true }]);
+    const [ user ] = mockUsers([{ id: +faker.random.numeric(6), active: true }]);
     try {
       mockPosts([{ title: '', user }]);
     } catch(error) {
@@ -21,7 +29,7 @@ describe('Post', () => {
   });
 
   test('shouldn\'t create post without text', () => {
-    const [ user ] = mockUsers([{ active: true }]);
+    const [ user ] = mockUsers([{ id: +faker.random.numeric(6), active: true }]);
     try {
       mockPosts([{ text: '', user }]);
     } catch(error) {

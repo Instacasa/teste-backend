@@ -1,20 +1,27 @@
 import { ValidationError } from '@errors';
 import { UserInterface } from '@types';
 import { User } from '@domains';
+import { mockUsers } from '@mocks';
+import { faker } from '@faker-js/faker';
 
 describe('User', () => {
   test('should create a valid user inactive and not admin', () => {
-    const data: UserInterface = { name: 'teste User', active: true, isAdmin: true };
-    const user = new User(data);
+    const [ user ] = mockUsers([{ active: false, isAdmin: false }]);
     expect(user).toBeInstanceOf(User);
     expect(user.active).toBeFalsy();
-    expect(user.isAdmin).toBeTruthy();
+    expect(user.isAdmin).toBeFalsy();
+  });
+
+  test('should new users without id turn always inactive', () => {
+    const [ user ] = mockUsers([{ active: true, isAdmin: false }]);
+    expect(user).toBeInstanceOf(User);
+    expect(user.active).toBeFalsy();
+    expect(user.isAdmin).toBeFalsy();
   });
 
   test('shouldn\'t create user without name', () => {
-    const data: UserInterface = { id: 1, name: '', active: true, isAdmin: true };
     try {
-      const user = new User(data);
+      mockUsers([{ id: +faker.random.numeric(5), name: '', active: true, isAdmin: true }]);
     } catch(error) {
       expect(error as Error).toBeInstanceOf(ValidationError);
       expect((error as Error).message).toEqual('O nome do usuário é obrigatório');
