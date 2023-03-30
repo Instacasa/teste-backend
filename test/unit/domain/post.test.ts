@@ -1,29 +1,19 @@
 import { ValidationError } from '@errors';
-import { PostInterface } from '@types';
 import { Post, User } from '@domains';
+import { mockPosts, mockUsers } from '@mocks';
 
 describe('Post', () => {
   test('should create a valid post', () => {
-    const user = new User({ name: 'teste user', active: true});
-    const data: PostInterface = { 
-      title: 'teste Post', 
-      text: 'testes testes testes testes',
-      user: user
-    };
-    const post = new Post(data);
+    const [ user ] = mockUsers([{ active: true }]);
+    const [ post ] = mockPosts([{ user }]);
     expect(post).toBeInstanceOf(Post);
     expect(post.user).toBeInstanceOf(User);
   });
 
   test('shouldn\'t create post without title', () => {
-    const user = new User({ name: 'teste user', active: true});
-    const data: PostInterface = { 
-      title: '', 
-      text: 'testes testes testes testes',
-      user: user
-    };
+    const [ user ] = mockUsers([{ active: true }]);
     try {
-      const post = new Post(data);
+      mockPosts([{ title: '', user }]);
     } catch(error) {
       expect(error as Error).toBeInstanceOf(ValidationError);
       expect((error as Error).message).toEqual('O título da publicação é obrigatório');
@@ -31,14 +21,9 @@ describe('Post', () => {
   });
 
   test('shouldn\'t create post without text', () => {
-    const user = new User({ name: 'teste user', active: true});
-    const data: PostInterface = { 
-      title: 'teste Post', 
-      text: '',
-      user: user
-    };
+    const [ user ] = mockUsers([{ active: true }]);
     try {
-      const post = new Post(data);
+      mockPosts([{ text: '', user }]);
     } catch(error) {
       expect(error as Error).toBeInstanceOf(ValidationError);
       expect((error as Error).message).toEqual('O texto da publicação é obrigatório');
