@@ -1,7 +1,6 @@
-import PostRepository from '@database/repositories/postRepository';
+import { PostRepository, UserRepository } from '@repositories';
 import { PostInterface, UserInterface } from '@types';
 import { NotFoundError } from '@libs/errors/notFoundError';
-import UserRepository from '@database/repositories/userRepository';
 import { User, Post } from '@domains';
 import { PostModel, UserModel } from '@models';
 

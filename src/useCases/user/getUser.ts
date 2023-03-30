@@ -1,4 +1,4 @@
-import UserRepository from '@database/repositories/userRepository';
+import { UserRepository } from '@repositories';
 import { RepositoryInterface, UserInterface } from '@types';
 
 class GetUser {

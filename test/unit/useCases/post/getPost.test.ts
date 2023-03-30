@@ -1,7 +1,6 @@
 import CreatePost from '@/useCases/post/createPost';
 import GetPost from '@/useCases/post/getPost';
-import PostRepository from '@database/repositories/postRepository';
-import UserRepository from '@database/repositories/userRepository';
+import { PostRepository, UserRepository } from '@repositories';
 import { User } from '@domains';
 import { NotFoundError } from '@libs/errors/notFoundError';
 import { PostModel, UserModel } from '@models';

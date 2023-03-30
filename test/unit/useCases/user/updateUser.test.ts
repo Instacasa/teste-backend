@@ -1,6 +1,6 @@
 import CreateUser from '@/useCases/user/createUser';
 import UpdateUser from '@/useCases/user/updateUser';
-import UserRepository from '@database/repositories/userRepository';
+import { UserRepository } from '@repositories';
 import { User } from '@domains';
 import { ValidationError } from '@libs/errors/validationError';
 import { UserModel } from '@models';

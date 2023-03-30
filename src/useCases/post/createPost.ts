@@ -1,6 +1,5 @@
 import  { Post } from '@domains';
-import PostRepository from '@database/repositories/postRepository';
-import UserRepository from '@database/repositories/userRepository';
+import { UserRepository, PostRepository } from '@repositories';
 import { ValidationError } from '@libs/errors/validationError';
 import { RepositoryInterface, PostInterface, UserInterface } from '@types';
 

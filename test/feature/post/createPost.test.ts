@@ -1,5 +1,4 @@
-import PostRepository from '@database/repositories/postRepository';
-import UserRepository from '@database/repositories/userRepository';
+import { PostRepository, UserRepository } from '@repositories';
 import { User } from '@domains';
 import { PostModel, UserModel } from '@models';
 import { PostInterface, UserInterface } from '@types';

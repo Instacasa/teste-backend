@@ -1,11 +1,9 @@
 import { CommentModel } from '@models';
 import { Comment } from '@domains';
-import BaseRepository from './baseRepository';
+import { BaseRepository } from '@repositories';
 
-class CommentRepository<CommentInterface, CommentModel> extends BaseRepository<CommentInterface, CommentModel> {
+export class CommentRepository<CommentInterface, CommentModel> extends BaseRepository<CommentInterface, CommentModel> {
   constructor() {
     super(CommentModel, Comment);
   }
 }
-
-export default CommentRepository;

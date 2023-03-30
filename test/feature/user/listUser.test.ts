@@ -1,4 +1,4 @@
-import UserRepository from '@database/repositories/userRepository';
+import { UserRepository } from '@repositories';
 import { User } from '@domains';
 import { UserModel } from '@models';
 import { UserInterface } from '@types';

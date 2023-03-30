@@ -27,7 +27,7 @@
       "@infraHelpers/*": ["src/infra/helpers/*"],
       "@auth0Management/*": ["src/infra/auth0Management/*"],
       "@auth0Management": ["src/infra/auth0Management"],
-      "@repositories/*": ["src/infra/database/repositories/*"],
+      "@repositories": ["src/infra/database/repositories"],
       "@enumerators/*": ["src/infra/enumerators/*"],
       "@domains": ["src/domains"],
       "@apps/*": ["src/app/*"],

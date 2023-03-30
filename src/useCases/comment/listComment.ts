@@ -1,4 +1,4 @@
-import PostRepository from '@database/repositories/postRepository';
+import { PostRepository } from '@repositories';
 import { RepositoryInterface, CommentInterface, PostInterface } from '@types';
 
 class ListComment {

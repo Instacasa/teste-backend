@@ -1,11 +1,9 @@
 import { UserModel } from '@models';
 import { User } from '@domains';
-import BaseRepository from './baseRepository';
+import { BaseRepository } from '@repositories';
 
-class UserRepository<UserInterface, UserModel> extends BaseRepository<UserInterface, UserModel> {
+export class UserRepository<UserInterface, UserModel> extends BaseRepository<UserInterface, UserModel> {
   constructor() {
     super(UserModel, User);
   }
 }
-
-export default UserRepository;

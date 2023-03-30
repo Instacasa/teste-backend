@@ -1,6 +1,6 @@
 import CreateUser from '@/useCases/user/createUser';
 import ListUser from '@/useCases/user/listUser';
-import UserRepository from '@database/repositories/userRepository';
+import { UserRepository } from '@repositories';
 import { UserModel } from '@models';
 import { UserInterface } from '@types';
 

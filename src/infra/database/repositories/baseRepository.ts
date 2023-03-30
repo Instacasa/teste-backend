@@ -3,7 +3,7 @@ import { NotFoundError } from '@libs/errors/notFoundError';
 import { RepositoryInterface } from '@types';
 import { EntityNotFoundError, EntityTarget, FindOptionsOrder, FindOptionsWhere, ObjectLiteral, Repository } from 'typeorm';
 
-class BaseRepository<Interface, Model extends ObjectLiteral> implements RepositoryInterface<Interface> {
+export class BaseRepository<Interface, Model extends ObjectLiteral> implements RepositoryInterface<Interface> {
   private model: any;
   private domain: any;
 
@@ -59,5 +59,3 @@ class BaseRepository<Interface, Model extends ObjectLiteral> implements Reposito
   };
   
 }
-
-export default BaseRepository;

@@ -1,9 +1,7 @@
 import CreateComment from '@/useCases/comment/createComment';
 import DeleteComment from '@/useCases/comment/deleteComment';
 import GetComment from '@/useCases/comment/getComment';
-import CommentRepository from '@database/repositories/commentRepository';
-import PostRepository from '@database/repositories/postRepository';
-import UserRepository from '@database/repositories/userRepository';
+import { CommentRepository, PostRepository, UserRepository } from '@repositories';
 import { NotFoundError } from '@libs/errors/notFoundError';
 import { ValidationError } from '@libs/errors/validationError';
 import { CommentInterface, PostInterface, UserInterface } from '@types';

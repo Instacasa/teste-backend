@@ -1,6 +1,4 @@
-import CommentRepository from '@database/repositories/commentRepository';
-import PostRepository from '@database/repositories/postRepository';
-import UserRepository from '@database/repositories/userRepository';
+import { CommentRepository, UserRepository, PostRepository } from '@repositories';
 import { ValidationError } from '@libs/errors/validationError';
 import { CommentInterface, PostInterface, RepositoryInterface, UserInterface } from '@types';
 

@@ -1,8 +1,6 @@
 import CreatePost from '@/useCases/post/createPost';
 import UpdatePost from '@/useCases/post/updatePost';
-import CommentRepository from '@database/repositories/commentRepository';
-import PostRepository from '@database/repositories/postRepository';
-import UserRepository from '@database/repositories/userRepository';
+import { CommentRepository, PostRepository, UserRepository } from '@repositories';
 import { ValidationError } from '@libs/errors/validationError';
 import { CommentModel, PostModel, UserModel } from '@models';
 import { CommentInterface, PostInterface, UserInterface } from '@types';

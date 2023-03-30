@@ -1,5 +1,4 @@
-import CommentRepository from '@database/repositories/commentRepository';
-import PostRepository from '@database/repositories/postRepository';
+import { CommentRepository, PostRepository } from '@repositories';
 import { RepositoryInterface, CommentInterface, PostInterface } from '@types';
 
 class GetComment {

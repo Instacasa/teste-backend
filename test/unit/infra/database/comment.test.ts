@@ -1,8 +1,6 @@
-import CommentRepository from '@database/repositories/commentRepository';
+import { CommentRepository, UserRepository, PostRepository } from '@repositories';
 import { CommentInterface, PostInterface, UserInterface } from '@types';
 import { NotFoundError } from '@libs/errors/notFoundError';
-import UserRepository from '@database/repositories/userRepository';
-import PostRepository from '@database/repositories/postRepository';
 import { User, Post, Comment } from '@domains';
 import { CommentModel, UserModel, PostModel } from '@models';
 

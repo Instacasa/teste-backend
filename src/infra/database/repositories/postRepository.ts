@@ -1,11 +1,9 @@
 import { PostModel } from '@models';
 import { Post } from '@domains';
-import BaseRepository from './baseRepository';
+import { BaseRepository } from '@repositories';
 
-class PostRepository<PostInterface, PostModel> extends BaseRepository<PostInterface, PostModel> {
+export class PostRepository<PostInterface, PostModel> extends BaseRepository<PostInterface, PostModel> {
   constructor() {
     super(PostModel, Post);
   }
 }
-
-export default PostRepository;
