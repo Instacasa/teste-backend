@@ -44,14 +44,21 @@ class Post implements PostInterface {
     }
     this._user = new User(newValue);
   }
-  comments?: CommentInterface[];
+
+  private _comments: CommentInterface[];
+  public get comments(): CommentInterface[] {
+    return this._comments;
+  }
+  public set comments(newValue: CommentInterface[] | undefined) {
+    this._comments = newValue ? newValue.map(comment => new Comment(comment)) : [];
+  }
 
   constructor(data: Partial<PostInterface>) {
     this._id = data.id;
     this.title = data.title;
     this.text = data.text;
     this.user = data.user;
-    this.comments = data.comments ? data.comments.map(comment => new Comment(comment)) : [];
+    this.comments = data.comments;
   }
 
 }

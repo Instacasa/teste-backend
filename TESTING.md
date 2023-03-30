@@ -158,3 +158,5 @@ Snapshots:   0 total
 Time:        41.958 s
 Ran all test suites matching /test/i.
 ```
+
+### include a test to ensure that comments can not be saved withou post
