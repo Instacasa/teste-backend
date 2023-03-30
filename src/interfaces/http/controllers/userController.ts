@@ -66,7 +66,7 @@ export class UserController {
   deleteUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const useCase = new DeleteUserUseCase();
-      const data = await useCase.execute(Number(req.params.userId), Number(req.params.id));
+      await useCase.execute(Number(req.params.userId), Number(req.params.id));
       res.status(httpStatus.ACCEPTED).send();
     } catch(error) {
       res.status((error as ValidationError).status).json({error: (error as ValidationError), message: (error as ValidationError).message});
