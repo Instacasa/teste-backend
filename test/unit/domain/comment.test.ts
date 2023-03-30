@@ -21,4 +21,16 @@ describe('Comment', () => {
       expect((error as Error).message).toEqual('O texto do comentário é obrigatório');
     }
   });
+
+  test('shouldn\'t create comment without user', () => {
+    const [ author ] = mockUsers([{ active: true }]);
+    const [ post ] = mockPosts([{ user: author }]);
+    try {
+      mockComments([{ post }]);
+    } catch(error) {
+      expect(error as Error).toBeInstanceOf(ValidationError);
+      expect((error as Error).message).toEqual('O autor do comentário é obrigatório');
+    }
+  });
+  
 });
