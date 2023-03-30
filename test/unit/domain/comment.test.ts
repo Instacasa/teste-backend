@@ -11,13 +11,14 @@ describe('Comment', () => {
     expect(comment.user).toBeInstanceOf(User);
   });
 
-  test('shouldn\'t create post without title', () => {
-    const [ user ] = mockUsers([{ active: true }]);
+  test('shouldn\'t create comment without text', () => {
+    const [ user, author ] = mockUsers([{ active: true }, { active: true }]);
+    const [ post ] = mockPosts([{ user: author }]);
     try {
-      mockPosts([{ title: '', user }]);
+      mockComments([{ text: '', post, user }]);
     } catch(error) {
       expect(error as Error).toBeInstanceOf(ValidationError);
-      expect((error as Error).message).toEqual('O título da publicação é obrigatório');
+      expect((error as Error).message).toEqual('O texto do comentário é obrigatório');
     }
   });
 });

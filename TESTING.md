@@ -168,4 +168,49 @@ Observei (inclusive por experiência própria) uma dificuldade para compreender 
 ### Adicionando o mocks
 Observei que é necessário um mecanismo que crie usuários, posts e comentários, possibilitando que isso fique um pouco mais invisível para os testes.
 
+## Adjusts comment.test
+Percebi que nos comentários, o teste realizado estava repetindo o de criação de post sem titulo. Também identifiquei a necessidade de criar testes novos para garantir a lógica de negócio. Imediatamente o teste repetido foi removido.
+
+### Criando o testes novos em comment.test
+
+1. 'shouldn't create comment without text'
+
+```ts
+  test('shouldn\'t create comment without text', () => {
+    const [ user, author ] = mockUsers([{ active: true }, { active: true }]);
+    const [ post ] = mockPosts([{ user: author }]);
+    try {
+      mockComments([{ text: '', post, user }]);
+    } catch(error) {
+      expect(error as Error).toBeInstanceOf(ValidationError);
+      expect((error as Error).message).toEqual('O texto do comentário é obrigatório1');
+    }
+  });
+```
+
+Com a criaçãod dos mocks esse processo é mais rápido. Para saber se a implementação funciona, adicionei 1 ao fim do text, simulando que um desenvolvedor por acaso tenha alterado o texto de exceção.
+
+```log
+ FAIL  test/unit/domain/comment.test.ts
+  ● Comment › shouldn't create comment without text
+
+    expect(received).toEqual(expected) // deep equality
+
+    Expected: "O texto do comentário é obrigatório1"
+    Received: "O texto do comentário é obrigatório"
+
+      19 |     } catch(error) {
+      20 |       expect(error as Error).toBeInstanceOf(ValidationError);
+    > 21 |       expect((error as Error).message).toEqual('O texto do comentário é obrigatório1');
+         |                                        ^
+      22 |     }
+      23 |   });
+      24 | });
+```
+Os demais testes serão apenas listados.
+
+2. 
+
+
+
 ### include a test to ensure that comments can not be saved withou post
