@@ -1,7 +1,5 @@
 import { Router } from 'express';
-import CommentController from './commentController';
-import PostController from './postController';
-import UserController from './userController';
+import { CommentController, PostController, UserController } from '@controllers';
 
 class ApplicationRouter {
   router: Router;

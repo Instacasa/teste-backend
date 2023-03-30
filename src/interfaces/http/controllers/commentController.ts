@@ -8,7 +8,7 @@ import { CommentInterface } from '@types';
 import { NextFunction, Router, Request, Response} from 'express';
 import httpStatus from 'http-status';
 
-class CommentController {
+export class CommentController {
   router: Router;
 
   static instance: CommentController;
@@ -91,5 +91,3 @@ class CommentController {
     return CommentController.instance.router;
   };
 }
-
-export default CommentController;

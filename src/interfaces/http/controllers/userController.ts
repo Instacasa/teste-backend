@@ -8,7 +8,7 @@ import { UserInterface } from '@types';
 import { NextFunction, Router, Request, Response} from 'express';
 import httpStatus from 'http-status';
 
-class UserController {
+export class UserController {
   router: Router;
 
   static instance: UserController;
@@ -93,5 +93,3 @@ class UserController {
     return UserController.instance.router;
   };
 }
-
-export default UserController;

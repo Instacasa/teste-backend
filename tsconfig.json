@@ -17,7 +17,7 @@
     "baseUrl": ".",
     "types": ["node", "jest"],
     "paths": {
-      "@controllers/*": ["src/interfaces/http/controllers/*"],
+      "@controllers": ["src/interfaces/http/controllers"],
       "@serializers/*": ["src/interfaces/http/serializers/*"],
       "@interfacesHttp/*": ["src/interfaces/http/*"],
       "@middleware/*": ["lib/interfaces/http/middleware/*"],

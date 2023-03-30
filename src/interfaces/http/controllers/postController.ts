@@ -8,7 +8,7 @@ import { PostInterface } from '@types';
 import { NextFunction, Router, Request, Response} from 'express';
 import httpStatus from 'http-status';
 
-class PostController {
+export class PostController {
   router: Router;
 
   static instance: PostController;
@@ -93,5 +93,3 @@ class PostController {
     return PostController.instance.router;
   };
 }
-
-export default PostController;
