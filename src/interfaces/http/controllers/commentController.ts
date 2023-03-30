@@ -3,8 +3,8 @@ import DeleteComment from '@/useCases/comment/deleteComment';
 import GetComment from '@/useCases/comment/getComment';
 import ListComment from '@/useCases/comment/listComment';
 import UpdateComment from '@/useCases/comment/updateComment';
+import { commentSerialize } from '@serializers';
 import { ValidationError } from '@libs/errors/validationError';
-import { CommentInterface } from '@types';
 import { NextFunction, Router, Request, Response} from 'express';
 import httpStatus from 'http-status';
 
@@ -27,18 +27,11 @@ export class CommentController {
     return this.router;
   };
 
-  serialize = (comment: Partial<CommentInterface>): Partial<CommentInterface> => {
-    return {
-      id: comment.id,
-      text: comment.text
-    };
-  };
-
   getComment = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const useCase = new GetComment();
       const data = await useCase.execute(Number(req.params.postId), Number(req.params.id));
-      res.status(httpStatus.OK).json(this.serialize(data));
+      res.status(httpStatus.OK).json(commentSerialize(data));
     } catch(error) {
       res.status((error as ValidationError).status).json({error: (error as ValidationError), message: (error as ValidationError).message});
     }
@@ -48,7 +41,7 @@ export class CommentController {
     try {
       const useCase = new ListComment();
       const data = await useCase.execute(Number(req.params.postId));
-      res.status(httpStatus.OK).json(data.map(this.serialize));
+      res.status(httpStatus.OK).json(data.map(commentSerialize));
     } catch(error) {
       res.status((error as ValidationError).status).json({error: (error as ValidationError), message: (error as ValidationError).message});
     }
@@ -58,7 +51,7 @@ export class CommentController {
     try {
       const useCase = new CreateComment();
       const data = await useCase.execute(Number(req.params.postId), Number(req.params.userId), req.body);
-      res.status(httpStatus.CREATED).json(this.serialize(data));
+      res.status(httpStatus.CREATED).json(commentSerialize(data));
     } catch(error) {
       res.status((error as ValidationError).status).json({error: (error as ValidationError), message: (error as ValidationError).message});
     }
@@ -68,7 +61,7 @@ export class CommentController {
     try {
       const useCase = new UpdateComment();
       const data = await useCase.execute(Number(req.params.postId), Number(req.params.userId), Number(req.params.id), req.body);
-      res.status(httpStatus.OK).json(this.serialize(data));
+      res.status(httpStatus.OK).json(commentSerialize(data));
     } catch(error) {
       res.status((error as ValidationError).status).json({error: (error as ValidationError), message: (error as ValidationError).message});
     }

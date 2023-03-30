@@ -3,8 +3,8 @@ import DeleteUser from '@/useCases/user/deleteUser';
 import GetUser from '@/useCases/user/getUser';
 import ListUser from '@/useCases/user/listUser';
 import UpdateUser from '@/useCases/user/updateUser';
+import { userSerialize } from '@serializers';
 import { ValidationError } from '@libs/errors/validationError';
-import { UserInterface } from '@types';
 import { NextFunction, Router, Request, Response} from 'express';
 import httpStatus from 'http-status';
 
@@ -27,20 +27,11 @@ export class UserController {
     return this.router;
   };
 
-  serialize = (user: UserInterface): UserInterface => {
-    return {
-      id: user.id,
-      name: user.name,
-      active: user.active,
-      isAdmin: user.isAdmin,
-    };
-  };
-
   getUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const useCase = new GetUser();
       const data = await useCase.execute(Number(req.params.id));
-      res.status(httpStatus.OK).json(this.serialize(data));
+      res.status(httpStatus.OK).json(userSerialize(data));
     } catch(error) {
       res.status((error as ValidationError).status).json({error: (error as ValidationError), message: (error as ValidationError).message});
     }
@@ -50,7 +41,7 @@ export class UserController {
     try {
       const useCase = new ListUser();
       const data = await useCase.execute();
-      res.status(httpStatus.OK).json(data.map(this.serialize));
+      res.status(httpStatus.OK).json(data.map(userSerialize));
     } catch(error) {
       res.status((error as ValidationError).status).json({error: (error as ValidationError), message: (error as ValidationError).message});
     }
@@ -60,7 +51,7 @@ export class UserController {
     try {
       const useCase = new CreateUser();
       const data = await useCase.execute(req.body);
-      res.status(httpStatus.CREATED).json(this.serialize(data));
+      res.status(httpStatus.CREATED).json(userSerialize(data));
     } catch(error) {
       res.status((error as ValidationError).status).json({error: (error as ValidationError), message: (error as ValidationError).message});
     }
@@ -70,7 +61,7 @@ export class UserController {
     try {
       const useCase = new UpdateUser();
       const data = await useCase.execute(Number(req.params.userId), Number(req.params.id), req.body);
-      res.status(httpStatus.OK).json(this.serialize(data));
+      res.status(httpStatus.OK).json(userSerialize(data));
     } catch(error) {
       res.status((error as ValidationError).status).json({error: (error as ValidationError), message: (error as ValidationError).message});
     }
