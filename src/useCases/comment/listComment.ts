@@ -1,7 +1,7 @@
 import { PostRepository } from '@repositories';
 import { RepositoryInterface, CommentInterface, PostInterface } from '@types';
 
-class ListComment {
+export class ListCommentUseCase {
   repository: RepositoryInterface<PostInterface>;
 
   constructor() {
@@ -15,5 +15,3 @@ class ListComment {
   };
 
 }
-
-export default ListComment;

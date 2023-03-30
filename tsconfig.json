@@ -18,6 +18,7 @@
     "types": ["node", "jest"],
     "paths": {
       "@controllers": ["src/interfaces/http/controllers"],
+      "@useCases": ["src/useCases"],
       "@serializers": ["src/interfaces/http/serializers"],
       "@interfacesHttp/*": ["src/interfaces/http/*"],
       "@middleware/*": ["lib/interfaces/http/middleware/*"],

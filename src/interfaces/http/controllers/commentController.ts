@@ -1,12 +1,8 @@
-import CreateComment from '@/useCases/comment/createComment';
-import DeleteComment from '@/useCases/comment/deleteComment';
-import GetComment from '@/useCases/comment/getComment';
-import ListComment from '@/useCases/comment/listComment';
-import UpdateComment from '@/useCases/comment/updateComment';
 import { commentSerialize } from '@serializers';
 import { ValidationError } from '@libs/errors/validationError';
 import { NextFunction, Router, Request, Response} from 'express';
 import httpStatus from 'http-status';
+import { CreateCommentUseCase, DeleteCommentUseCase, GetCommentUseCase, ListCommentUseCase, UpdateCommentUseCase } from '@useCases';
 
 export class CommentController {
   router: Router;
@@ -29,7 +25,7 @@ export class CommentController {
 
   getComment = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const useCase = new GetComment();
+      const useCase = new GetCommentUseCase();
       const data = await useCase.execute(Number(req.params.postId), Number(req.params.id));
       res.status(httpStatus.OK).json(commentSerialize(data));
     } catch(error) {
@@ -39,7 +35,7 @@ export class CommentController {
 
   listComment = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const useCase = new ListComment();
+      const useCase = new ListCommentUseCase();
       const data = await useCase.execute(Number(req.params.postId));
       res.status(httpStatus.OK).json(data.map(commentSerialize));
     } catch(error) {
@@ -49,7 +45,7 @@ export class CommentController {
 
   createComment = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const useCase = new CreateComment();
+      const useCase = new CreateCommentUseCase();
       const data = await useCase.execute(Number(req.params.postId), Number(req.params.userId), req.body);
       res.status(httpStatus.CREATED).json(commentSerialize(data));
     } catch(error) {
@@ -59,7 +55,7 @@ export class CommentController {
 
   updateComment = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const useCase = new UpdateComment();
+      const useCase = new UpdateCommentUseCase();
       const data = await useCase.execute(Number(req.params.postId), Number(req.params.userId), Number(req.params.id), req.body);
       res.status(httpStatus.OK).json(commentSerialize(data));
     } catch(error) {
@@ -69,7 +65,7 @@ export class CommentController {
 
   deleteComment = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const useCase = new DeleteComment();
+      const useCase = new DeleteCommentUseCase();
       const data = await useCase.execute(Number(req.params.postId), Number(req.params.userId), Number(req.params.id));
       res.status(httpStatus.ACCEPTED).send();
     } catch(error) {

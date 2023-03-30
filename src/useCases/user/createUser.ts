@@ -2,7 +2,7 @@ import { User } from '@domains';
 import { UserRepository } from '@repositories';
 import { RepositoryInterface, UserInterface } from '@types';
 
-class CreateUser {
+export class CreateUserUseCase {
   repository: RepositoryInterface<UserInterface>;
 
   constructor() {
@@ -16,5 +16,3 @@ class CreateUser {
   };
 
 }
-
-export default CreateUser;

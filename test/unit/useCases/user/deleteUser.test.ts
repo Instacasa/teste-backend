@@ -1,11 +1,9 @@
-import CreateUser from '@/useCases/user/createUser';
-import DeleteUser from '@/useCases/user/deleteUser';
-import GetUser from '@/useCases/user/getUser';
 import { UserRepository } from '@repositories';
 import { User } from '@domains';
 import { NotFoundError } from '@libs/errors/notFoundError';
 import { UserModel } from '@models';
 import { UserInterface } from '@types';
+import { CreateUserUseCase, DeleteUserUseCase, GetUserUseCase } from '@useCases';
 
 describe('Delete User', () => {
   
@@ -21,9 +19,9 @@ describe('Delete User', () => {
   });
   
   test('Should delete user', async () => {
-    const createUser = new CreateUser();
-    const deleteUser = new DeleteUser();
-    const getUser = new GetUser();
+    const createUser = new CreateUserUseCase();
+    const deleteUser = new DeleteUserUseCase();
+    const getUser = new GetUserUseCase();
     const partialUser: Partial<UserInterface> = {
       name: 'Teste', isAdmin: false, active: true
     };
@@ -39,7 +37,7 @@ describe('Delete User', () => {
   });
 
   test('Shouldn\'t delete inexistent user', async () => {
-    const deleteUser = new DeleteUser();
+    const deleteUser = new DeleteUserUseCase();
     try {
       await deleteUser.execute(user.id, 0);
     } catch(error) {

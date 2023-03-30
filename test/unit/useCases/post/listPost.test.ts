@@ -1,5 +1,4 @@
-import CreatePost from '@/useCases/post/createPost';
-import ListPost from '@/useCases/post/listPost';
+import { CreatePostUseCase, ListPostUseCase } from '@useCases';
 import { PostRepository, UserRepository } from '@repositories';
 import { User } from '@domains';
 import { PostModel, UserModel } from '@models';
@@ -22,8 +21,8 @@ describe('List Post', () => {
   });
 
   test('Should list post', async () => {
-    const createPost = new CreatePost();
-    const listPost = new ListPost();
+    const createPost = new CreatePostUseCase();
+    const listPost = new ListPostUseCase();
     const partialPost: Partial<PostInterface> = { title: 'Teste', text: 'Text text text', user };
     const post1 = await createPost.execute(user.id, partialPost);
     const post2 = await createPost.execute(user.id, {...partialPost, title: 'Teste 2'});

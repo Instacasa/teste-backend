@@ -1,9 +1,9 @@
-import CreateComment from '@/useCases/comment/createComment';
 import { CommentRepository, PostRepository, UserRepository } from '@repositories';
 import { ValidationError } from '@libs/errors/validationError';
 import { CommentInterface, PostInterface, UserInterface } from '@types';
 import { Comment, Post, User } from '@domains';
 import { CommentModel, PostModel, UserModel } from '@models';
+import { CreateCommentUseCase } from '@useCases';
 
 describe('Create Comment', () => {
 
@@ -27,7 +27,7 @@ describe('Create Comment', () => {
   });
 
   test('Should create new comment if user is active', async () => {
-    const createComment = new CreateComment();
+    const createComment = new CreateCommentUseCase();
     const partialComment: Partial<CommentInterface> = { text: 'Text text text', post };
     const comment = await createComment.execute(post.id, user.id, partialComment);
     expect(comment).toBeInstanceOf(Comment);
@@ -36,7 +36,7 @@ describe('Create Comment', () => {
   test('Shouldn\'t create new comment if user isn\'t active', async () => {
     const userRepository = new UserRepository<UserInterface, UserModel>();
     const newUser = await userRepository.create(new User({name: 'User', isAdmin: false, active: false}));
-    const createComment = new CreateComment();
+    const createComment = new CreateCommentUseCase();
     const partialComment: Partial<CommentInterface> = { text: 'Text text text', post };
     try {
       const comment = await createComment.execute(post.id, newUser.id, partialComment);
@@ -47,7 +47,7 @@ describe('Create Comment', () => {
   });
 
   test('Shouldn\'t create comment without text', async () => {
-    const createComment = new CreateComment();
+    const createComment = new CreateCommentUseCase();
     const partialComment: Partial<CommentInterface> = { text: '', post };
     try {
       const comment = await createComment.execute(post.id, user.id, partialComment);

@@ -1,6 +1,4 @@
-import CreatePost from '@/useCases/post/createPost';
-import DeletePost from '@/useCases/post/deletePost';
-import GetPost from '@/useCases/post/getPost';
+import { CreatePostUseCase, DeletePostUseCase, GetPostUseCase } from '@useCases';
 import { PostRepository, UserRepository } from '@repositories';
 import { User } from '@domains';
 import { NotFoundError } from '@libs/errors/notFoundError';
@@ -25,9 +23,9 @@ describe('Delete Post', () => {
   describe('User is admin', () => {
 
     test('Should delete post if user is the owner', async () => {
-      const createPost = new CreatePost();
-      const deletePost = new DeletePost();
-      const getPost = new GetPost();
+      const createPost = new CreatePostUseCase();
+      const deletePost = new DeletePostUseCase();
+      const getPost = new GetPostUseCase();
       const partialPost: Partial<PostInterface> = { title: 'Teste', text: 'Text text text', user };
       const post = await createPost.execute(user.id, partialPost);
       await deletePost.execute(user.id, post.id);
@@ -43,9 +41,9 @@ describe('Delete Post', () => {
     test('Should delete post if user is the admin', async () => {
       const userRepository = new UserRepository<UserInterface, UserModel>();
       const admin = await userRepository.create(new User({name: 'Admin', isAdmin: true}));
-      const createPost = new CreatePost();
-      const deletePost = new DeletePost();
-      const getPost = new GetPost();
+      const createPost = new CreatePostUseCase();
+      const deletePost = new DeletePostUseCase();
+      const getPost = new GetPostUseCase();
       const partialPost: Partial<PostInterface> = { title: 'Teste', text: 'Text text text', user };
       const post = await createPost.execute(user.id, partialPost);
       await deletePost.execute(admin.id, post.id);
@@ -59,7 +57,7 @@ describe('Delete Post', () => {
     });
 
     test('Shouldn\'t delete inexistent post', async () => {
-      const deletePost = new DeletePost();
+      const deletePost = new DeletePostUseCase();
       try {
         await deletePost.execute(user.id, 0);
       } catch(error) {
@@ -71,9 +69,9 @@ describe('Delete Post', () => {
     test('Shouldn\'t delete post id user is not admin neither ', async () => {
       const userRepository = new UserRepository<UserInterface, UserModel>();
       const admin = await userRepository.create(new User({name: 'Admin', isAdmin: true}));
-      const createPost = new CreatePost();
-      const deletePost = new DeletePost();
-      const getPost = new GetPost();
+      const createPost = new CreatePostUseCase();
+      const deletePost = new DeletePostUseCase();
+      const getPost = new GetPostUseCase();
       const partialPost: Partial<PostInterface> = { title: 'Teste', text: 'Text text text', user };
       const post = await createPost.execute(user.id, partialPost);
       try {

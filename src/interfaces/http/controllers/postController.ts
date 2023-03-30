@@ -1,10 +1,6 @@
-import CreatePost from '@/useCases/post/createPost';
-import DeletePost from '@/useCases/post/deletePost';
-import GetPost from '@/useCases/post/getPost';
-import ListPost from '@/useCases/post/listPost';
-import UpdatePost from '@/useCases/post/updatePost';
 import { ValidationError } from '@libs/errors/validationError';
 import { postSerialize } from '@serializers'; 
+import { CreatePostUseCase, DeletePostUseCase, GetPostUseCase, ListPostUseCase, UpdatePostUseCase } from '@useCases';
 import { NextFunction, Router, Request, Response} from 'express';
 import httpStatus from 'http-status';
 
@@ -29,7 +25,7 @@ export class PostController {
 
   getPost = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const useCase = new GetPost();
+      const useCase = new GetPostUseCase();
       const data = await useCase.execute(Number(req.params.id));
       res.status(httpStatus.OK).json(postSerialize(data));
     } catch(error) {
@@ -39,7 +35,7 @@ export class PostController {
 
   listPost = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const useCase = new ListPost();
+      const useCase = new ListPostUseCase();
       const data = await useCase.execute();
       res.status(httpStatus.OK).json(data.map(postSerialize));
     } catch(error) {
@@ -49,7 +45,7 @@ export class PostController {
 
   createPost = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const useCase = new CreatePost();
+      const useCase = new CreatePostUseCase();
       const data = await useCase.execute(Number(req.params.userId), req.body);
       res.status(httpStatus.CREATED).json(postSerialize(data));
     } catch(error) {
@@ -59,7 +55,7 @@ export class PostController {
 
   updatePost = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const useCase = new UpdatePost();
+      const useCase = new UpdatePostUseCase();
       const data = await useCase.execute(Number(req.params.userId), Number(req.params.id), req.body);
       res.status(httpStatus.OK).json(postSerialize(data));
     } catch(error) {
@@ -69,7 +65,7 @@ export class PostController {
 
   deletePost = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const useCase = new DeletePost();
+      const useCase = new DeletePostUseCase();
       await useCase.execute(Number(req.params.userId), Number(req.params.id));
       res.status(httpStatus.ACCEPTED).send();
     } catch(error) {

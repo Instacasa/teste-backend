@@ -1,4 +1,4 @@
-import CreatePost from '@/useCases/post/createPost';
+import { CreatePostUseCase } from '@useCases';
 import { PostRepository, UserRepository } from '@repositories';
 import { Post, User } from '@domains';
 import { ValidationError } from '@libs/errors/validationError';
@@ -21,7 +21,7 @@ describe('Create Post', () => {
   });
 
   test('Should create new post if user is active', async () => {
-    const createPost = new CreatePost();
+    const createPost = new CreatePostUseCase();
     const partialPost: Partial<PostInterface> = { title: 'Teste', text: 'Text text text' };
     const post = await createPost.execute(user.id, partialPost);
     expect(post).toBeInstanceOf(Post);
@@ -30,7 +30,7 @@ describe('Create Post', () => {
   test('Shouldn\'t create new post if user isn\'t active', async () => {
     const userRepository = new UserRepository<UserInterface, UserModel>();
     const newUser = await userRepository.create(new User({name: 'User', isAdmin: false, active: false}));
-    const createPost = new CreatePost();
+    const createPost = new CreatePostUseCase();
     const partialPost: Partial<PostInterface> = { title: 'Teste', text: 'Text text text' };
     try {
       const post = await createPost.execute(newUser.id, partialPost);
@@ -41,7 +41,7 @@ describe('Create Post', () => {
   });
 
   test('Shouldn\'t create post without title', async () => {
-    const createPost = new CreatePost();
+    const createPost = new CreatePostUseCase();
     const partialPost: Partial<PostInterface> = { title: '', text: 'Text text text' };
     try {
       const post = await createPost.execute(user.id, partialPost);
@@ -52,7 +52,7 @@ describe('Create Post', () => {
   });
 
   test('Shouldn\'t create post without text', async () => {
-    const createPost = new CreatePost();
+    const createPost = new CreatePostUseCase();
     const partialPost: Partial<PostInterface> = { title: 'Teste', text: '' };
     try {
       const post = await createPost.execute(user.id, partialPost);
@@ -63,7 +63,7 @@ describe('Create Post', () => {
   });
 
   test('Shouldn\'t create post without user', async () => {
-    const createPost = new CreatePost();
+    const createPost = new CreatePostUseCase();
     const partialPost: Partial<PostInterface> = { title: 'Teste', text: 'Text text text' };
     try {
       const post = await createPost.execute(user.id, partialPost);

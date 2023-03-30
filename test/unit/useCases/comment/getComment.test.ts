@@ -1,10 +1,9 @@
-import CreateComment from '@/useCases/comment/createComment';
-import GetComment from '@/useCases/comment/getComment';
 import { CommentRepository, PostRepository, UserRepository } from '@repositories';
 import { NotFoundError } from '@libs/errors/notFoundError';
 import { Post, User } from '@domains';
 import { CommentModel, PostModel, UserModel } from '@models';
 import { CommentInterface, PostInterface, UserInterface } from '@types';
+import { CreateCommentUseCase, GetCommentUseCase } from '@useCases';
 
 describe('Get Comment', () => {
 
@@ -28,8 +27,8 @@ describe('Get Comment', () => {
   });
   
   test('Should get comment', async () => {
-    const createComment = new CreateComment();
-    const getComment = new GetComment();
+    const createComment = new CreateCommentUseCase();
+    const getComment = new GetCommentUseCase();
     const partialComment: Partial<CommentInterface> = { text: 'Text text text', user, post };
     const comment = await createComment.execute(post.id, user.id, partialComment);
     const getedComment = await getComment.execute(post.id, comment.id);
@@ -37,7 +36,7 @@ describe('Get Comment', () => {
   });
 
   test('Shouldn\'t get inexistent comment', async () => {
-    const getComment = new GetComment();
+    const getComment = new GetCommentUseCase();
     try {
       await getComment.execute(post.id, 0);
     } catch(error) {

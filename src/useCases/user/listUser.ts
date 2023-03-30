@@ -1,7 +1,7 @@
 import { UserRepository } from '@repositories';
 import { RepositoryInterface, UserInterface } from '@types';
 
-class ListUser {
+export class ListUserUseCase {
   repository: RepositoryInterface<UserInterface>;
 
   constructor() {
@@ -14,5 +14,3 @@ class ListUser {
   };
 
 }
-
-export default ListUser;

@@ -1,9 +1,8 @@
-import CreateComment from '@/useCases/comment/createComment';
-import ListComment from '@/useCases/comment/listComment';
 import { CommentRepository, PostRepository, UserRepository } from '@repositories';
 import { Post, User } from '@domains';
 import { CommentModel, PostModel, UserModel } from '@models';
 import { CommentInterface, PostInterface, UserInterface } from '@types';
+import { CreateCommentUseCase, ListCommentUseCase } from '@useCases';
 
 describe('List Comment', () => {
 
@@ -28,8 +27,8 @@ describe('List Comment', () => {
   });
 
   test('Should list comment', async () => {
-    const createComment = new CreateComment();
-    const listComment = new ListComment();
+    const createComment = new CreateCommentUseCase();
+    const listComment = new ListCommentUseCase();
     const partialComment: Partial<CommentInterface> = { text: 'Text text text', user, post };
     const comment1 = await createComment.execute(post.id, user.id, partialComment);
     const comment2 = await createComment.execute(post.id, user.id, {...partialComment, text: 'Teste 2'});

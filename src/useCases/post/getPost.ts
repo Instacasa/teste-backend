@@ -1,7 +1,7 @@
 import { PostRepository } from '@repositories';
 import { RepositoryInterface, PostInterface } from '@types';
 
-class GetPost {
+export class GetPostUseCase {
   repository: RepositoryInterface<PostInterface>;
 
   constructor() {
@@ -14,5 +14,3 @@ class GetPost {
   };
 
 }
-
-export default GetPost;

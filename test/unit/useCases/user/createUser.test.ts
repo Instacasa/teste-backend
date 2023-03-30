@@ -1,9 +1,9 @@
-import CreateUser from '@/useCases/user/createUser';
 import { UserRepository } from '@repositories';
 import { User } from '@domains';
 import { ValidationError } from '@libs/errors/validationError';
 import { UserModel } from '@models';
 import { UserInterface } from '@types';
+import { CreateUserUseCase } from '@useCases';
 
 describe('Create User', () => {
   
@@ -13,7 +13,7 @@ describe('Create User', () => {
   });
   
   test('Should create new user', async () => {
-    const createUser = new CreateUser();
+    const createUser = new CreateUserUseCase();
     const partialUser: Partial<UserInterface> = {
       name: 'Teste', isAdmin: true, active: true
     };
@@ -22,7 +22,7 @@ describe('Create User', () => {
   });
 
   test('Shouldn\'t create user without name', async () => {
-    const createUser = new CreateUser();
+    const createUser = new CreateUserUseCase();
     const partialUser: Partial<UserInterface> = {
       isAdmin: true, active: true
     };

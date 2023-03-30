@@ -3,7 +3,7 @@ import { CommentRepository, UserRepository, PostRepository } from '@repositories
 import { ValidationError } from '@libs/errors/validationError';
 import { RepositoryInterface, CommentInterface, UserInterface, PostInterface } from '@types';
 
-class CreateComment {
+export class CreateCommentUseCase {
   repository: RepositoryInterface<CommentInterface>;
   postRepository: RepositoryInterface<PostInterface>;
   userRepository: RepositoryInterface<UserInterface>;
@@ -25,5 +25,3 @@ class CreateComment {
   };
 
 }
-
-export default CreateComment;

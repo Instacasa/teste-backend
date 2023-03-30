@@ -1,5 +1,4 @@
-import CreateUser from '@/useCases/user/createUser';
-import GetUser from '@/useCases/user/getUser';
+import { CreateUserUseCase, GetUserUseCase } from '@useCases';
 import { UserRepository } from '@repositories';
 import { NotFoundError } from '@libs/errors/notFoundError';
 import { UserModel } from '@models';
@@ -13,8 +12,8 @@ describe('Get User', () => {
   });
   
   test('Should get user', async () => {
-    const createUser = new CreateUser();
-    const getUser = new GetUser();
+    const createUser = new CreateUserUseCase();
+    const getUser = new GetUserUseCase();
     const partialUser: Partial<UserInterface> = {
       name: 'Teste', isAdmin: true, active: true
     };
@@ -24,7 +23,7 @@ describe('Get User', () => {
   });
 
   test('Shouldn\'t get inexistent user', async () => {
-    const getUser = new GetUser();
+    const getUser = new GetUserUseCase();
     try {
       await getUser.execute(0);
     } catch(error) {

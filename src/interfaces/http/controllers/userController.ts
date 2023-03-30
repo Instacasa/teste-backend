@@ -1,12 +1,8 @@
-import CreateUser from '@/useCases/user/createUser';
-import DeleteUser from '@/useCases/user/deleteUser';
-import GetUser from '@/useCases/user/getUser';
-import ListUser from '@/useCases/user/listUser';
-import UpdateUser from '@/useCases/user/updateUser';
 import { userSerialize } from '@serializers';
 import { ValidationError } from '@libs/errors/validationError';
 import { NextFunction, Router, Request, Response} from 'express';
 import httpStatus from 'http-status';
+import { CreateUserUseCase, DeleteUserUseCase, GetUserUseCase, ListUserUseCase, UpdateUserUseCase } from '@useCases';
 
 export class UserController {
   router: Router;
@@ -29,7 +25,7 @@ export class UserController {
 
   getUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const useCase = new GetUser();
+      const useCase = new GetUserUseCase();
       const data = await useCase.execute(Number(req.params.id));
       res.status(httpStatus.OK).json(userSerialize(data));
     } catch(error) {
@@ -39,7 +35,7 @@ export class UserController {
 
   listUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const useCase = new ListUser();
+      const useCase = new ListUserUseCase();
       const data = await useCase.execute();
       res.status(httpStatus.OK).json(data.map(userSerialize));
     } catch(error) {
@@ -49,7 +45,7 @@ export class UserController {
 
   createUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const useCase = new CreateUser();
+      const useCase = new CreateUserUseCase();
       const data = await useCase.execute(req.body);
       res.status(httpStatus.CREATED).json(userSerialize(data));
     } catch(error) {
@@ -59,7 +55,7 @@ export class UserController {
 
   updateUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const useCase = new UpdateUser();
+      const useCase = new UpdateUserUseCase();
       const data = await useCase.execute(Number(req.params.userId), Number(req.params.id), req.body);
       res.status(httpStatus.OK).json(userSerialize(data));
     } catch(error) {
@@ -69,7 +65,7 @@ export class UserController {
 
   deleteUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const useCase = new DeleteUser();
+      const useCase = new DeleteUserUseCase();
       const data = await useCase.execute(Number(req.params.userId), Number(req.params.id));
       res.status(httpStatus.ACCEPTED).send();
     } catch(error) {

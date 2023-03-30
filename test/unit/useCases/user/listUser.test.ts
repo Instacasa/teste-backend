@@ -1,8 +1,7 @@
-import CreateUser from '@/useCases/user/createUser';
-import ListUser from '@/useCases/user/listUser';
 import { UserRepository } from '@repositories';
 import { UserModel } from '@models';
 import { UserInterface } from '@types';
+import { CreateUserUseCase, ListUserUseCase } from '@useCases';
 
 describe('List User', () => {
 
@@ -12,8 +11,8 @@ describe('List User', () => {
   });
 
   test('Should list user', async () => {
-    const createUser = new CreateUser();
-    const listUser = new ListUser();
+    const createUser = new CreateUserUseCase();
+    const listUser = new ListUserUseCase();
     const partialUser: Partial<UserInterface> = {
       name: 'Teste', isAdmin: true, active: true
     };

@@ -1,5 +1,4 @@
-import CreateUser from '@/useCases/user/createUser';
-import UpdateUser from '@/useCases/user/updateUser';
+import { CreateUserUseCase, UpdateUserUseCase } from '@useCases';
 import { UserRepository } from '@repositories';
 import { User } from '@domains';
 import { ValidationError } from '@libs/errors/validationError';
@@ -20,8 +19,8 @@ describe('Update User', () => {
   });
 
   test('Should update user name', async () => {
-    const createUser = new CreateUser();
-    const updateUser = new UpdateUser();
+    const createUser = new CreateUserUseCase();
+    const updateUser = new UpdateUserUseCase();
     const partialUser: Partial<UserInterface> = {
       name: 'Teste', isAdmin: true, active: true
     };
@@ -32,8 +31,8 @@ describe('Update User', () => {
   });
 
   test('Shouldn\'t update user name to empty/null', async () => {
-    const createUser = new CreateUser();
-    const updateUser = new UpdateUser();
+    const createUser = new CreateUserUseCase();
+    const updateUser = new UpdateUserUseCase();
     const partialUser: Partial<UserInterface> = {
       name: 'Teste', isAdmin: true, active: true
     };

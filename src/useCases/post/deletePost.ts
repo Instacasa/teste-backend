@@ -2,7 +2,7 @@ import { UserRepository, PostRepository } from '@repositories';
 import { ValidationError } from '@libs/errors/validationError';
 import { PostInterface, RepositoryInterface, UserInterface } from '@types';
 
-class DeletePost {
+export class DeletePostUseCase {
   repository: RepositoryInterface<PostInterface>;
   userRepository: RepositoryInterface<UserInterface>;
 
@@ -22,5 +22,3 @@ class DeletePost {
   };
 
 }
-
-export default DeletePost;

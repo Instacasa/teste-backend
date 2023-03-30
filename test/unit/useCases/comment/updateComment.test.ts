@@ -1,10 +1,9 @@
-import CreateComment from '@/useCases/comment/createComment';
-import UpdateComment from '@/useCases/comment/updateComment';
 import { CommentRepository, UserRepository, PostRepository }  from '@repositories';
 import { ValidationError } from '@libs/errors/validationError';
 import { CommentInterface, PostInterface, UserInterface } from '@types';
 import { Post, User } from '@domains';
 import { CommentModel, UserModel, PostModel } from '@models';
+import { CreateCommentUseCase, UpdateCommentUseCase } from '@useCases';
 
 describe('Update Comment', () => {
 
@@ -28,8 +27,8 @@ describe('Update Comment', () => {
   });
 
   test('Should update comment title', async () => {
-    const createComment = new CreateComment();
-    const updateComment = new UpdateComment();
+    const createComment = new CreateCommentUseCase();
+    const updateComment = new UpdateCommentUseCase();
     const partialComment: Partial<CommentInterface> = { text: 'Text text text', user, post };
     const comment = await createComment.execute(post.id, user.id, partialComment);
     comment.text = 'Test Update';
@@ -38,8 +37,8 @@ describe('Update Comment', () => {
   });
 
   test('Shouldn\'t update comment text to empty/null', async () => {
-    const createComment = new CreateComment();
-    const updateComment = new UpdateComment();
+    const createComment = new CreateCommentUseCase();
+    const updateComment = new UpdateCommentUseCase();
     const partialComment: Partial<CommentInterface> = {text: 'Text text text', user, post };
     const comment = await createComment.execute(post.id, user.id, partialComment);
     try {
@@ -53,8 +52,8 @@ describe('Update Comment', () => {
   test('Shouldn\'t update comment if user isn\'t the owner', async () => {
     const userRepository = new UserRepository<UserInterface, UserModel>();
     const newUser = await userRepository.create(new User({name: 'new User', isAdmin: false}));
-    const createComment = new CreateComment();
-    const updateComment = new UpdateComment();
+    const createComment = new CreateCommentUseCase();
+    const updateComment = new UpdateCommentUseCase();
     const partialComment: Partial<CommentInterface> = { text: 'Text text text', user, post };
     const comment = await createComment.execute(post.id, user.id, partialComment);
     try {

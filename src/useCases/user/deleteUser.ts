@@ -2,7 +2,7 @@ import { UserRepository } from '@repositories';
 import { ValidationError } from '@libs/errors/validationError';
 import { RepositoryInterface, UserInterface } from '@types';
 
-class DeleteUser {
+export class DeleteUserUseCase {
   repository: RepositoryInterface<UserInterface>;
 
   constructor() {
@@ -23,5 +23,3 @@ class DeleteUser {
   };
 
 }
-
-export default DeleteUser;

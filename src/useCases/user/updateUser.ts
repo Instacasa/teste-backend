@@ -2,7 +2,7 @@ import { UserRepository } from '@repositories';
 import { ValidationError } from '@libs/errors/validationError';
 import { RepositoryInterface, UserInterface } from '@types';
 
-class UpdateUser {
+export class UpdateUserUseCase {
   repository: RepositoryInterface<UserInterface>;
 
   constructor() {
@@ -22,5 +22,3 @@ class UpdateUser {
   };
 
 }
-
-export default UpdateUser;

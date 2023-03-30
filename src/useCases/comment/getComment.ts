@@ -1,7 +1,7 @@
 import { CommentRepository, PostRepository } from '@repositories';
 import { RepositoryInterface, CommentInterface, PostInterface } from '@types';
 
-class GetComment {
+export class GetCommentUseCase {
   repository: RepositoryInterface<CommentInterface>;
   postRepository: RepositoryInterface<PostInterface>;
 
@@ -17,5 +17,3 @@ class GetComment {
   };
 
 }
-
-export default GetComment;

@@ -2,7 +2,7 @@ import { CommentRepository, UserRepository, PostRepository } from '@repositories
 import { ValidationError } from '@libs/errors/validationError';
 import { CommentInterface, PostInterface, RepositoryInterface, UserInterface } from '@types';
 
-class DeleteComment {
+export class DeleteCommentUseCase {
   repository: RepositoryInterface<CommentInterface>;
   userRepository: RepositoryInterface<UserInterface>;
   postRepository: RepositoryInterface<PostInterface>;
@@ -25,5 +25,3 @@ class DeleteComment {
   };
 
 }
-
-export default DeleteComment;

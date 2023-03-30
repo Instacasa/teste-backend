@@ -1,5 +1,4 @@
-import CreatePost from '@/useCases/post/createPost';
-import GetPost from '@/useCases/post/getPost';
+import { CreatePostUseCase, GetPostUseCase } from '@useCases';
 import { PostRepository, UserRepository } from '@repositories';
 import { User } from '@domains';
 import { NotFoundError } from '@libs/errors/notFoundError';
@@ -22,8 +21,8 @@ describe('Get Post', () => {
   });
   
   test('Should get post', async () => {
-    const createPost = new CreatePost();
-    const getPost = new GetPost();
+    const createPost = new CreatePostUseCase();
+    const getPost = new GetPostUseCase();
     const partialPost: Partial<PostInterface> = { title: 'Teste', text: 'Text text text', user };
     const post = await createPost.execute(user.id, partialPost);
     const getedPost = await getPost.execute(post.id);
@@ -31,7 +30,7 @@ describe('Get Post', () => {
   });
 
   test('Shouldn\'t get inexistent post', async () => {
-    const getPost = new GetPost();
+    const getPost = new GetPostUseCase();
     try {
       await getPost.execute(0);
     } catch(error) {

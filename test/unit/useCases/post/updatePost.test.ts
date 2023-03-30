@@ -1,10 +1,9 @@
-import CreatePost from '@/useCases/post/createPost';
-import UpdatePost from '@/useCases/post/updatePost';
 import { CommentRepository, PostRepository, UserRepository } from '@repositories';
 import { ValidationError } from '@libs/errors/validationError';
 import { CommentModel, PostModel, UserModel } from '@models';
 import { CommentInterface, PostInterface, UserInterface } from '@types';
 import { User, Comment } from '@domains';
+import { CreatePostUseCase, UpdatePostUseCase } from '@useCases';
 
 describe('Update Post', () => {
   
@@ -22,8 +21,8 @@ describe('Update Post', () => {
   });
 
   test('Should update post title', async () => {
-    const createPost = new CreatePost();
-    const updatePost = new UpdatePost();
+    const createPost = new CreatePostUseCase();
+    const updatePost = new UpdatePostUseCase();
     const partialPost: Partial<PostInterface> = { title: 'Teste', text: 'Text text text', user };
     const post = await createPost.execute(user.id, partialPost);
     post.title = 'Test Update';
@@ -32,8 +31,8 @@ describe('Update Post', () => {
   });
 
   test('Shouldn\'t update post title to empty/null', async () => {
-    const createPost = new CreatePost();
-    const updatePost = new UpdatePost();
+    const createPost = new CreatePostUseCase();
+    const updatePost = new UpdatePostUseCase();
     const partialPost: Partial<PostInterface> = { title: 'Teste', text: 'Text text text', user };
     const post = await createPost.execute(user.id, partialPost);
     try {
@@ -47,8 +46,8 @@ describe('Update Post', () => {
   test('Shouldn\'t update post if user isn\'t the owner', async () => {
     const userRepository = new UserRepository<UserInterface, UserModel>();
     const newUser = await userRepository.create(new User({name: 'new User', isAdmin: false}));
-    const createPost = new CreatePost();
-    const updatePost = new UpdatePost();
+    const createPost = new CreatePostUseCase();
+    const updatePost = new UpdatePostUseCase();
     const partialPost: Partial<PostInterface> = { title: 'Teste', text: 'Text text text', user };
     const post = await createPost.execute(user.id, partialPost);
     try {
@@ -62,8 +61,8 @@ describe('Update Post', () => {
   test('Shouldn\'t allow update if post has comments', async () => {
     const userRepository = new UserRepository<UserInterface, UserModel>();
     const newUser = await userRepository.create(new User({name: 'new User', isAdmin: false}));
-    const createPost = new CreatePost();
-    const updatePost = new UpdatePost();
+    const createPost = new CreatePostUseCase();
+    const updatePost = new UpdatePostUseCase();
     const partialPost: Partial<PostInterface> = { title: 'Teste', text: 'Text text text', user };
     const post = await createPost.execute(user.id, partialPost);
     const commentRepository = new CommentRepository<CommentInterface, CommentModel>();

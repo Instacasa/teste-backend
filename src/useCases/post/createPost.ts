@@ -3,7 +3,7 @@ import { UserRepository, PostRepository } from '@repositories';
 import { ValidationError } from '@libs/errors/validationError';
 import { RepositoryInterface, PostInterface, UserInterface } from '@types';
 
-class CreatePost {
+export class CreatePostUseCase {
   repository: RepositoryInterface<PostInterface>;
   userRepository: RepositoryInterface<UserInterface>;
 
@@ -22,5 +22,3 @@ class CreatePost {
   };
 
 }
-
-export default CreatePost;

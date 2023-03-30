@@ -1,12 +1,10 @@
-import CreateComment from '@/useCases/comment/createComment';
-import DeleteComment from '@/useCases/comment/deleteComment';
-import GetComment from '@/useCases/comment/getComment';
 import { CommentRepository, PostRepository, UserRepository } from '@repositories';
 import { NotFoundError } from '@libs/errors/notFoundError';
 import { ValidationError } from '@libs/errors/validationError';
 import { CommentInterface, PostInterface, UserInterface } from '@types';
 import { Post, User } from '@domains';
 import { CommentModel, PostModel, UserModel } from '@models';
+import { CreateCommentUseCase, DeleteCommentUseCase, GetCommentUseCase } from '@useCases';
 
 describe('Delete Comment', () => {
 
@@ -32,9 +30,9 @@ describe('Delete Comment', () => {
   describe('User is admin', () => {
 
     test('Should delete comment if user is the owner', async () => {
-      const createComment = new CreateComment();
-      const deleteComment = new DeleteComment();
-      const getComment = new GetComment();
+      const createComment = new CreateCommentUseCase();
+      const deleteComment = new DeleteCommentUseCase();
+      const getComment = new GetCommentUseCase();
       const partialComment: Partial<CommentInterface> = { text: 'Text text text', user, post };
       const comment = await createComment.execute(post.id, user.id, partialComment);
       await deleteComment.execute(post.id, user.id, comment.id);
@@ -50,9 +48,9 @@ describe('Delete Comment', () => {
     test('Should delete comment if user is the admin', async () => {
       const userRepository = new UserRepository<UserInterface, UserModel>();
       const admin = await userRepository.create(new User({name: 'Admin', isAdmin: true}));
-      const createComment = new CreateComment();
-      const deleteComment = new DeleteComment();
-      const getComment = new GetComment();
+      const createComment = new CreateCommentUseCase();
+      const deleteComment = new DeleteCommentUseCase();
+      const getComment = new GetCommentUseCase();
       const partialComment: Partial<CommentInterface> = { text: 'Text text text', user, post };
       const comment = await createComment.execute(post.id, user.id, partialComment);
       await deleteComment.execute(post.id, admin.id, comment.id);
@@ -66,7 +64,7 @@ describe('Delete Comment', () => {
     });
 
     test('Shouldn\'t delete inexistent comment', async () => {
-      const deleteComment = new DeleteComment();
+      const deleteComment = new DeleteCommentUseCase();
       try {
         await deleteComment.execute(post.id, user.id, 0);
       } catch(error) {
@@ -78,9 +76,9 @@ describe('Delete Comment', () => {
     test('Shouldn\'t delete comment id user is not admin neither ', async () => {
       const userRepository = new UserRepository<UserInterface, UserModel>();
       const admin = await userRepository.create(new User({name: 'Admin', isAdmin: true}));
-      const createComment = new CreateComment();
-      const deleteComment = new DeleteComment();
-      const getComment = new GetComment();
+      const createComment = new CreateCommentUseCase();
+      const deleteComment = new DeleteCommentUseCase();
+      const getComment = new GetCommentUseCase();
       const partialComment: Partial<CommentInterface> = { text: 'Text text text', user, post };
       const comment = await createComment.execute(post.id, user.id, partialComment);
       try {
