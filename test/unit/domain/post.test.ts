@@ -13,9 +13,8 @@ describe('Post', () => {
 
   test('should\'t create post by inactive users', () => {
     const [ user ] = mockUsers([{ id: 123456, active: false }]);
-    expect(mockPosts([{ user }]))
-      .rejects
-      .toThrow(ValidationError);
+    expect(() => mockPosts([{ user }]))
+      .toThrow(new ValidationError('O autor está inativo'));
   });
 
   test('shouldn\'t create post without title', () => {
