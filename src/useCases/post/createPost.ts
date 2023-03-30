@@ -1,4 +1,4 @@
-import Post from '@/domains/post';
+import  { Post } from '@domains';
 import PostRepository from '@database/repositories/postRepository';
 import UserRepository from '@database/repositories/userRepository';
 import { ValidationError } from '@libs/errors/validationError';

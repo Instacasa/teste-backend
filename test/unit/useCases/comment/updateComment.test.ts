@@ -2,13 +2,12 @@ import CreateComment from '@/useCases/comment/createComment';
 import UpdateComment from '@/useCases/comment/updateComment';
 import CommentRepository from '@database/repositories/commentRepository';
 import UserRepository from '@database/repositories/userRepository';
-import User from '@domains/user';
 import { ValidationError } from '@libs/errors/validationError';
 import CommentModel from '@models/commentModel';
 import UserModel from '@models/userModel';
 import { CommentInterface, PostInterface, UserInterface } from '@types';
 import PostRepository from '@database/repositories/postRepository';
-import Post from '@domains/post';
+import { Post, User } from '@domains';
 import PostModel from '@models/postModel';
 
 describe('Update Comment', () => {

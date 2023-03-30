@@ -1,7 +1,7 @@
 import { ValidationError } from '@libs/errors/validationError';
 import { UserInterface } from '@types';
 
-class User implements UserInterface {
+export class User implements UserInterface {
   private _id?: number;
   public get id(): number | undefined {
     return this._id;
@@ -52,5 +52,3 @@ class User implements UserInterface {
     this.active = false;
   };
 }
-
-export default User;

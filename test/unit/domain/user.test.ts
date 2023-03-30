@@ -1,6 +1,6 @@
-import User from '@/domains/user';
 import { ValidationError } from '@libs/errors/validationError';
 import { UserInterface } from '@types';
+import { User } from '@domains';
 
 describe('User', () => {
   test('should create a valid user inactive and not admin', () => {

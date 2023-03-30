@@ -3,7 +3,7 @@ import DeletePost from '@/useCases/post/deletePost';
 import GetPost from '@/useCases/post/getPost';
 import PostRepository from '@database/repositories/postRepository';
 import UserRepository from '@database/repositories/userRepository';
-import User from '@domains/user';
+import { User } from '@domains';
 
 import { NotFoundError } from '@libs/errors/notFoundError';
 import { ValidationError } from '@libs/errors/validationError';

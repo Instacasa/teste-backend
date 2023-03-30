@@ -1,8 +1,7 @@
 import CommentRepository from '@database/repositories/commentRepository';
 import PostRepository from '@database/repositories/postRepository';
 import UserRepository from '@database/repositories/userRepository';
-import Post from '@domains/post';
-import User from '@domains/user';
+import { Post, User } from '@domains';
 import CommentModel from '@models/commentModel';
 import PostModel from '@models/postModel';
 import UserModel from '@models/userModel';

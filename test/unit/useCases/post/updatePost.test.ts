@@ -3,13 +3,12 @@ import UpdatePost from '@/useCases/post/updatePost';
 import CommentRepository from '@database/repositories/commentRepository';
 import PostRepository from '@database/repositories/postRepository';
 import UserRepository from '@database/repositories/userRepository';
-import User from '@domains/user';
-import Comment from '@/domains/comment';
 import { ValidationError } from '@libs/errors/validationError';
 import CommentModel from '@models/commentModel';
 import PostModel from '@models/postModel';
 import UserModel from '@models/userModel';
 import { CommentInterface, PostInterface, UserInterface } from '@types';
+import { User, Comment } from '@domains';
 
 describe('Update Post', () => {
   

@@ -1,9 +1,8 @@
 import { ValidationError } from '@libs/errors/validationError';
 import { CommentInterface, PostInterface, UserInterface } from '@types';
-import Post from './post';
-import User from './user';
+import { Post, User } from '@domains';
 
-class Comment implements CommentInterface {
+export class Comment implements CommentInterface {
   
   private _id?: number;
   public get id(): number | undefined {
@@ -53,5 +52,3 @@ class Comment implements CommentInterface {
     this.post = data.post;
   }
 }
-
-export default Comment;

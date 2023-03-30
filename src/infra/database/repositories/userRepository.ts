@@ -1,5 +1,5 @@
 import UserModel from '@models/userModel';
-import User from '@/domains/user';
+import { User } from '@domains';
 import BaseRepository from './baseRepository';
 
 class UserRepository<UserInterface, UserModel> extends BaseRepository<UserInterface, UserModel> {

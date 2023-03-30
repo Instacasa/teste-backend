@@ -1,11 +1,10 @@
 import PostModel from '@models/postModel';
 import PostRepository from '@database/repositories/postRepository';
-import Post from '@/domains/post';
 import { PostInterface, UserInterface } from '@types';
 import { NotFoundError } from '@libs/errors/notFoundError';
 import UserRepository from '@database/repositories/userRepository';
 import UserModel from '@models/userModel';
-import User from '@domains/user';
+import { User, Post } from '@domains';
 
 describe('Post Repository', () => {
 

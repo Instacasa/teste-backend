@@ -1,8 +1,6 @@
-import Post from '@/domains/post';
-import User from '@/domains/user';
-import Comment from '@/domains/comment';
 import { ValidationError } from '@libs/errors/validationError';
 import { CommentInterface, PostInterface } from '@types';
+import { Post, User, Comment } from '@domains';
 
 describe('Comment', () => {
   test('should create a valid Comment', () => {

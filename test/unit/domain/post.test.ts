@@ -1,7 +1,6 @@
-import Post from '@/domains/post';
-import User from '@/domains/user';
 import { ValidationError } from '@libs/errors/validationError';
 import { PostInterface } from '@types';
+import { Post, User } from '@domains';
 
 describe('Post', () => {
   test('should create a valid post', () => {

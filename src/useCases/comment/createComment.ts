@@ -1,4 +1,4 @@
-import Comment from '@/domains/comment';
+import { Comment } from '@domains';
 import CommentRepository from '@database/repositories/commentRepository';
 import PostRepository from '@database/repositories/postRepository';
 import UserRepository from '@database/repositories/userRepository';

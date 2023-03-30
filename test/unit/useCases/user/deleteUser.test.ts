@@ -2,7 +2,7 @@ import CreateUser from '@/useCases/user/createUser';
 import DeleteUser from '@/useCases/user/deleteUser';
 import GetUser from '@/useCases/user/getUser';
 import UserRepository from '@database/repositories/userRepository';
-import User from '@domains/user';
+import { User } from '@domains';
 
 import { NotFoundError } from '@libs/errors/notFoundError';
 import UserModel from '@models/userModel';

@@ -29,7 +29,7 @@
       "@auth0Management": ["src/infra/auth0Management"],
       "@repositories/*": ["src/infra/database/repositories/*"],
       "@enumerators/*": ["src/infra/enumerators/*"],
-      "@domains/*": ["src/domains/*"],
+      "@domains": ["src/domains"],
       "@apps/*": ["src/app/*"],
       "@libs/*": ["lib/*"],
       "@config": ["config"],

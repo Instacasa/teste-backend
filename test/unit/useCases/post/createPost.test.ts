@@ -1,8 +1,7 @@
 import CreatePost from '@/useCases/post/createPost';
 import PostRepository from '@database/repositories/postRepository';
 import UserRepository from '@database/repositories/userRepository';
-import Post from '@domains/post';
-import User from '@domains/user';
+import { Post, User } from '@domains';
 import { ValidationError } from '@libs/errors/validationError';
 import PostModel from '@models/postModel';
 import UserModel from '@models/userModel';
