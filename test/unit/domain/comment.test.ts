@@ -11,6 +11,14 @@ describe('Comment', () => {
     expect(comment.user).toBeInstanceOf(User);
   });
 
+  test('should create comment without post', () => {
+    const [ user ] = mockUsers([{ active: true }]);
+    const [ comment ] = mockComments([{ user }]);
+    expect(comment).toBeInstanceOf(Comment);
+    expect(comment.user).toBeInstanceOf(User);
+    expect(comment.post).toBeUndefined();
+  });
+
   test('shouldn\'t create comment without text', () => {
     const [ user, author ] = mockUsers([{ active: true }, { active: true }]);
     const [ post ] = mockPosts([{ user: author }]);
