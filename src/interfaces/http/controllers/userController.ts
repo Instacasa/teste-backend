@@ -1,5 +1,5 @@
 import { userSerialize } from '@serializers';
-import { ValidationError } from '@libs/errors/validationError';
+import { ValidationError } from '@errors';
 import { NextFunction, Router, Request, Response} from 'express';
 import httpStatus from 'http-status';
 import { CreateUserUseCase, DeleteUserUseCase, GetUserUseCase, ListUserUseCase, UpdateUserUseCase } from '@useCases';

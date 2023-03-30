@@ -1,7 +1,7 @@
 import { CreatePostUseCase } from '@useCases';
 import { PostRepository, UserRepository } from '@repositories';
 import { Post, User } from '@domains';
-import { ValidationError } from '@libs/errors/validationError';
+import { ValidationError } from '@errors';
 import { PostModel, UserModel } from '@models';
 import { PostInterface, UserInterface } from '@types';
 

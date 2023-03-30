@@ -1,4 +1,4 @@
-import { ValidationError } from '@libs/errors/validationError';
+import { ValidationError } from '@errors';
 import { UserInterface } from '@types';
 import { User } from '@domains';
 

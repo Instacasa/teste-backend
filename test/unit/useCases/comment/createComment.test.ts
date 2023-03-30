@@ -1,5 +1,5 @@
 import { CommentRepository, PostRepository, UserRepository } from '@repositories';
-import { ValidationError } from '@libs/errors/validationError';
+import { ValidationError } from '@errors';
 import { CommentInterface, PostInterface, UserInterface } from '@types';
 import { Comment, Post, User } from '@domains';
 import { CommentModel, PostModel, UserModel } from '@models';

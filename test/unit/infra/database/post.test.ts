@@ -1,6 +1,6 @@
 import { PostRepository, UserRepository } from '@repositories';
 import { PostInterface, UserInterface } from '@types';
-import { NotFoundError } from '@libs/errors/notFoundError';
+import { NotFoundError } from '@errors';
 import { User, Post } from '@domains';
 import { PostModel, UserModel } from '@models';
 

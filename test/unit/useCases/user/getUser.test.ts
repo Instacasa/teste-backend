@@ -1,6 +1,6 @@
 import { CreateUserUseCase, GetUserUseCase } from '@useCases';
 import { UserRepository } from '@repositories';
-import { NotFoundError } from '@libs/errors/notFoundError';
+import { NotFoundError } from '@errors';
 import { UserModel } from '@models';
 import { UserInterface } from '@types';
 

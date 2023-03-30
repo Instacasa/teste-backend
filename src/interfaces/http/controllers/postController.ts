@@ -1,4 +1,4 @@
-import { ValidationError } from '@libs/errors/validationError';
+import { ValidationError } from '@errors';
 import { postSerialize } from '@serializers'; 
 import { CreatePostUseCase, DeletePostUseCase, GetPostUseCase, ListPostUseCase, UpdatePostUseCase } from '@useCases';
 import { NextFunction, Router, Request, Response} from 'express';

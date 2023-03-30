@@ -1,4 +1,4 @@
-import { ValidationError } from '@libs/errors/validationError';
+import { ValidationError } from '@errors';
 import { CommentInterface, PostInterface } from '@types';
 import { Post, User, Comment } from '@domains';
 

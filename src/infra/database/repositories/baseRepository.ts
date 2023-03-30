@@ -1,5 +1,5 @@
 import connection from '@libs/database';
-import { NotFoundError } from '@libs/errors/notFoundError';
+import { NotFoundError } from '@errors';
 import { RepositoryInterface } from '@types';
 import { EntityNotFoundError, EntityTarget, FindOptionsOrder, FindOptionsWhere, ObjectLiteral, Repository } from 'typeorm';
 

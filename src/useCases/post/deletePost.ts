@@ -1,5 +1,5 @@
 import { UserRepository, PostRepository } from '@repositories';
-import { ValidationError } from '@libs/errors/validationError';
+import { ValidationError } from '@errors';
 import { PostInterface, RepositoryInterface, UserInterface } from '@types';
 
 export class DeletePostUseCase {

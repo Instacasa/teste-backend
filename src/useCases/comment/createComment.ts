@@ -1,6 +1,6 @@
 import { Comment } from '@domains';
 import { CommentRepository, UserRepository, PostRepository } from '@repositories';
-import { ValidationError } from '@libs/errors/validationError';
+import { ValidationError } from '@errors';
 import { RepositoryInterface, CommentInterface, UserInterface, PostInterface } from '@types';
 
 export class CreateCommentUseCase {

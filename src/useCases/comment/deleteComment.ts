@@ -1,5 +1,5 @@
 import { CommentRepository, UserRepository, PostRepository } from '@repositories';
-import { ValidationError } from '@libs/errors/validationError';
+import { ValidationError } from '@errors';
 import { CommentInterface, PostInterface, RepositoryInterface, UserInterface } from '@types';
 
 export class DeleteCommentUseCase {

@@ -1,6 +1,6 @@
 import { UserRepository } from '@repositories';
 import { User } from '@domains';
-import { ValidationError } from '@libs/errors/validationError';
+import { ValidationError } from '@errors';
 import { UserModel } from '@models';
 import { UserInterface } from '@types';
 import { CreateUserUseCase } from '@useCases';

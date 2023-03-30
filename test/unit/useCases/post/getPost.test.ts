@@ -1,7 +1,7 @@
 import { CreatePostUseCase, GetPostUseCase } from '@useCases';
 import { PostRepository, UserRepository } from '@repositories';
 import { User } from '@domains';
-import { NotFoundError } from '@libs/errors/notFoundError';
+import { NotFoundError } from '@errors';
 import { PostModel, UserModel } from '@models';
 import { PostInterface, UserInterface } from '@types';
 

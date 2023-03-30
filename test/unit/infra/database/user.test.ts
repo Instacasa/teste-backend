@@ -1,7 +1,7 @@
 import { UserRepository } from '@repositories';
 import { User } from '@domains';
 import { UserInterface } from '@types';
-import { NotFoundError } from '@libs/errors/notFoundError';
+import { NotFoundError } from '@errors';
 import { UserModel } from '@models';
 
 describe('User Repository', () => {
