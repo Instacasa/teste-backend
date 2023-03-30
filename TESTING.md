@@ -159,4 +159,13 @@ Time:        41.958 s
 Ran all test suites matching /test/i.
 ```
 
+### Refatorando alguns pontos do código
+Observei que para melhorar a legibilidade do código, seriam possível melhorar os imports, adicionando index em algumas pasta para que seja possível importar módulos de uma forma mais simples.
+
+### Modificando nome dos casos de uso (Implementei como sugestão)
+Observei (inclusive por experiência própria) uma dificuldade para compreender que não era muito rápido de entender que as classes dos casos de uso eram UseCases, apenas verificando o import era possível saber. Como sugestão, ter na instância da classe o sufixo UseCase, ajuda a compreender melhor o código. Um exemplo disso é quando utilizamos classes de erro. Por convenção, mantemos Error no nome e no arquivo (opcional).
+
+### Adicionando o mock de usuários
+Observei que é necessário um mecanismo que crie usuários, possibilitando que isso fique um pouco mais invisível para os testes.
+
 ### include a test to ensure that comments can not be saved withou post

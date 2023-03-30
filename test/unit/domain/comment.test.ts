@@ -1,35 +1,20 @@
 import { ValidationError } from '@errors';
-import { CommentInterface, PostInterface } from '@types';
-import { Post, User, Comment } from '@domains';
+import {  User, Comment } from '@domains';
+import { mockComments, mockPosts, mockUsers } from '@mocks';
 
 describe('Comment', () => {
   test('should create a valid Comment', () => {
-    const user = new User({ name: 'test user', active: true});
-    const author = new User({ name: 'test author', active: true});
-    const post = new Post({ 
-      title: 'teste Post', 
-      text: 'testes testes testes testes',
-      user: author
-    });
-    const data: CommentInterface = {
-      text: 'text text text text',
-      user,
-      post,
-    };
-    const comment = new Comment(data);
+    const [ user, author ] = mockUsers([{ active: true }, { active: true }]);
+    const [ post ] = mockPosts([{ user: author }]);
+    const [ comment ] = mockComments([{ user, post }]);
     expect(comment).toBeInstanceOf(Comment);
     expect(comment.user).toBeInstanceOf(User);
   });
 
   test('shouldn\'t create post without title', () => {
-    const user = new User({ name: 'teste user', active: true});
-    const data: PostInterface = { 
-      title: '', 
-      text: 'testes testes testes testes',
-      user: user
-    };
+    const [ user ] = mockUsers([{ active: true }]);
     try {
-      const post = new Post(data);
+      mockPosts([{ title: '', user }]);
     } catch(error) {
       expect(error as Error).toBeInstanceOf(ValidationError);
       expect((error as Error).message).toEqual('O título da publicação é obrigatório');
