@@ -30,4 +30,13 @@ describe('Post', () => {
     }
   });
 
+  test('shouldn\'t create post without author', () => {
+    try {
+      mockPosts([{}]);
+    } catch(error) {
+      expect(error as Error).toBeInstanceOf(ValidationError);
+      expect((error as Error).message).toEqual('O autor da publicação é obrigatório');
+    }
+  });
+
 });

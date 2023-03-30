@@ -207,9 +207,8 @@ Com a criaçãod dos mocks esse processo é mais rápido. Para saber se a implem
       23 |   });
       24 | });
 ```
-Os demais testes serão apenas listados.
 
-2. 
+
 
 
 
