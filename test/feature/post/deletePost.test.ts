@@ -15,11 +15,11 @@ describe('Post', () => {
     userRepository = new UserRepository<UserInterface, UserModel>();
     repository = new PostRepository<PostInterface, PostModel>();
 
-    let admin: UserInterface = new User({name: 'Admin', isAdmin: true});
+    admin = new User({name: 'Admin', isAdmin: true});
     admin.active = true;
     admin = await userRepository.create(admin);
 
-    let user: UserInterface = new User({name: 'Simple user', isAdmin: false});
+    user = new User({name: 'Simple user', isAdmin: false});
     user.active = true;
     user = await userRepository.create(user);
   });

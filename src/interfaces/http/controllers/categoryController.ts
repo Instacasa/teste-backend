@@ -1,6 +1,6 @@
 import { ValidationError } from '@errors';
 import { categorySerialize } from '@serializers';
-import { CreateCategoryUseCase, GetCategoryUseCase, ListCategoryUseCase, UpdateCategoryUseCase } from '@useCases';
+import { CreateCategoryUseCase, DeleteCategoryUseCase, GetCategoryUseCase, ListCategoryUseCase, UpdateCategoryUseCase } from '@useCases';
 import { NextFunction, Router, Request, Response } from 'express';
 import httpStatus from 'http-status';
 
@@ -19,7 +19,7 @@ export class CategoryController {
     this.router.get('/:id', this.getCategory);
     this.router.post('/user/:userId', this.createCategory);
     this.router.patch('/:id/user/:userId', this.updateCategory);
-    // this.router.delete('/:id/user/:userId', this.deletePost);
+    this.router.delete('/:id/user/:userId', this.deleteCategory);
     return this.router;
   };
 
@@ -58,6 +58,16 @@ export class CategoryController {
       const useCase = new UpdateCategoryUseCase();
       const data = await useCase.execute(Number(req.params.userId), Number(req.params.id), req.body);
       res.status(httpStatus.OK).json(categorySerialize(data));
+    } catch(error) {
+      res.status((error as ValidationError).status).json({error: (error as ValidationError), message: (error as ValidationError).message});
+    }
+  };
+
+  deleteCategory = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const useCase = new DeleteCategoryUseCase();
+      await useCase.execute(Number(req.params.userId), Number(req.params.id));
+      res.status(httpStatus.ACCEPTED).send();
     } catch(error) {
       res.status((error as ValidationError).status).json({error: (error as ValidationError), message: (error as ValidationError).message});
     }
