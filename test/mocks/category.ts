@@ -6,6 +6,6 @@ export const mockCategories = (categories: Array<Partial<CategoryInterface>>): A
   categories.map((categoryData) => {
     return new Category({
       ...categoryData,
-      label: categoryData.label ?? faker.lorem.sentence(2)
+      label: categoryData.label ?? faker.lorem.word()
     });
   });
