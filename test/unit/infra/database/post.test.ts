@@ -17,7 +17,6 @@ describe('Post Repository', () => {
   test('Should create new element on database', async () => {
     let [ user ]: UserInterface[] = mockUsers([{ isAdmin: true }]);
     user = await userRepository.create(user);
-    user.active = true;
     const [ post ] = mockPosts([{user}]);
 
     const newPost = await postRepository.create(post);
@@ -30,7 +29,6 @@ describe('Post Repository', () => {
   test('Should update element on database', async () => {
     let [ user ]: UserInterface[] = mockUsers([{ isAdmin: true }]);
     user = await userRepository.create(user);
-    user.active = true;
 
     let [ post ]: PostInterface[] = mockPosts([{user}]);
 
@@ -46,7 +44,6 @@ describe('Post Repository', () => {
   test('Should get post by id', async () => {
     let [ user ]: UserInterface[] = mockUsers([{ isAdmin: true }]);
     user = await userRepository.create(user);
-    user.active = true;
     
     let [ post ]: PostInterface[] = mockPosts([{user}]);
     post = await postRepository.create(post);
@@ -60,7 +57,6 @@ describe('Post Repository', () => {
   test('Should get list of post', async () => {
     let [ user ]: UserInterface[] = mockUsers([{ isAdmin: true }]);
     user = await userRepository.create(user);
-    user.active = true;
     
     let [post1, post2, post3] : PostInterface[] = mockPosts([{user}, {user}, {user}]);
     post1 = await postRepository.create(post1);
@@ -75,7 +71,6 @@ describe('Post Repository', () => {
   test('Should delete a post', async () => {
     let [ user ] : UserInterface[] = mockUsers([{ isAdmin: true }]);
     user = await userRepository.create(user);
-    user.active = true;
     
     const [post1, post2, post3] = mockPosts([{user}, {user}, {user}]);
     const persistentPost1 = await postRepository.create(post1);
