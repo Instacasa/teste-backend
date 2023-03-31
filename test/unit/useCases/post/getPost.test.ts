@@ -8,7 +8,9 @@ import { PostInterface, UserInterface } from '@types';
 describe('Get Post', () => {
 
   let user: UserInterface;
+  let repository: PostRepository<PostInterface, PostModel>;
   beforeAll(async () => {
+    repository = new PostRepository<PostInterface, PostModel>();
     const userRepository = new UserRepository<UserInterface, UserModel>();
     user = new User({name: 'Admin', isAdmin: true});
     user.active = true;
@@ -16,7 +18,6 @@ describe('Get Post', () => {
   });
   
   beforeEach(async () => {
-    const repository = new PostRepository<PostInterface, PostModel>();
     await repository.deleteAll();
   });
   
