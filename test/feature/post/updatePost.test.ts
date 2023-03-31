@@ -1,22 +1,23 @@
 import { PostRepository, UserRepository } from '@repositories';
-import { Post, User } from '@domains';
+import { User } from '@domains';
 import { PostModel, UserModel } from '@models';
 import { PostInterface, UserInterface } from '@types';
 import httpStatus from 'http-status';
 import request from '../request';
+import { mockPosts } from '@mocks';
 
 describe('Post', () => {
 
   let repository: PostRepository<PostInterface, PostModel>;
   let userRepository: UserRepository<UserInterface, UserModel>;
-  let admin: UserInterface;
+  let user: UserInterface;
   beforeAll(async () => {
     userRepository = new UserRepository<UserInterface, UserModel>();
     repository = new PostRepository<PostInterface, PostModel>();
 
-    admin = new User({name: 'Admin', isAdmin: true});
-    admin.active = true;
-    admin = await userRepository.create(admin);
+    user = new User({name: 'Admin', isAdmin: true});
+    user.active = true;
+    user = await userRepository.create(user);
   });
 
   beforeEach(async () => {
@@ -24,10 +25,10 @@ describe('Post', () => {
   });
   
   test('Should update post by id', async () => {
-    let post: PostInterface = new Post({title: 'Post', text: 'Text text text', user: admin});
+    let [post]: PostInterface[] = mockPosts([{user}]);
     post = await repository.create(post);
     const { body } = await request()
-      .patch(`/posts/${post.id}/user/${admin.id}`)
+      .patch(`/posts/${post.id}/user/${user.id}`)
       .send({
         title: 'test'
       })
@@ -37,7 +38,7 @@ describe('Post', () => {
 
   test('Shouldn\'t update inexistent post', async () => {
     const { body } = await request()
-      .patch(`/posts/0/user/${admin.id}`)
+      .patch(`/posts/0/user/${user.id}`)
       .send({
         title: 'New title'
       })
@@ -49,7 +50,7 @@ describe('Post', () => {
     let user2: UserInterface = new User({name: 'Admin', isAdmin: true});
     user2.active = true;
     user2 = await userRepository.create(user2);
-    let post: PostInterface = new Post({title: 'Post', text: 'Text text text', user: admin});
+    let [post]: PostInterface[] = mockPosts([{user}]);
     post = await repository.create(post);
     const { body } = await request()
       .patch(`/posts/${post.id}/user/${user2.id}`)
@@ -61,10 +62,10 @@ describe('Post', () => {
   });
 
   test('Shouldn\'t allow to update post text to null/empty', async () => {
-    let post: PostInterface = new Post({title: 'Post', text: 'Text text text', user: admin});
+    let [post]: PostInterface[] = mockPosts([{user}]);
     post = await repository.create(post);
     const { body } = await request()
-      .patch(`/posts/${post.id}/user/${admin.id}`)
+      .patch(`/posts/${post.id}/user/${user.id}`)
       .send({
         text: ''
       })
