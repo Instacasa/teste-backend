@@ -6,15 +6,18 @@ import request from '../request';
 import { mockUsers } from '@mocks';
 import { faker } from '@faker-js/faker';
 
-const userRepository = new UserRepository<UserInterface, UserModel>();
-const postRepository = new PostRepository<PostInterface, PostModel>();
-
-
 describe('Post', () => {
 
+  let repository: PostRepository<PostInterface, PostModel>;
+  let userRepository: UserRepository<UserInterface, UserModel>;
+
+  beforeAll(async() => {
+    userRepository = new UserRepository<UserInterface, UserModel>();
+    repository = new PostRepository<PostInterface, PostModel>();
+  });
+
   beforeEach(async () => {
-    await postRepository.deleteAll();
-    await userRepository.deleteAll();
+    await repository.deleteAll();
   });
 
   test('Should create new post', async () => {
