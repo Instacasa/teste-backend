@@ -31,11 +31,8 @@ describe('Get Post', () => {
 
   test('Shouldn\'t get inexistent post', async () => {
     const getPost = new GetPostUseCase();
-    try {
-      await getPost.execute(0);
-    } catch(error) {
-      expect(error as Error).toBeInstanceOf(NotFoundError);
-      expect((error as Error).message).toEqual('post with id 0 can\'t be found.');
-    }
+    await expect(() => 
+      getPost.execute(0)
+    ).rejects.toThrowError(new NotFoundError('post with id 0 can\'t be found.'));
   });
 });
