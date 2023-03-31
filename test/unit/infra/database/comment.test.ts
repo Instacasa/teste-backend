@@ -4,13 +4,16 @@ import { NotFoundError } from '@errors';
 import { CommentModel, UserModel, PostModel } from '@models';
 import { mockComments, mockPosts, mockUsers } from '@mocks';
 
-const commentRepository = new CommentRepository<CommentInterface, CommentModel>();
-const userRepository = new UserRepository<UserInterface, UserModel>();
-const postRepository = new PostRepository<PostInterface, PostModel>();
 
 describe('Comment Repository', () => {
 
+  let commentRepository: CommentRepository<CommentInterface, CommentModel>;
+  let postRepository: PostRepository<PostInterface, PostModel>;
+  let userRepository: UserRepository<UserInterface, UserModel>;
   beforeEach(async () => {
+    postRepository = new PostRepository<PostInterface, PostModel>();
+    userRepository = new UserRepository<UserInterface, UserModel>();
+    commentRepository = new CommentRepository<CommentInterface, CommentModel>();
     await commentRepository.deleteAll();
   });
 
