@@ -104,7 +104,7 @@ describe('Comment Repository', () => {
 
     await expect(commentRepository.get(comment2.id))
       .rejects
-      .toThrow(NotFoundError);
+      .toThrowError(new NotFoundError(`comment with id ${comment2.id} can't be found.`));
   });
   
 });
