@@ -4,7 +4,6 @@ import { NotFoundError } from '@errors';
 import { CommentModel, UserModel, PostModel } from '@models';
 import { mockComments, mockPosts, mockUsers } from '@mocks';
 
-
 const commentRepository = new CommentRepository<CommentInterface, CommentModel>();
 const userRepository = new UserRepository<UserInterface, UserModel>();
 const postRepository = new PostRepository<PostInterface, PostModel>();
@@ -99,11 +98,10 @@ describe('Comment Repository', () => {
     comment2 = await commentRepository.create(comment2);
     comment3 = await commentRepository.create(comment3);
     await commentRepository.delete(comment2.id);
-    try {
-      await commentRepository.get(comment2.id);
-    } catch(error) {
-      expect(error as Error).toBeInstanceOf(NotFoundError);
-    }
+
+    await expect(commentRepository.get(comment2.id))
+      .rejects
+      .toThrow(NotFoundError);
   });
   
 });
