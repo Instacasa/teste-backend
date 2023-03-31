@@ -8,7 +8,7 @@ describe('Category', () => {
     expect(category).toBeInstanceOf(Category);
   });
 
-  test('shouldn\'t create category without lable', () => {
+  test('shouldn\'t create category without label', () => {
     expect(() => mockCategories([{label: ''}]))
       .toThrowError(new ValidationError('O rótulo da categoria é obrigatório'));
   });
