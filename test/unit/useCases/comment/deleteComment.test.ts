@@ -9,8 +9,9 @@ describe('Delete Comment', () => {
 
   let user: UserInterface;
   let post: PostInterface;
+  let userRepository: UserRepository<UserInterface, UserModel>;
   beforeAll(async () => {
-    const userRepository = new UserRepository<UserInterface, UserModel>();
+    userRepository = new UserRepository<UserInterface, UserModel>();
     user = new User({name: 'user'});
     let user2: UserInterface = new User({name: 'user 2'});
     user.active = true;
@@ -36,16 +37,12 @@ describe('Delete Comment', () => {
       const comment = await createComment.execute(post.id, user.id, partialComment);
       await deleteComment.execute(post.id, user.id, comment.id);
 
-      try {
-        await getComment.execute(post.id, comment.id);
-      } catch(error) {
-        expect(error as Error).toBeInstanceOf(NotFoundError);
-        expect((error as Error).message).toEqual(`comment with id ${comment.id} can't be found.`);
-      }
+      await expect(() => 
+        getComment.execute(post.id, comment.id)
+      ).rejects.toThrowError(new NotFoundError(`comment with id ${comment.id} can't be found.`));
     });
 
     test('Should delete comment if user is the admin', async () => {
-      const userRepository = new UserRepository<UserInterface, UserModel>();
       const admin = await userRepository.create(new User({name: 'Admin', isAdmin: true}));
       const createComment = new CreateCommentUseCase();
       const deleteComment = new DeleteCommentUseCase();
@@ -54,38 +51,30 @@ describe('Delete Comment', () => {
       const comment = await createComment.execute(post.id, user.id, partialComment);
       await deleteComment.execute(post.id, admin.id, comment.id);
 
-      try {
-        await getComment.execute(post.id, comment.id);
-      } catch(error) {
-        expect(error as Error).toBeInstanceOf(NotFoundError);
-        expect((error as Error).message).toEqual(`comment with id ${comment.id} can't be found.`);
-      }
+      await expect(() => 
+        getComment.execute(post.id, comment.id)
+      ).rejects.toThrowError(new NotFoundError(`comment with id ${comment.id} can't be found.`));
     });
 
     test('Shouldn\'t delete inexistent comment', async () => {
       const deleteComment = new DeleteCommentUseCase();
-      try {
-        await deleteComment.execute(post.id, user.id, 0);
-      } catch(error) {
-        expect(error as Error).toBeInstanceOf(NotFoundError);
-        expect((error as Error).message).toEqual('comment with id 0 can\'t be found.');
-      }
+      
+      await expect(() => 
+        deleteComment.execute(post.id, user.id, 0)
+      ).rejects.toThrowError(new NotFoundError('comment with id 0 can\'t be found.'));
     });
 
     test('Shouldn\'t delete comment id user is not admin neither ', async () => {
-      const userRepository = new UserRepository<UserInterface, UserModel>();
-      const admin = await userRepository.create(new User({name: 'Admin', isAdmin: true}));
+      const admin = await userRepository.create(new User({name: 'Admin', isAdmin: false}));
       const createComment = new CreateCommentUseCase();
       const deleteComment = new DeleteCommentUseCase();
       const getComment = new GetCommentUseCase();
       const partialComment: Partial<CommentInterface> = { text: 'Text text text', user, post };
       const comment = await createComment.execute(post.id, user.id, partialComment);
-      try {
-        await deleteComment.execute(post.id, admin.id, comment.id);
-      } catch(error) {
-        expect(error as Error).toBeInstanceOf(ValidationError);
-        expect((error as Error).message).toEqual('Apenas o autor ou administradores podem excluir comentários');
-      }
+      
+      await expect(() => 
+        deleteComment.execute(post.id, admin.id, comment.id)
+      ).rejects.toThrowError(new ValidationError('Apenas o autor ou administradores podem excluir comentários'));
     });
   });
 });

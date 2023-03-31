@@ -9,8 +9,9 @@ describe('Update Comment', () => {
 
   let user: UserInterface;
   let post: PostInterface;
+  let userRepository: UserRepository<UserInterface, UserModel>;
   beforeAll(async () => {
-    const userRepository = new UserRepository<UserInterface, UserModel>();
+    userRepository = new UserRepository<UserInterface, UserModel>();
     user = new User({name: 'user'});
     let user2: UserInterface = new User({name: 'user 2'});
     user.active = true;
@@ -41,26 +42,19 @@ describe('Update Comment', () => {
     const updateComment = new UpdateCommentUseCase();
     const partialComment: Partial<CommentInterface> = {text: 'Text text text', user, post };
     const comment = await createComment.execute(post.id, user.id, partialComment);
-    try {
-      await updateComment.execute(post.id, user.id, comment.id, {...comment, text: ''});
-    } catch(error) {
-      expect(error as Error).toBeInstanceOf(ValidationError);
-      expect((error as Error).message).toEqual('O texto do comentário é obrigatório');
-    }
+    await expect(() => 
+      updateComment.execute(post.id, user.id, comment.id, {...comment, text: ''})
+    ).rejects.toThrowError(new ValidationError('O texto do comentário é obrigatório'));
   });
 
   test('Shouldn\'t update comment if user isn\'t the owner', async () => {
-    const userRepository = new UserRepository<UserInterface, UserModel>();
     const newUser = await userRepository.create(new User({name: 'new User', isAdmin: false}));
     const createComment = new CreateCommentUseCase();
     const updateComment = new UpdateCommentUseCase();
     const partialComment: Partial<CommentInterface> = { text: 'Text text text', user, post };
     const comment = await createComment.execute(post.id, user.id, partialComment);
-    try {
-      await updateComment.execute(post.id, newUser.id, comment.id, {...comment, text: ''});
-    } catch(error) {
-      expect(error as Error).toBeInstanceOf(ValidationError);
-      expect((error as Error).message).toEqual('Apenas o autor pode editar a publicação');
-    }
+    await expect(() => 
+      updateComment.execute(post.id, newUser.id, comment.id, {...comment, text: ''})
+    ).rejects.toThrowError(new ValidationError('Apenas o autor pode editar a publicação'));
   });
 });

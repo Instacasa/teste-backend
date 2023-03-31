@@ -9,8 +9,9 @@ describe('Create Comment', () => {
 
   let user: UserInterface;
   let post: PostInterface;
+  let userRepository: UserRepository<UserInterface, UserModel>;
   beforeAll(async () => {
-    const userRepository = new UserRepository<UserInterface, UserModel>();
+    userRepository = new UserRepository<UserInterface, UserModel>();
     user = new User({name: 'user'});
     let user2: UserInterface = new User({name: 'user 2'});
     user.active = true;
@@ -38,23 +39,18 @@ describe('Create Comment', () => {
     const newUser = await userRepository.create(new User({name: 'User', isAdmin: false, active: false}));
     const createComment = new CreateCommentUseCase();
     const partialComment: Partial<CommentInterface> = { text: 'Text text text', post };
-    try {
-      const comment = await createComment.execute(post.id, newUser.id, partialComment);
-    } catch(error) {
-      expect(error as Error).toBeInstanceOf(ValidationError);
-      expect((error as Error).message).toEqual('Apenas usuários ativos podem comentar');
-    }
+
+    await expect(() => 
+      createComment.execute(post.id, newUser.id, partialComment)
+    ).rejects.toThrowError(new ValidationError('Apenas usuários ativos podem comentar'));
   });
 
   test('Shouldn\'t create comment without text', async () => {
     const createComment = new CreateCommentUseCase();
     const partialComment: Partial<CommentInterface> = { text: '', post };
-    try {
-      const comment = await createComment.execute(post.id, user.id, partialComment);
-    } catch(error) {
-      expect(error as Error).toBeInstanceOf(ValidationError);
-      expect((error as Error).message).toEqual('O texto do comentário é obrigatório');
-    }
+    await expect(() => 
+      createComment.execute(post.id, user.id, partialComment)
+    ).rejects.toThrowError(new ValidationError('O texto do comentário é obrigatório'));
   });
   
 });

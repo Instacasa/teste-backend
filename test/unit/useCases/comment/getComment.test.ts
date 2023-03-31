@@ -37,11 +37,8 @@ describe('Get Comment', () => {
 
   test('Shouldn\'t get inexistent comment', async () => {
     const getComment = new GetCommentUseCase();
-    try {
-      await getComment.execute(post.id, 0);
-    } catch(error) {
-      expect(error as Error).toBeInstanceOf(NotFoundError);
-      expect((error as Error).message).toEqual('comment with id 0 can\'t be found.');
-    }
+    await expect(() => 
+      getComment.execute(post.id, 0)
+    ).rejects.toThrowError(new NotFoundError('comment with id 0 can\'t be found.'));
   });
 });
