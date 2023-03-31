@@ -1,6 +1,6 @@
 import { ValidationError } from '@errors';
-import { CommentInterface, PostInterface, UserInterface } from '@types';
-import  { Comment, User } from '@domains';
+import { CategoryInterface, CommentInterface, PostInterface, UserInterface } from '@types';
+import  { Category, Comment, User } from '@domains';
 
 export class Post implements PostInterface {
   private _id?: number;
@@ -53,12 +53,21 @@ export class Post implements PostInterface {
     this._comments = newValue ? newValue.map(comment => new Comment(comment)) : [];
   }
 
+  private _categories: CategoryInterface[];
+  public get categories(): CategoryInterface[] {
+    return this._categories;
+  }
+  public set categories(newValue: CategoryInterface[] | undefined) {
+    this._categories = newValue ? newValue.map(category => new Category(category)) : [];
+  }
+
   constructor(data: Partial<PostInterface>) {
     this._id = data.id;
     this.title = data.title;
     this.text = data.text;
     this.user = data.user;
     this.comments = data.comments;
+    this.categories = data.categories;
   }
 
 }

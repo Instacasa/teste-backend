@@ -66,6 +66,17 @@ describe('Post', () => {
     const { body } = await request()
       .post(`/posts/user/${user.id}`)
       .send({
+        title: faker.lorem.sentence()
+      })
+      .expect(httpStatus.BAD_REQUEST);
+    expect(body.error.name).toEqual('ValidationError');
+  });
+
+  test('Shouldn\'t create new post without category', async () => {
+    const { body } = await request()
+      .post(`/posts/user/${user.id}`)
+      .send({
+        title: faker.lorem.sentence(),
         text: faker.lorem.paragraph()
       })
       .expect(httpStatus.BAD_REQUEST);

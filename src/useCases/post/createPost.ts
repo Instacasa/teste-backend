@@ -17,6 +17,9 @@ export class CreatePostUseCase {
     if (!user.active) {
       throw new ValidationError('Apenas usuários ativos podem publicar');
     }
+    if (!data.categories?.length) {
+      throw new ValidationError('Publicações precisam possuir pelo menos uma categoria');
+    }
     const post = new Post({...data, user});
     return await this.repository.create(post);
   };

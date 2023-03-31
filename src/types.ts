@@ -11,6 +11,7 @@ export interface PostInterface {
   text: string;
   user?: UserInterface;
   comments?: CommentInterface[];
+  categories?: CategoryInterface[];
 }
 
 export interface CommentInterface {
