@@ -13,6 +13,7 @@ export const postSerialize = (post: PostInterface): PostInterface => {
     title: post.title,
     text: post.text,
     user: {id: post.user.id, name: post.user.name, active: post.user.active, isAdmin: post.user.isAdmin},
+    categories: post.categories.map(c => ({id: c.id, label: c.label}))
   };
 };
 

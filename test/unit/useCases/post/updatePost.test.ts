@@ -5,6 +5,7 @@ import { CategoryInterface, CommentInterface, PostInterface, UserInterface } fro
 import { User, Comment } from '@domains';
 import { CreatePostUseCase, UpdatePostUseCase } from '@useCases';
 import { mockCategories } from '@mocks/category';
+import { mockUsers } from '@mocks';
 
 describe('Update Post', () => {
   
@@ -44,6 +45,45 @@ describe('Update Post', () => {
     post.title = 'Test Update';
     const updatedPost = await updatePost.execute(user.id, post.id, post);
     expect(updatedPost.title).toEqual('Test Update');
+  });
+
+  test('Should update post categories by admin', async () => {
+    const partialPost: Partial<PostInterface> = { 
+      title: 'Teste',
+      text: 'Text text text',
+      user,
+      categories: [{id: category.id, label: category.label}] 
+    };
+    const post = await createPost.execute(user.id, partialPost);
+    let [ category2 ] : CategoryInterface[] = mockCategories([{label: 'Another category'}]);
+    category2 = await categoryRepository.create(category2);
+
+    const updatedPost = await updatePost.execute(user.id, post.id, {
+      categories: [{id: category2.id, label: category2.label}]
+    });
+    expect(updatedPost.categories[0].id).toEqual(category2.id);
+    expect(updatedPost.categories[0].label).toEqual('Another category');
+  });
+
+  test('Should update post categories by owner', async () => {
+    let [simpleUser] : UserInterface[] = mockUsers([{isAdmin: false}]);
+    simpleUser.active = true;
+    simpleUser = await userRepository.create(simpleUser);
+
+    const partialPost: Partial<PostInterface> = { 
+      title: 'Teste',
+      text: 'Text text text',
+      categories: [{id: category.id, label: category.label}] 
+    };
+    const post = await createPost.execute(simpleUser.id, partialPost);
+    let [ category2 ] : CategoryInterface[] = mockCategories([{label: 'Another category'}]);
+    category2 = await categoryRepository.create(category2);
+
+    const updatedPost = await updatePost.execute(simpleUser.id, post.id, {
+      categories: [{id: category2.id, label: category2.label}]
+    });
+    expect(updatedPost.categories[0].id).toEqual(category2.id);
+    expect(updatedPost.categories[0].label).toEqual('Another category');
   });
 
   test('Shouldn\'t update post title to empty/null', async () => {

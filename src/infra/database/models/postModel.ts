@@ -32,6 +32,7 @@ export class PostModel implements ObjectLiteral, PostInterface {
     this.title = data?.title;
     this.text = data?.text;
     this.user = data?.user;
+    this.categories = data?.categories;
   }
 
 }

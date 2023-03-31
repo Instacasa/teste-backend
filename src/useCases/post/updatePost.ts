@@ -23,6 +23,7 @@ export class UpdatePostUseCase {
 
     post.title = data.title ?? post.title;
     post.text = data.text ?? post.text;
+    post.categories = data.categories?.length ? data.categories : post.categories;
     const n = await this.repository.update(post);
     return n;
   };
