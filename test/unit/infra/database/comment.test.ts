@@ -45,11 +45,11 @@ describe('Comment Repository', () => {
 
     comment = await commentRepository.create(comment);
     comment.text = 'Updated text';
-    const udpatedComment = await commentRepository.update(comment);
+    const updatedComment = await commentRepository.update(comment);
 
-    expect(udpatedComment.id).toBeDefined();
-    expect(udpatedComment.id).toBeGreaterThan(0);
-    expect(udpatedComment.text).toEqual('Updated text');
+    expect(updatedComment.id).toBeDefined();
+    expect(updatedComment.id).toBeGreaterThan(0);
+    expect(updatedComment.text).toEqual('Updated text');
   });
 
   test('Should get comment by id', async () => {
