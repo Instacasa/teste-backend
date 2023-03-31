@@ -20,6 +20,11 @@ export interface CommentInterface {
   user: UserInterface;
 }
 
+export interface CategoryInterface {
+  id?: number;
+  label: string;
+}
+
 export interface RepositoryInterface<Interface> {
   list: () => Promise<Interface[]>;
   get: (id: number) => Promise<Interface>;
