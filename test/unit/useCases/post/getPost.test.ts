@@ -26,8 +26,8 @@ describe('Get Post', () => {
     const getPost = new GetPostUseCase();
     const partialPost: Partial<PostInterface> = { title: 'Teste', text: 'Text text text', user };
     const post = await createPost.execute(user.id, partialPost);
-    const getedPost = await getPost.execute(post.id);
-    expect(getedPost.title).toEqual('Teste');
+    const gettedPost = await getPost.execute(post.id);
+    expect(gettedPost.title).toEqual('Teste');
   });
 
   test('Shouldn\'t get inexistent post', async () => {
