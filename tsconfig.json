@@ -32,10 +32,10 @@
       "@domains/*": ["src/domains/*"],
       "@mocks": ["test/mocks"],
       "@mocks/*": ["test/mocks/*"],
-      "@apps/*": ["src/app/*"],
-      "@libs/*": ["lib/*"],
       "@errors": ["lib/errors"],
       "@errors/*": ["lib/errors/*"],
+      "@apps/*": ["src/app/*"],
+      "@libs/*": ["lib/*"],
       "@config": ["config"],
       "@types": ["src/types.ts"],
       "@/*": ["src/*"]
