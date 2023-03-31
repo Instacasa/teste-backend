@@ -1,40 +1,42 @@
 import { PostRepository, UserRepository } from '@repositories';
 import { PostInterface, UserInterface } from '@types';
 import { NotFoundError } from '@errors';
-import { User, Post } from '@domains';
 import { PostModel, UserModel } from '@models';
+import { mockPosts, mockUsers } from '@mocks';
+
+const userRepository = new UserRepository<UserInterface, UserModel>();
+const postRepository = new PostRepository<PostInterface, PostModel>();
 
 describe('Post Repository', () => {
 
   beforeEach(async () => {
-    const repository = new PostRepository<PostInterface, PostModel>();
-    await repository.deleteAll();
+    await userRepository.deleteAll();
+    await postRepository.deleteAll();
   });
 
   test('Should create new element on database', async () => {
-    let user: UserInterface = new User({ name: 'Test', isAdmin: true });
-    const userRepository = new UserRepository<UserInterface, UserModel>();
+    let [ user ]: UserInterface[] = mockUsers([{ isAdmin: true }]);
     user = await userRepository.create(user);
-    const post = new Post({title: 'Test', text: 'text test', user});
+    user.active = true;
+    const [ post ] = mockPosts([{user}]);
 
-    const repository = new PostRepository<PostInterface, PostModel>();
-    const newPost = await repository.create(post);
+    const newPost = await postRepository.create(post);
     expect(newPost.id).toBeDefined();
     expect(newPost.id).toBeGreaterThan(0);
     expect(newPost.title).toEqual(post.title);
     expect(newPost.user.id).toEqual(user.id);
   });
 
-  test('Should update elemente on database', async () => {
-    let user: UserInterface = new User({ name: 'Test', isAdmin: true });
-    const userRepository = new UserRepository<UserInterface, UserModel>();
+  test('Should update element on database', async () => {
+    let [ user ]: UserInterface[] = mockUsers([{ isAdmin: true }]);
     user = await userRepository.create(user);
-    let post: PostInterface = new Post({title: 'Test', text: 'text test', user});
+    user.active = true;
 
-    const repository = new PostRepository<PostInterface, PostModel>();
-    post = await repository.create(post);
+    let [ post ]: PostInterface[] = mockPosts([{user}]);
+
+    post = await postRepository.create(post);
     post.title = 'Updated title';
-    const udpatedPost = await repository.update(post);
+    const udpatedPost = await postRepository.update(post);
 
     expect(udpatedPost.id).toBeDefined();
     expect(udpatedPost.id).toBeGreaterThan(0);
@@ -42,55 +44,53 @@ describe('Post Repository', () => {
   });
 
   test('Should get post by id', async () => {
-    let user: UserInterface = new User({ name: 'Test', isAdmin: true });
-    const userRepository = new UserRepository<UserInterface, UserModel>();
+    let [ user ]: UserInterface[] = mockUsers([{ isAdmin: true }]);
     user = await userRepository.create(user);
-    let post: PostInterface = new Post({title: 'Test', text: 'text test',  user});
-
-    const repository = new PostRepository<PostInterface, PostModel>();
-    post = await repository.create(post);
-    const persistedPost = await repository.get(post.id);
+    user.active = true;
+    
+    let [ post ]: PostInterface[] = mockPosts([{user}]);
+    post = await postRepository.create(post);
+    const persistedPost = await postRepository.get(post.id);
+    
     expect(persistedPost.id).toEqual(post.id);
     expect(persistedPost.title).toEqual(post.title);
   });
   
 
   test('Should get list of post', async () => {
-    let user: UserInterface = new User({ name: 'Test', isAdmin: true });
-    const userRepository = new UserRepository<UserInterface, UserModel>();
+    let [ user ]: UserInterface[] = mockUsers([{ isAdmin: true }]);
     user = await userRepository.create(user);
-    let post1: PostInterface = new Post({title: 'Test 1', text: 'text test', user});
-    let post2: PostInterface = new Post({title: 'Test 2', text: 'text test', user});
-    let post3: PostInterface = new Post({title: 'Test 3', text: 'text test', user});
+    user.active = true;
+    
+    let [post1, post2, post3] : PostInterface[] = mockPosts([{user}, {user}, {user}]);
+    post1 = await postRepository.create(post1);
+    post2 = await postRepository.create(post2);
+    post3 = await postRepository.create(post3);
 
-    const repository = new PostRepository<PostInterface, PostModel>();
-    post1 = await repository.create(post1);
-    post2 = await repository.create(post2);
-    post3 = await repository.create(post3);
-    const persistedPost = await repository.list();
+    const persistedPost = await postRepository.list();
     expect(persistedPost).toHaveLength(3);
     expect(persistedPost[0].title).toEqual(post3.title);
   });
-  
 
   test('Should delete a post', async () => {
-    let user: UserInterface = new User({ name: 'Test', isAdmin: true });
-    const userRepository = new UserRepository<UserInterface, UserModel>();
+    let [ user ] : UserInterface[] = mockUsers([{ isAdmin: true }]);
     user = await userRepository.create(user);
-    let post1: PostInterface = new Post({ title: 'Test 1', text: 'text test', user });
-    let post2: PostInterface = new Post({ title: 'Test 2', text: 'text test', user });
-    let post3: PostInterface = new Post({ title: 'Test 3', text: 'text test', user });
+    user.active = true;
+    
+    const [post1, post2, post3] = mockPosts([{user}, {user}, {user}]);
+    const persistentPost1 = await postRepository.create(post1);
+    const persistentPost2 = await postRepository.create(post2);
+    const persistentPost3 = await postRepository.create(post3);
+    
+    await postRepository.delete(persistentPost2.id);
+    const savedPost1 = await postRepository.get(persistentPost1.id);
+    const savedPost3 = await postRepository.get(persistentPost3.id);
 
-    const repository = new PostRepository<PostInterface, PostModel>();
-    post1 = await repository.create(post1);
-    post2 = await repository.create(post2);
-    post3 = await repository.create(post3);
-    await repository.delete(post2.id);
-    try {
-      await repository.get(post2.id);
-    } catch(error) {
-      expect(error as Error).toBeInstanceOf(NotFoundError);
-    }
+    expect(savedPost1.id).toEqual(savedPost1.id);
+    expect(savedPost3.id).toEqual(savedPost3.id);
+    await expect(() => postRepository.get(persistentPost2.id))
+      .rejects
+      .toThrow(NotFoundError);
   });
   
 });

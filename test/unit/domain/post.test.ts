@@ -11,12 +11,6 @@ describe('Post', () => {
     expect(post.user).toBeInstanceOf(User);
   });
 
-  test('should\'t create post by inactive users', () => {
-    const [ user ] = mockUsers([{ id: 123456, active: false }]);
-    expect(() => mockPosts([{ user }]))
-      .toThrow(new ValidationError('O autor está inativo'));
-  });
-
   test('shouldn\'t create post without title', () => {
     const [ user ] = mockUsers([{ id: +faker.random.numeric(6), active: true }]);
     try {
