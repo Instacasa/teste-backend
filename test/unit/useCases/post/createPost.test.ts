@@ -1,15 +1,16 @@
 import { CreatePostUseCase } from '@useCases';
 import { PostRepository, UserRepository } from '@repositories';
 import { Post, User } from '@domains';
-import { ValidationError } from '@errors';
+import { NotFoundError, ValidationError } from '@errors';
 import { PostModel, UserModel } from '@models';
 import { PostInterface, UserInterface } from '@types';
 
 describe('Create Post', () => {
 
   let user: UserInterface;
+  let userRepository: UserRepository<UserInterface, UserModel>;
   beforeAll(async () => {
-    const userRepository = new UserRepository<UserInterface, UserModel>();
+    userRepository = new UserRepository<UserInterface, UserModel>();
     user = new User({name: 'Admin', isAdmin: true});
     user.active = true;
     user = await userRepository.create(user);
@@ -28,49 +29,36 @@ describe('Create Post', () => {
   });
 
   test('Shouldn\'t create new post if user isn\'t active', async () => {
-    const userRepository = new UserRepository<UserInterface, UserModel>();
     const newUser = await userRepository.create(new User({name: 'User', isAdmin: false, active: false}));
     const createPost = new CreatePostUseCase();
     const partialPost: Partial<PostInterface> = { title: 'Teste', text: 'Text text text' };
-    try {
-      const post = await createPost.execute(newUser.id, partialPost);
-    } catch(error) {
-      expect(error as Error).toBeInstanceOf(ValidationError);
-      expect((error as Error).message).toEqual('Apenas usuários ativos podem publicar');
-    }
+    await expect(() => 
+      createPost.execute(newUser.id, partialPost)
+    ).rejects.toThrowError(new ValidationError('Apenas usuários ativos podem publicar'));
   });
 
   test('Shouldn\'t create post without title', async () => {
     const createPost = new CreatePostUseCase();
     const partialPost: Partial<PostInterface> = { title: '', text: 'Text text text' };
-    try {
-      const post = await createPost.execute(user.id, partialPost);
-    } catch(error) {
-      expect(error as Error).toBeInstanceOf(ValidationError);
-      expect((error as Error).message).toEqual('O título da publicação é obrigatório');
-    }
+    await expect(() => 
+      createPost.execute(user.id, partialPost)
+    ).rejects.toThrowError(new ValidationError('O título da publicação é obrigatório'));
   });
 
   test('Shouldn\'t create post without text', async () => {
     const createPost = new CreatePostUseCase();
     const partialPost: Partial<PostInterface> = { title: 'Teste', text: '' };
-    try {
-      const post = await createPost.execute(user.id, partialPost);
-    } catch(error) {
-      expect(error as Error).toBeInstanceOf(ValidationError);
-      expect((error as Error).message).toEqual('O texto da publicação é obrigatório');
-    }
+    await expect(() => 
+      createPost.execute(user.id, partialPost)
+    ).rejects.toThrowError(new ValidationError('O texto da publicação é obrigatório'));
   });
 
-  test('Shouldn\'t create post without user', async () => {
+  test('Shouldn\'t create post inexistent user', async () => {
     const createPost = new CreatePostUseCase();
     const partialPost: Partial<PostInterface> = { title: 'Teste', text: 'Text text text' };
-    try {
-      const post = await createPost.execute(user.id, partialPost);
-    } catch(error) {
-      expect(error as Error).toBeInstanceOf(ValidationError);
-      expect((error as Error).message).toEqual('O autor da publicação é obrigatório');
-    }
+    await expect(() => 
+      createPost.execute(0, partialPost)
+    ).rejects.toThrowError(new NotFoundError('user with id 0 can\'t be found.'));
   });
   
 });
