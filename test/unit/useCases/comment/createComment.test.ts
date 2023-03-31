@@ -10,7 +10,9 @@ describe('Create Comment', () => {
   let user: UserInterface;
   let post: PostInterface;
   let userRepository: UserRepository<UserInterface, UserModel>;
+  let createComment: CreateCommentUseCase;
   beforeAll(async () => {
+    createComment = new CreateCommentUseCase();
     userRepository = new UserRepository<UserInterface, UserModel>();
     user = new User({name: 'user'});
     let user2: UserInterface = new User({name: 'user 2'});
@@ -28,16 +30,13 @@ describe('Create Comment', () => {
   });
 
   test('Should create new comment if user is active', async () => {
-    const createComment = new CreateCommentUseCase();
     const partialComment: Partial<CommentInterface> = { text: 'Text text text', post };
     const comment = await createComment.execute(post.id, user.id, partialComment);
     expect(comment).toBeInstanceOf(Comment);
   });
 
   test('Shouldn\'t create new comment if user isn\'t active', async () => {
-    const userRepository = new UserRepository<UserInterface, UserModel>();
     const newUser = await userRepository.create(new User({name: 'User', isAdmin: false, active: false}));
-    const createComment = new CreateCommentUseCase();
     const partialComment: Partial<CommentInterface> = { text: 'Text text text', post };
 
     await expect(() => 
@@ -46,7 +45,6 @@ describe('Create Comment', () => {
   });
 
   test('Shouldn\'t create comment without text', async () => {
-    const createComment = new CreateCommentUseCase();
     const partialComment: Partial<CommentInterface> = { text: '', post };
     await expect(() => 
       createComment.execute(post.id, user.id, partialComment)
