@@ -26,10 +26,27 @@ describe('Update category', () => {
   });
 
   test('Should update category label', async () => {
+    const partialCategory: Partial<CategoryInterface> = { label: 'First label' };
+    const category = await createCategory.execute(user.id, partialCategory);
+    category.label = 'Second label';
+    const updatedCategory = await updateCategory.execute(user.id, category.id, category);
+    expect(updatedCategory.label).toEqual('Second label');
+  });
+
+  test('Shouldn\'t update category label to empty/null', async () => {
     const partialCategory: Partial<CategoryInterface> = { label: faker.lorem.word() };
     const category = await createCategory.execute(user.id, partialCategory);
     await expect(() => 
       updateCategory.execute(user.id, category.id, {...category, label: ''})
     ).rejects.toThrowError(new ValidationError('O rótulo da categoria é obrigatório'));
+  });
+
+  test('Shouldn\'t update category if user isn\'t admin', async () => {
+    const simpleUser = await userRepository.create(new User({name: 'Simple user', isAdmin: false}));
+    const partialCategory: Partial<CategoryInterface> = { label: faker.lorem.word() };
+    const category = await createCategory.execute(user.id, partialCategory);
+    await expect(() => 
+      updateCategory.execute(simpleUser.id, category.id, {...category, label: faker.lorem.word()})
+    ).rejects.toThrowError(new ValidationError('Apenas administradores podem editar a categoria'));
   });
 });
