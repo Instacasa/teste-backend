@@ -35,4 +35,41 @@ describe('Category', () => {
       .expect(httpStatus.OK);
     expect(body.label).toEqual('New label');
   });
+
+  test('Shouldn\'t update inexistent category', async () => {
+    const { body } = await request()
+      .patch(`/categories/0/user/${admin.id}`)
+      .send({
+        label: 'New label'
+      })
+      .expect(httpStatus.NOT_FOUND);
+    expect(body.error.name).toEqual('NotFoundError');
+  });
+
+  test('Shouldn\'t allow to update category without been admin', async () => {
+    let simpleUser: UserInterface = new User({name: 'Simple User', isAdmin: false});
+    simpleUser.active = true;
+    simpleUser = await userRepository.create(simpleUser);
+    let [ category ] : CategoryInterface[] = mockCategories([{}]);
+    category = await repository.create(category);
+    const { body } = await request()
+      .patch(`/categories/${category.id}/user/${simpleUser.id}`)
+      .send({
+        label: 'New label'
+      })
+      .expect(httpStatus.BAD_REQUEST);
+    expect(body.error.name).toEqual('ValidationError');
+  });
+
+  test('Shouldn\'t allow to update category text to null/empty', async () => {
+    let [ category ] : CategoryInterface[] = mockCategories([{}]);
+    category = await repository.create(category);
+    const { body } = await request()
+      .patch(`/categories/${category.id}/user/${admin.id}`)
+      .send({
+        label: ''
+      })
+      .expect(httpStatus.BAD_REQUEST);
+    expect(body.error.name).toEqual('ValidationError');
+  });
 });
