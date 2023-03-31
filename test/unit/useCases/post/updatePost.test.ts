@@ -1,24 +1,31 @@
-import { CommentRepository, PostRepository, UserRepository } from '@repositories';
+import { CategoryRepository, CommentRepository, PostRepository, UserRepository } from '@repositories';
 import { ValidationError } from '@errors';
-import { CommentModel, PostModel, UserModel } from '@models';
-import { CommentInterface, PostInterface, UserInterface } from '@types';
+import { CategoryModel, CommentModel, PostModel, UserModel } from '@models';
+import { CategoryInterface, CommentInterface, PostInterface, UserInterface } from '@types';
 import { User, Comment } from '@domains';
 import { CreatePostUseCase, UpdatePostUseCase } from '@useCases';
+import { mockCategories } from '@mocks/category';
 
 describe('Update Post', () => {
   
-  let user: UserInterface;
-  let userRepository: UserRepository<UserInterface, UserModel>;
   let createPost: CreatePostUseCase;
   let updatePost: UpdatePostUseCase;
+  let categoryRepository: CategoryRepository<CategoryInterface, CategoryModel>;
+  let userRepository: UserRepository<UserInterface, UserModel>;
+  let user: UserInterface;
+  let category : CategoryInterface;
   beforeAll(async () => {
     createPost = new CreatePostUseCase();
     updatePost = new UpdatePostUseCase();
+    categoryRepository = new CategoryRepository<CategoryInterface, CategoryModel>();
     userRepository = new UserRepository<UserInterface, UserModel>();
     
     user = new User({name: 'Admin', isAdmin: true});
     user.active = true;
     user = await userRepository.create(user);
+
+    [ category ] = mockCategories([{}]);
+    category = await categoryRepository.create(category);
   });
 
   beforeEach(async () => {
@@ -27,7 +34,12 @@ describe('Update Post', () => {
   });
 
   test('Should update post title', async () => {
-    const partialPost: Partial<PostInterface> = { title: 'Teste', text: 'Text text text', user };
+    const partialPost: Partial<PostInterface> = { 
+      title: 'Teste',
+      text: 'Text text text',
+      user,
+      categories: [{id: category.id, label: category.label}] 
+    };
     const post = await createPost.execute(user.id, partialPost);
     post.title = 'Test Update';
     const updatedPost = await updatePost.execute(user.id, post.id, post);
@@ -35,7 +47,12 @@ describe('Update Post', () => {
   });
 
   test('Shouldn\'t update post title to empty/null', async () => {
-    const partialPost: Partial<PostInterface> = { title: 'Teste', text: 'Text text text', user };
+    const partialPost: Partial<PostInterface> = {
+      title: 'Teste',
+      text: 'Text text text',
+      user,
+      categories: [{id: category.id, label: category.label}]
+    };
     const post = await createPost.execute(user.id, partialPost);
     await expect(() => 
       updatePost.execute(user.id, post.id, {...post, title: ''})
@@ -44,7 +61,12 @@ describe('Update Post', () => {
 
   test('Shouldn\'t update post if user isn\'t the owner', async () => {
     const newUser = await userRepository.create(new User({name: 'new User', isAdmin: false}));
-    const partialPost: Partial<PostInterface> = { title: 'Teste', text: 'Text text text', user };
+    const partialPost: Partial<PostInterface> = {
+      title: 'Teste',
+      text: 'Text text text',
+      user,
+      categories: [{id: category.id, label: category.label}]
+    };
     const post = await createPost.execute(user.id, partialPost);
     await expect(() => 
       updatePost.execute(newUser.id, post.id, {...post, title: ''})
@@ -53,7 +75,12 @@ describe('Update Post', () => {
 
   test('Shouldn\'t allow update if post has comments', async () => {
     const newUser = await userRepository.create(new User({name: 'new User', isAdmin: false}));
-    const partialPost: Partial<PostInterface> = { title: 'Teste', text: 'Text text text', user };
+    const partialPost: Partial<PostInterface> = {
+      title: 'Teste',
+      text: 'Text text text',
+      user,
+      categories: [{id: category.id, label: category.label}]
+    };
     const post = await createPost.execute(user.id, partialPost);
     const commentRepository = new CommentRepository<CommentInterface, CommentModel>();
     await commentRepository.create(new Comment({text: 'new comment', user: newUser, post}));

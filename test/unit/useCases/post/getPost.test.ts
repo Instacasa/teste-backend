@@ -1,19 +1,22 @@
 import { CreatePostUseCase, GetPostUseCase } from '@useCases';
-import { PostRepository, UserRepository } from '@repositories';
+import { CategoryRepository, PostRepository, UserRepository } from '@repositories';
 import { User } from '@domains';
 import { NotFoundError } from '@errors';
-import { PostModel, UserModel } from '@models';
-import { PostInterface, UserInterface } from '@types';
+import { CategoryModel, PostModel, UserModel } from '@models';
+import { CategoryInterface, PostInterface, UserInterface } from '@types';
+import { mockCategories } from '@mocks/category';
 
 describe('Get Post', () => {
   let createPost: CreatePostUseCase;
   let getPost: GetPostUseCase;
   let repository: PostRepository<PostInterface, PostModel>;
+  let categoryRepository: CategoryRepository<CategoryInterface, CategoryModel>;
   let user: UserInterface;
   beforeAll(async () => {
     createPost = new CreatePostUseCase();
     getPost = new GetPostUseCase();
     repository = new PostRepository<PostInterface, PostModel>();
+    categoryRepository = new CategoryRepository<CategoryInterface, CategoryModel>();
 
     const userRepository = new UserRepository<UserInterface, UserModel>();
     user = new User({name: 'Admin', isAdmin: true});
@@ -26,7 +29,10 @@ describe('Get Post', () => {
   });
   
   test('Should get post', async () => {
-    const partialPost: Partial<PostInterface> = { title: 'Teste', text: 'Text text text', user };
+    let [ category ] : CategoryInterface[] = mockCategories([{}]);
+    category = await categoryRepository.create(category);
+
+    const partialPost: Partial<PostInterface> = { title: 'Teste', text: 'Text text text', user, categories: [category] };
     const post = await createPost.execute(user.id, partialPost);
     const gettedPost = await getPost.execute(post.id);
     expect(gettedPost.title).toEqual('Teste');

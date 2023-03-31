@@ -1,5 +1,5 @@
 import { CategoryInterface, CommentInterface, PostInterface, UserInterface } from '@types';
-import { Column, Entity, ManyToMany, ManyToOne, ObjectLiteral, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne, ObjectLiteral, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { CategoryModel, CommentModel, UserModel } from '@models';
 
 @Entity({ name: 'post' })
@@ -20,6 +20,11 @@ export class PostModel implements ObjectLiteral, PostInterface {
     comments?: CommentInterface[];
 
   @ManyToMany(() => CategoryModel, { eager: true })
+  @JoinTable({
+    name: 'post_categories',
+    joinColumns: [{ name: 'post_id', referencedColumnName: 'id' }],
+    inverseJoinColumns: [{ name: 'category_id', referencedColumnName: 'id' }],
+  })
     categories?: CategoryInterface[];
 
   constructor(data: PostInterface) {
