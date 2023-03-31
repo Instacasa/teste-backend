@@ -1,6 +1,6 @@
 import { ValidationError } from '@errors';
 import { categorySerialize } from '@serializers';
-import { CreateCategoryUseCase, UpdateCategoryUseCase } from '@useCases';
+import { CreateCategoryUseCase, GetCategoryUseCase, UpdateCategoryUseCase } from '@useCases';
 import { NextFunction, Router, Request, Response } from 'express';
 import httpStatus from 'http-status';
 
@@ -16,11 +16,21 @@ export class CategoryController {
   createRouter = () => {
     this.router = Router();
     // this.router.get('/', this.listCategory);
-    // this.router.get('/:id', this.getPost);
+    this.router.get('/:id', this.getCategory);
     this.router.post('/user/:userId', this.createCategory);
     this.router.patch('/:id/user/:userId', this.updateCategory);
     // this.router.delete('/:id/user/:userId', this.deletePost);
     return this.router;
+  };
+
+  getCategory = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const useCase = new GetCategoryUseCase();
+      const data = await useCase.execute(Number(req.params.id));
+      res.status(httpStatus.OK).json(categorySerialize(data));
+    } catch(error) {
+      res.status((error as ValidationError).status).json({error: (error as ValidationError), message: (error as ValidationError).message});
+    }
   };
 
   createCategory = async (req: Request, res: Response, next: NextFunction) => {
