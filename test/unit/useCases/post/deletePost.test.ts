@@ -54,7 +54,7 @@ describe('Delete Post', () => {
   });
 
   test('Shouldn\'t delete post if user is not admin', async () => {
-    const simpleUser = await userRepository.create(new User({name: 'Admin', isAdmin: false}));
+    const simpleUser = await userRepository.create(new User({name: 'Simple user', isAdmin: false}));
     const createPost = new CreatePostUseCase();
     const deletePost = new DeletePostUseCase();
     const getPost = new GetPostUseCase();
