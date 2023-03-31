@@ -54,14 +54,14 @@ describe('Delete Post', () => {
   });
 
   test('Shouldn\'t delete post if user is not admin', async () => {
-    const admin = await userRepository.create(new User({name: 'Admin', isAdmin: false}));
+    const simpleUser = await userRepository.create(new User({name: 'Admin', isAdmin: false}));
     const createPost = new CreatePostUseCase();
     const deletePost = new DeletePostUseCase();
     const getPost = new GetPostUseCase();
     const partialPost: Partial<PostInterface> = { title: 'Teste', text: 'Text text text', user };
     const post = await createPost.execute(user.id, partialPost);
     await expect(() => 
-      deletePost.execute(admin.id, post.id)
+      deletePost.execute(simpleUser.id, post.id)
     ).rejects.toThrowError(new ValidationError('Apenas o autor ou administradores podem excluir publicações'));
   });
 });
