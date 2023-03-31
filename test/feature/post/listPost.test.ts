@@ -1,27 +1,33 @@
 import { PostRepository, UserRepository } from '@repositories';
-import { Post, User } from '@domains';
+import { User } from '@domains';
 import { PostModel, UserModel } from '@models';
 import { PostInterface, UserInterface } from '@types';
 import httpStatus from 'http-status';
 import request from '../request';
+import { mockPosts } from '@mocks';
 
 describe('Post', () => {
+  let userRepository: UserRepository<UserInterface, UserModel>;
+  let repository: PostRepository<PostInterface, PostModel>;
+  let user: UserInterface;
+  beforeAll(async () => {
+    userRepository = new UserRepository<UserInterface, UserModel>();
+    repository = new PostRepository<PostInterface, PostModel>();
+
+    user = new User({name: 'Admin', isAdmin: true});
+    user.active = true;
+    user = await userRepository.create(user);
+  });
 
   beforeEach(async () => {
-    const repository = new PostRepository<PostInterface, PostModel>();
     await repository.deleteAll();
   });
 
-  test('Should get post by id', async () => {
-    const userRepository = new UserRepository<UserInterface, UserModel>();
-    let user: UserInterface = new User({name: 'Admin', isAdmin: true});
-    user.active = true;
-    user = await userRepository.create(user);
-    const postRepository = new PostRepository<PostInterface, PostModel>();
-    const post: PostInterface = new Post({title: 'Post', text: 'Text text text', user});
-    await postRepository.create(post);
-    await postRepository.create(post);
-    await postRepository.create(post);
+  test('Should get post list', async () => {
+    const [ post1, post2, post3 ]: PostInterface[] = mockPosts([{user}, {user}, {user}]);
+    await repository.create(post1);
+    await repository.create(post2);
+    await repository.create(post3);
     const { body } = await request()
       .get('/posts/')
       .expect(httpStatus.OK);
