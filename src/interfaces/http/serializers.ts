@@ -1,4 +1,4 @@
-import { CommentInterface, PostInterface, UserInterface } from '@types';
+import { CategoryInterface, CommentInterface, PostInterface, UserInterface } from '@types';
 
 export const commentSerialize = (comment: Partial<CommentInterface>): Partial<CommentInterface> => {
   return {
@@ -22,5 +22,12 @@ export const userSerialize = (user: UserInterface): UserInterface => {
     name: user.name,
     active: user.active,
     isAdmin: user.isAdmin,
+  };
+};
+
+export const categorySerialize = (category: Partial<CategoryInterface>): Partial<CategoryInterface> => {
+  return {
+    id: category.id,
+    label: category.label
   };
 };

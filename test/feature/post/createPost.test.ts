@@ -5,15 +5,21 @@ import httpStatus from 'http-status';
 import request from '../request';
 import { mockUsers } from '@mocks';
 import { faker } from '@faker-js/faker';
+import { User } from '@domains';
 
 describe('Post', () => {
 
   let repository: PostRepository<PostInterface, PostModel>;
   let userRepository: UserRepository<UserInterface, UserModel>;
+  let user : UserInterface;
 
   beforeAll(async() => {
     userRepository = new UserRepository<UserInterface, UserModel>();
     repository = new PostRepository<PostInterface, PostModel>();
+
+    user = new User({name: 'Simple user', isAdmin: false});
+    user.active = true;
+    user = await userRepository.create(user);
   });
 
   beforeEach(async () => {
@@ -21,11 +27,8 @@ describe('Post', () => {
   });
 
   test('Should create new post', async () => {
-    let [ admin ]: UserInterface[] = mockUsers([{isAdmin: false}]);
-    admin.active = true;
-    admin = await userRepository.create(admin);
     const response = await request()
-      .post(`/posts/user/${admin.id}`)
+      .post(`/posts/user/${user.id}`)
       .send({
         title: 'Teste post',
         text: faker.lorem.paragraph()
@@ -37,10 +40,10 @@ describe('Post', () => {
   });
 
   test('Shouldn\'t allow to create new post if user is inactive', async () => {
-    let [ admin ]: UserInterface[] = mockUsers([{isAdmin: false}]);
-    admin = await userRepository.create(admin);
+    let [ inactiveUser ]: UserInterface[] = mockUsers([{isAdmin: false}]);
+    inactiveUser = await userRepository.create(inactiveUser);
     const { body } = await request()
-      .post(`/posts/user/${admin.id}`)
+      .post(`/posts/user/${inactiveUser.id}`)
       .send({
         title: faker.lorem.sentence(),
         text: faker.lorem.paragraph()
@@ -50,11 +53,8 @@ describe('Post', () => {
   });
 
   test('Shouldn\'t create new post without title', async () => {
-    let [ admin ]: UserInterface[] = mockUsers([{isAdmin: false}]);
-    admin.active = true;
-    admin = await userRepository.create(admin);
     const { body } = await request()
-      .post(`/posts/user/${admin.id}`)
+      .post(`/posts/user/${user.id}`)
       .send({
         text: faker.lorem.paragraph()
       })
@@ -63,11 +63,8 @@ describe('Post', () => {
   });
 
   test('Shouldn\'t create new post without text', async () => {
-    let [ admin ]: UserInterface[] = mockUsers([{isAdmin: false}]);
-    admin.active = true;
-    admin = await userRepository.create(admin);
     const { body } = await request()
-      .post(`/posts/user/${admin.id}`)
+      .post(`/posts/user/${user.id}`)
       .send({
         text: faker.lorem.paragraph()
       })
@@ -77,7 +74,7 @@ describe('Post', () => {
 
   test('Shouldn\'t create new post with inexistent user', async () => {
     const { body } = await request()
-      .post(`/posts/user/${+faker.random.numeric(6)}`)
+      .post(`/posts/user/${0}`)
       .send({
         title: faker.lorem.sentence(),
         text: faker.lorem.paragraph()

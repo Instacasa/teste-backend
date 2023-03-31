@@ -1,4 +1,6 @@
 import { User } from '@domains';
+import { faker } from '@faker-js/faker';
+import { mockUsers } from '@mocks';
 import { CategoryModel, UserModel } from '@models';
 import { CategoryRepository, UserRepository } from '@repositories';
 import { CategoryInterface, UserInterface } from '@types';
@@ -32,7 +34,39 @@ describe('Category', () => {
       .expect(httpStatus.CREATED);
     
     expect(response.body.id).toBeDefined();
-    expect(response.body.title).toEqual('Label test');
+    expect(response.body.label).toEqual('Label test');
+  });
+
+  test('Shouldn\'t allow to create new category by simple user', async () => {
+    let [ simpleUser ]: UserInterface[] = mockUsers([{isAdmin: false}]);
+    simpleUser = await userRepository.create(simpleUser);
+    const { body } = await request()
+      .post(`/categories/user/${simpleUser.id}`)
+      .send({
+        label: faker.lorem.word()
+      })
+      .expect(httpStatus.BAD_REQUEST);
+    expect(body.error.name).toEqual('ValidationError');
+  });
+
+  test('Shouldn\'t create new category without label', async () => {
+    const { body } = await request()
+      .post(`/categories/user/${admin.id}`)
+      .send({
+        label: ''
+      })
+      .expect(httpStatus.BAD_REQUEST);
+    expect(body.error.name).toEqual('ValidationError');
+  });
+
+  test('Shouldn\'t create new category with inexistent user', async () => {
+    const { body } = await request()
+      .post(`/categories/user/${0}`)
+      .send({
+        label: faker.lorem.word()
+      })
+      .expect(httpStatus.NOT_FOUND);
+    expect(body.error.name).toEqual('NotFoundError');
   });
 
 });
