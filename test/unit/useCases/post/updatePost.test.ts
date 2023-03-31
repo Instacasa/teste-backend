@@ -8,8 +8,9 @@ import { CreatePostUseCase, UpdatePostUseCase } from '@useCases';
 describe('Update Post', () => {
   
   let user: UserInterface;
+  let userRepository: UserRepository<UserInterface, UserModel>;
   beforeAll(async () => {
-    const userRepository = new UserRepository<UserInterface, UserModel>();
+    userRepository = new UserRepository<UserInterface, UserModel>();
     user = new User({name: 'Admin', isAdmin: true});
     user.active = true;
     user = await userRepository.create(user);
@@ -35,31 +36,23 @@ describe('Update Post', () => {
     const updatePost = new UpdatePostUseCase();
     const partialPost: Partial<PostInterface> = { title: 'Teste', text: 'Text text text', user };
     const post = await createPost.execute(user.id, partialPost);
-    try {
-      await updatePost.execute(user.id, post.id, {...post, title: ''});
-    } catch(error) {
-      expect(error as Error).toBeInstanceOf(ValidationError);
-      expect((error as Error).message).toEqual('O título da publicação é obrigatório');
-    }
+    await expect(() => 
+      updatePost.execute(user.id, post.id, {...post, title: ''})
+    ).rejects.toThrowError(new ValidationError('O título da publicação é obrigatório'));
   });
 
   test('Shouldn\'t update post if user isn\'t the owner', async () => {
-    const userRepository = new UserRepository<UserInterface, UserModel>();
     const newUser = await userRepository.create(new User({name: 'new User', isAdmin: false}));
     const createPost = new CreatePostUseCase();
     const updatePost = new UpdatePostUseCase();
     const partialPost: Partial<PostInterface> = { title: 'Teste', text: 'Text text text', user };
     const post = await createPost.execute(user.id, partialPost);
-    try {
-      await updatePost.execute(newUser.id, post.id, {...post, title: ''});
-    } catch(error) {
-      expect(error as Error).toBeInstanceOf(ValidationError);
-      expect((error as Error).message).toEqual('Apenas o autor pode editar a publicação');
-    }
+    await expect(() => 
+      updatePost.execute(newUser.id, post.id, {...post, title: ''})
+    ).rejects.toThrowError(new ValidationError('Apenas o autor pode editar a publicação'));
   });
 
   test('Shouldn\'t allow update if post has comments', async () => {
-    const userRepository = new UserRepository<UserInterface, UserModel>();
     const newUser = await userRepository.create(new User({name: 'new User', isAdmin: false}));
     const createPost = new CreatePostUseCase();
     const updatePost = new UpdatePostUseCase();
@@ -67,11 +60,8 @@ describe('Update Post', () => {
     const post = await createPost.execute(user.id, partialPost);
     const commentRepository = new CommentRepository<CommentInterface, CommentModel>();
     await commentRepository.create(new Comment({text: 'new comment', user: newUser, post}));
-    try {
-      await updatePost.execute(user.id, post.id, {...post, title: 'Teste 2'});
-    } catch(error) {
-      expect(error as Error).toBeInstanceOf(ValidationError);
-      expect((error as Error).message).toEqual('Publicações já comentadas não podem ser editadas');
-    }
+    await expect(() => 
+      updatePost.execute(user.id, post.id, {...post, title: 'Teste 2'})
+    ).rejects.toThrowError(new ValidationError('Publicações já comentadas não podem ser editadas'));
   });
 });
