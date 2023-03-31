@@ -9,8 +9,13 @@ describe('Update Post', () => {
   
   let user: UserInterface;
   let userRepository: UserRepository<UserInterface, UserModel>;
+  let createPost: CreatePostUseCase;
+  let updatePost: UpdatePostUseCase;
   beforeAll(async () => {
+    createPost = new CreatePostUseCase();
+    updatePost = new UpdatePostUseCase();
     userRepository = new UserRepository<UserInterface, UserModel>();
+    
     user = new User({name: 'Admin', isAdmin: true});
     user.active = true;
     user = await userRepository.create(user);
@@ -22,8 +27,6 @@ describe('Update Post', () => {
   });
 
   test('Should update post title', async () => {
-    const createPost = new CreatePostUseCase();
-    const updatePost = new UpdatePostUseCase();
     const partialPost: Partial<PostInterface> = { title: 'Teste', text: 'Text text text', user };
     const post = await createPost.execute(user.id, partialPost);
     post.title = 'Test Update';
@@ -32,8 +35,6 @@ describe('Update Post', () => {
   });
 
   test('Shouldn\'t update post title to empty/null', async () => {
-    const createPost = new CreatePostUseCase();
-    const updatePost = new UpdatePostUseCase();
     const partialPost: Partial<PostInterface> = { title: 'Teste', text: 'Text text text', user };
     const post = await createPost.execute(user.id, partialPost);
     await expect(() => 
@@ -43,8 +44,6 @@ describe('Update Post', () => {
 
   test('Shouldn\'t update post if user isn\'t the owner', async () => {
     const newUser = await userRepository.create(new User({name: 'new User', isAdmin: false}));
-    const createPost = new CreatePostUseCase();
-    const updatePost = new UpdatePostUseCase();
     const partialPost: Partial<PostInterface> = { title: 'Teste', text: 'Text text text', user };
     const post = await createPost.execute(user.id, partialPost);
     await expect(() => 
@@ -54,8 +53,6 @@ describe('Update Post', () => {
 
   test('Shouldn\'t allow update if post has comments', async () => {
     const newUser = await userRepository.create(new User({name: 'new User', isAdmin: false}));
-    const createPost = new CreatePostUseCase();
-    const updatePost = new UpdatePostUseCase();
     const partialPost: Partial<PostInterface> = { title: 'Teste', text: 'Text text text', user };
     const post = await createPost.execute(user.id, partialPost);
     const commentRepository = new CommentRepository<CommentInterface, CommentModel>();
