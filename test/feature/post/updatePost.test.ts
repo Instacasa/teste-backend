@@ -39,7 +39,7 @@ describe('Post', () => {
     const { body } = await request()
       .patch(`/posts/0/user/${admin.id}`)
       .send({
-        title: ''
+        title: 'New title'
       })
       .expect(httpStatus.NOT_FOUND);
     expect(body.error.name).toEqual('NotFoundError');
@@ -54,13 +54,13 @@ describe('Post', () => {
     const { body } = await request()
       .patch(`/posts/${post.id}/user/${user2.id}`)
       .send({
-        label: ''
+        text: 'New text'
       })
       .expect(httpStatus.BAD_REQUEST);
     expect(body.error.name).toEqual('ValidationError');
   });
 
-  test('Shouldn\'t allow to update post text to null', async () => {
+  test('Shouldn\'t allow to update post text to null/empty', async () => {
     let post: PostInterface = new Post({title: 'Post', text: 'Text text text', user: admin});
     post = await repository.create(post);
     const { body } = await request()
