@@ -1,27 +1,37 @@
 import { CommentRepository, PostRepository, UserRepository } from '@repositories';
-import { Post, User } from '@domains';
+import { User } from '@domains';
 import { CommentModel, PostModel, UserModel } from '@models';
 import { CommentInterface, PostInterface, UserInterface } from '@types';
 import httpStatus from 'http-status';
 import request from '../request';
+import { mockPosts } from '@mocks';
 
 describe('Comment', () => {
+  let postRepository: PostRepository<PostInterface, PostModel>;
+  let userRepository: UserRepository<UserInterface, UserModel>;
+  let repository: CommentRepository<CommentInterface, CommentModel>;
+  let postOwner: UserInterface;
+  let user: UserInterface;
+  beforeAll(async () => {
+    postRepository = new PostRepository<PostInterface, PostModel>();
+    userRepository = new UserRepository<UserInterface, UserModel>();
+    repository = new CommentRepository<CommentInterface, CommentModel>();
+
+    postOwner = new User({name: 'Post Owner', isAdmin: false});
+    postOwner.active = true;
+    postOwner = await userRepository.create(postOwner);
+
+    user = new User({name: 'Admin', isAdmin: false});
+    user.active = true;
+    user = await userRepository.create(user);
+  });
 
   beforeEach(async () => {
-    const repository = new CommentRepository<CommentInterface, CommentModel>();
     await repository.deleteAll();
   });
 
   test('Should create new comment', async () => {
-    const userRepository = new UserRepository<UserInterface, UserModel>();
-    let postOwner: UserInterface = new User({name: 'Admin', isAdmin: false});
-    postOwner.active = true;
-    postOwner = await userRepository.create(postOwner);
-    let user: UserInterface = new User({name: 'Admin', isAdmin: false});
-    user.active = true;
-    user = await userRepository.create(user);
-    const postRepository = new PostRepository<PostInterface, PostModel>();
-    let post: PostInterface = new Post({title: 'Post', text: 'Text text text', user: postOwner});
+    let [post]: PostInterface[] = mockPosts([{user: postOwner}]);
     post = await postRepository.create(post);
 
     const response = await request()
@@ -36,18 +46,14 @@ describe('Comment', () => {
   });
 
   test('Shouldn\'t allow to create new comment if user is inactive', async () => {
-    const userRepository = new UserRepository<UserInterface, UserModel>();
-    let postOwner: UserInterface = new User({name: 'Admin', isAdmin: false});
-    postOwner.active = true;
-    postOwner = await userRepository.create(postOwner);
-    let user: UserInterface = new User({name: 'Admin', isAdmin: false});
-    user = await userRepository.create(user);
-    const postRepository = new PostRepository<PostInterface, PostModel>();
-    let post: PostInterface = new Post({title: 'Post', text: 'Text text text', user: postOwner});
+    let inactiveUser: UserInterface = new User({name: 'Inactive user', isAdmin: false});
+    inactiveUser = await userRepository.create(inactiveUser);
+
+    let [post]: PostInterface[] = mockPosts([{user: postOwner}]);
     post = await postRepository.create(post);
 
     const { body } = await request()
-      .post(`/posts/${post.id}/comments/user/${user.id}`)
+      .post(`/posts/${post.id}/comments/user/${inactiveUser.id}`)
       .send({
         text: 'text text text'
       })
@@ -56,20 +62,12 @@ describe('Comment', () => {
   });
 
   test('Shouldn\'t create new comment without text', async () => {
-    const userRepository = new UserRepository<UserInterface, UserModel>();
-    let postOwner: UserInterface = new User({name: 'Admin', isAdmin: false});
-    postOwner.active = true;
-    postOwner = await userRepository.create(postOwner);
-    let user: UserInterface = new User({name: 'Admin', isAdmin: false});
-    user.active = true;
-    user = await userRepository.create(user);
-    const postRepository = new PostRepository<PostInterface, PostModel>();
-    let post: PostInterface = new Post({title: 'Post', text: 'Text text text', user: postOwner});
+    let [post]: PostInterface[] = mockPosts([{user: postOwner}]);
     post = await postRepository.create(post);
     const { body } = await request()
       .post(`/posts/${post.id}/comments/user/${user.id}`)
       .send({
-        title: 'Teste comment',
+        text: '',
       })
       .expect(httpStatus.BAD_REQUEST);
     expect(body.error.name).toEqual('ValidationError');
