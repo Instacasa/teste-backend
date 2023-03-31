@@ -14,6 +14,7 @@ describe('Create Category', () => {
     createCategory = new CreateCategoryUseCase();
     userRepository = new UserRepository<UserInterface, UserModel>();
     user = new User({ name: 'Admin', isAdmin: true });
+    user.active = true;
     user = await userRepository.create(user);
   });
 
