@@ -26,11 +26,8 @@ describe('Create User', () => {
     const partialUser: Partial<UserInterface> = {
       isAdmin: true, active: true
     };
-    try {
-      const user = await createUser.execute(partialUser);
-    } catch(error) {
-      expect(error as Error).toBeInstanceOf(ValidationError);
-      expect((error as Error).message).toEqual('O nome do usuário é obrigatório');
-    }
+    await expect(() => 
+      createUser.execute(partialUser)
+    ).rejects.toThrowError(new ValidationError('O nome do usuário é obrigatório'));
   });
 });

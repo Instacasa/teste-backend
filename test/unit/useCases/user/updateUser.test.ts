@@ -37,11 +37,8 @@ describe('Update User', () => {
       name: 'Teste', isAdmin: true, active: true
     };
     const newUser = await createUser.execute(partialUser);
-    try {
-      await updateUser.execute(user.id, newUser.id, {...newUser, name: ''});
-    } catch(error) {
-      expect(error as Error).toBeInstanceOf(ValidationError);
-      expect((error as Error).message).toEqual('O nome do usuário é obrigatório');
-    }
+    await expect(() => 
+      updateUser.execute(user.id, newUser.id, {...newUser, name: ''})
+    ).rejects.toThrowError(new ValidationError('O nome do usuário é obrigatório'));
   });
 });

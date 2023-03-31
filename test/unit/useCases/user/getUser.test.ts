@@ -24,11 +24,8 @@ describe('Get User', () => {
 
   test('Shouldn\'t get inexistent user', async () => {
     const getUser = new GetUserUseCase();
-    try {
-      await getUser.execute(0);
-    } catch(error) {
-      expect(error as Error).toBeInstanceOf(NotFoundError);
-      expect((error as Error).message).toEqual('user with id 0 can\'t be found.');
-    }
+    await expect(() => 
+      getUser.execute(0)
+    ).rejects.toThrowError(new NotFoundError('user with id 0 can\'t be found.'));
   });
 });

@@ -18,7 +18,7 @@ describe('Delete User', () => {
     user = await userRepository.create(user);
   });
   
-  test('Should delete user', async () => {
+  test('Should delete user by admin', async () => {
     const createUser = new CreateUserUseCase();
     const deleteUser = new DeleteUserUseCase();
     const getUser = new GetUserUseCase();
@@ -27,22 +27,15 @@ describe('Delete User', () => {
     };
     const newUser = await createUser.execute(partialUser);
     await deleteUser.execute(user.id, newUser.id);
-
-    try {
-      await getUser.execute(user.id);
-    } catch(error) {
-      expect(error as Error).toBeInstanceOf(NotFoundError);
-      expect((error as Error).message).toEqual(`user with id ${user.id} can't be found.`);
-    }
+    await expect(() => 
+      getUser.execute(newUser.id)
+    ).rejects.toThrowError(new NotFoundError(`user with id ${newUser.id} can't be found.`));
   });
 
   test('Shouldn\'t delete inexistent user', async () => {
     const deleteUser = new DeleteUserUseCase();
-    try {
-      await deleteUser.execute(user.id, 0);
-    } catch(error) {
-      expect(error as Error).toBeInstanceOf(NotFoundError);
-      expect((error as Error).message).toEqual('user with id 0 can\'t be found.');
-    }
+    await expect(() => 
+      deleteUser.execute(user.id, 0)
+    ).rejects.toThrowError(new NotFoundError('user with id 0 can\'t be found.'));
   });
 });
