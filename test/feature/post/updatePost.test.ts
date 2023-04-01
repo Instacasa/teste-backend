@@ -1,17 +1,20 @@
-import { PostRepository, UserRepository } from '@repositories';
+import { CategoryRepository, PostRepository, UserRepository } from '@repositories';
 import { User } from '@domains';
-import { PostModel, UserModel } from '@models';
-import { PostInterface, UserInterface } from '@types';
+import { CategoryModel, PostModel, UserModel } from '@models';
+import { CategoryInterface, PostInterface, UserInterface } from '@types';
 import httpStatus from 'http-status';
 import request from '../request';
 import { mockPosts } from '@mocks';
+import { mockCategories } from '@mocks/category';
 
 describe('Post', () => {
 
   let repository: PostRepository<PostInterface, PostModel>;
+  let categoryRepository: CategoryRepository<CategoryInterface, CategoryModel>;
   let userRepository: UserRepository<UserInterface, UserModel>;
   let user: UserInterface;
   beforeAll(async () => {
+    categoryRepository = new CategoryRepository<CategoryInterface, CategoryModel>();
     userRepository = new UserRepository<UserInterface, UserModel>();
     repository = new PostRepository<PostInterface, PostModel>();
 
@@ -25,15 +28,20 @@ describe('Post', () => {
   });
   
   test('Should update post by id', async () => {
+    let [ category2 ] : CategoryInterface[] = mockCategories([{label: 'Another category'}]);
+    category2 = await categoryRepository.create(category2);
+
     let [post]: PostInterface[] = mockPosts([{user}]);
     post = await repository.create(post);
     const { body } = await request()
       .patch(`/posts/${post.id}/user/${user.id}`)
       .send({
-        title: 'test'
+        title: 'test',
+        categories: [{id: category2.id, label: category2.label}]
       })
       .expect(httpStatus.OK);
     expect(body.title).toEqual('test');
+    expect(body.categories).toHaveLength(1);
   });
 
   test('Shouldn\'t update inexistent post', async () => {
