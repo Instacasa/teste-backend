@@ -3,7 +3,7 @@ import { ValidationError } from '@errors';
 import { CategoryModel, CommentModel, PostModel, UserModel } from '@models';
 import { CategoryInterface, CommentInterface, PostInterface, UserInterface } from '@types';
 import { User, Comment } from '@domains';
-import { CreatePostUseCase, UpdatePostUseCase } from '@useCases';
+import { CategorizePostUseCase, CreatePostUseCase, UpdatePostUseCase } from '@useCases';
 import { mockCategories } from '@mocks/category';
 import { mockUsers } from '@mocks';
 
@@ -11,6 +11,7 @@ describe('Update Post', () => {
   
   let createPost: CreatePostUseCase;
   let updatePost: UpdatePostUseCase;
+  let categorizePost: CategorizePostUseCase;
   let categoryRepository: CategoryRepository<CategoryInterface, CategoryModel>;
   let userRepository: UserRepository<UserInterface, UserModel>;
   let user: UserInterface;
@@ -18,6 +19,7 @@ describe('Update Post', () => {
   beforeAll(async () => {
     createPost = new CreatePostUseCase();
     updatePost = new UpdatePostUseCase();
+    categorizePost = new CategorizePostUseCase();
     categoryRepository = new CategoryRepository<CategoryInterface, CategoryModel>();
     userRepository = new UserRepository<UserInterface, UserModel>();
     

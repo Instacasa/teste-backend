@@ -1,6 +1,6 @@
 import { ValidationError } from '@errors';
 import { postSerialize } from '@serializers'; 
-import { CreatePostUseCase, DeletePostUseCase, GetPostUseCase, ListPostUseCase, UpdatePostUseCase } from '@useCases';
+import { CategorizePostUseCase, CreatePostUseCase, DeletePostUseCase, GetPostUseCase, ListPostUseCase, UpdatePostUseCase } from '@useCases';
 import { NextFunction, Router, Request, Response} from 'express';
 import httpStatus from 'http-status';
 
@@ -19,6 +19,7 @@ export class PostController {
     this.router.get('/:id', this.getPost);
     this.router.post('/user/:userId', this.createPost);
     this.router.patch('/:id/user/:userId', this.updatePost);
+    this.router.patch('/:id/user/:userId/categorize/:categoryId', this.categorizePost);
     this.router.delete('/:id/user/:userId', this.deletePost);
     return this.router;
   };
@@ -57,6 +58,16 @@ export class PostController {
     try {
       const useCase = new UpdatePostUseCase();
       const data = await useCase.execute(Number(req.params.userId), Number(req.params.id), req.body);
+      res.status(httpStatus.OK).json(postSerialize(data));
+    } catch(error) {
+      res.status((error as ValidationError).status).json({error: (error as ValidationError), message: (error as ValidationError).message});
+    }
+  };
+
+  categorizePost = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const useCase = new CategorizePostUseCase();
+      const data = await useCase.execute(Number(req.params.userId), Number(req.params.id), Number(req.params.categoryId));
       res.status(httpStatus.OK).json(postSerialize(data));
     } catch(error) {
       res.status((error as ValidationError).status).json({error: (error as ValidationError), message: (error as ValidationError).message});
