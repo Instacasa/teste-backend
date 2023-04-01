@@ -19,7 +19,7 @@ export class CategorizePostUseCase {
     const category = await this.categoryRepository.get(categoryId);
 
     if (user.id !== post.user.id && !user.isAdmin) {
-      throw new ValidationError('Apenas administradores ou o autor podem editar a publicação');
+      throw new ValidationError('Apenas administradores ou o autor podem categorizar a publicação');
     }
     if (post.comments?.length > 0) {
       throw new ValidationError('Publicações já comentadas não podem ser editadas');
