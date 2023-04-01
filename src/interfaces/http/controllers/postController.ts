@@ -1,6 +1,6 @@
 import { ValidationError } from '@errors';
 import { postSerialize } from '@serializers'; 
-import { CategorizePostUseCase, CreatePostUseCase, DeletePostUseCase, GetPostUseCase, ListPostUseCase, UpdatePostUseCase } from '@useCases';
+import { CategorizePostUseCase, CreatePostUseCase, DeletePostUseCase, GetPostUseCase, ListPostByUserUseCase, ListPostUseCase, UpdatePostUseCase } from '@useCases';
 import { NextFunction, Router, Request, Response} from 'express';
 import httpStatus from 'http-status';
 
@@ -17,6 +17,7 @@ export class PostController {
     this.router = Router();
     this.router.get('/', this.listPost);
     this.router.get('/:id', this.getPost);
+    this.router.get('/user/:userId', this.listPostByUser);
     this.router.post('/user/:userId', this.createPost);
     this.router.patch('/:id/user/:userId', this.updatePost);
     this.router.patch('/:id/user/:userId/categorize/:categoryId', this.categorizePost);
@@ -38,6 +39,16 @@ export class PostController {
     try {
       const useCase = new ListPostUseCase();
       const data = await useCase.execute();
+      res.status(httpStatus.OK).json(data.map(postSerialize));
+    } catch(error) {
+      res.status((error as ValidationError).status).json({error: (error as ValidationError), message: (error as ValidationError).message});
+    }
+  };
+
+  listPostByUser = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const useCase = new ListPostByUserUseCase();
+      const data = await useCase.execute(Number(req.params.userId));
       res.status(httpStatus.OK).json(data.map(postSerialize));
     } catch(error) {
       res.status((error as ValidationError).status).json({error: (error as ValidationError), message: (error as ValidationError).message});

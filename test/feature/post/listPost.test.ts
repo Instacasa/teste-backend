@@ -41,4 +41,20 @@ describe('Post', () => {
       .expect(httpStatus.OK);
     expect(body).toHaveLength(0);
   });
+
+  test('Should get post list by user', async () => {
+    let anotherUser: UserInterface = new User({name: 'Another User', isAdmin: false});
+    anotherUser.active = true;
+    anotherUser = await userRepository.create(anotherUser);
+    const [ post1, post2, post3 ]: PostInterface[] = mockPosts([{user}, {user: anotherUser}, {user: anotherUser}]);
+    await repository.create(post1);
+    await repository.create(post2);
+    await repository.create(post3);
+
+    const { body } = await request()
+      .get(`/posts/user/${anotherUser.id}`)
+      .expect(httpStatus.OK);
+    
+    expect(body).toHaveLength(2);
+  });
 });
