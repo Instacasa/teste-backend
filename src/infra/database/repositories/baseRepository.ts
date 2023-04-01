@@ -12,7 +12,7 @@ export class BaseRepository<Interface, Model extends ObjectLiteral> implements R
     this.domain = domain;
   }
 
-  private repository = async (): Promise<Repository<Model>> => {
+  public repository = async (): Promise<Repository<Model>> => {
     return await (await connection).getRepository<Model>(this.model);
   };
 

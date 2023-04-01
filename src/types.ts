@@ -34,3 +34,7 @@ export interface RepositoryInterface<Interface> {
   delete: (id: number) => Promise<void>;
   deleteAll: () => Promise<void>;
 }
+
+export interface PostRepositoryInterface<Interface> extends RepositoryInterface<Interface> {
+  listByUser: (id: number) => Promise<Interface[]>;
+}
